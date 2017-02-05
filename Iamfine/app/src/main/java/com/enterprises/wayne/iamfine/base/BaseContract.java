@@ -23,5 +23,6 @@ public interface BaseContract {
 
         void unregisterView();
 
+        void onExitClicked();
     }
 }

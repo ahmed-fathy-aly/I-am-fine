@@ -30,7 +30,5 @@ public interface SignInContract {
         void onSignInClicked();
 
         void onSignUpClicked();
-
-        void onExitClicked();
     }
 }
