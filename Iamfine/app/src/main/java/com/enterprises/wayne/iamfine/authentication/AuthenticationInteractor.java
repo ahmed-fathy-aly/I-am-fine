@@ -11,8 +11,6 @@ public interface AuthenticationInteractor {
                 SignUpCallback callback);
 
     interface SignUpCallback extends BaseNetworkCallback {
-        void success();
-
         void invalidEmail();
 
         void invalidUserName();
@@ -25,7 +23,6 @@ public interface AuthenticationInteractor {
     void signIn(String email, String password, SignInCallback signInCallback);
 
     interface SignInCallback extends BaseNetworkCallback {
-        void success();
 
         void invalidCredentials();
     }

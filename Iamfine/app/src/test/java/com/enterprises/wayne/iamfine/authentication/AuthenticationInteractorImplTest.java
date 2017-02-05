@@ -46,7 +46,7 @@ public class AuthenticationInteractorImplTest {
         verify(signUpCallback).invalidEmail();
         verify(signUpCallback).invalidUserName();
         verify(signUpCallback).invalidPassword();
-        verify(signUpCallback).done();
+        verify(signUpCallback).doneFail();
         verifyNoMoreInteractions(signUpCallback);
     }
 
@@ -58,8 +58,7 @@ public class AuthenticationInteractorImplTest {
 
         interactor.signUp("mail", "userName", "pass", signUpCallback);
 
-        verify(signUpCallback, timeout(100)).success();
-        verify(signUpCallback).done();
+        verify(signUpCallback, timeout(100)).doneSuccess();
         verifyNoMoreInteractions(signUpCallback);
 
         verify(authenticatedUserRepo).saveUser("42", "tok");
@@ -78,7 +77,7 @@ public class AuthenticationInteractorImplTest {
         verify(signUpCallback, timeout(100)).invalidEmail();
         verify(signUpCallback).invalidUserName();
         verify(signUpCallback).invalidPassword();
-        verify(signUpCallback).done();
+        verify(signUpCallback).doneFail();
         verifyNoMoreInteractions(signUpCallback);
 
         verifyZeroInteractions(authenticatedUserRepo);
@@ -91,8 +90,7 @@ public class AuthenticationInteractorImplTest {
                 .thenReturn(RemoteAuthenticationDataSource.SignInResult.success("42", "tok"));
         interactor.signIn("email", "password", signInCallback);
 
-        verify(signInCallback, timeout(100)).success();
-        verify(signInCallback).done();
+        verify(signInCallback, timeout(100)).doneSuccess();
         verifyNoMoreInteractions(signInCallback);
 
         verify(authenticatedUserRepo).saveUser("42", "tok");
@@ -106,7 +104,7 @@ public class AuthenticationInteractorImplTest {
         interactor.signIn("email", "password", signInCallback);
 
         verify(signInCallback, timeout(100)).invalidCredentials();
-        verify(signInCallback).done();
+        verify(signInCallback).doneFail();
         verifyNoMoreInteractions(signInCallback);
 
     }

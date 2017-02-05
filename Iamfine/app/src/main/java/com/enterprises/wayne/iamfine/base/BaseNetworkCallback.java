@@ -6,7 +6,9 @@ package com.enterprises.wayne.iamfine.base;
 
 public interface BaseNetworkCallback {
 
-    void done();
+    void doneFail();
+
+    void doneSuccess();
 
     void networkError();
 

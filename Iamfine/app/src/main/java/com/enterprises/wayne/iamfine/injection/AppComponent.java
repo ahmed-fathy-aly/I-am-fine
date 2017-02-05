@@ -1,5 +1,7 @@
 package com.enterprises.wayne.iamfine.injection;
 
+import com.enterprises.wayne.iamfine.authentication.sign_in.SignInFragment;
+
 import dagger.Component;
 
 /**
@@ -9,4 +11,5 @@ import dagger.Component;
 @Component(modules = AppModule.class)
 public interface AppComponent {
 
+    void inject(SignInFragment signInFragment);
 }

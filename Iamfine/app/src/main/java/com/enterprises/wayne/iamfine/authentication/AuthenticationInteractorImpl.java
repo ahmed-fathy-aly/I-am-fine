@@ -43,7 +43,7 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
             validArgs = false;
         }
         if (!validArgs) {
-            callback.done();
+            callback.doneFail();
             return;
         }
 
@@ -57,7 +57,7 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
                     public void onNext(RemoteAuthenticationDataSource.SignUpResult result) {
                         if (result.success) {
                             mAuthenticatedUserRepo.saveUser(result.userId, result.token);
-                            callback.success();
+                            callback.doneSuccess();
                         } else {
                             if (result.invalidUserName)
                                 callback.invalidUserName();
@@ -71,8 +71,8 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
                                 callback.unknownError();
                             if (result.networkError)
                                 callback.networkError();
+                            callback.doneFail();
                         }
-                        callback.done();
                     }
 
                 });
@@ -90,7 +90,7 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
                     public void onNext(RemoteAuthenticationDataSource.SignInResult result) {
                         if (result.success) {
                             mAuthenticatedUserRepo.saveUser(result.userId, result.token);
-                            callback.success();
+                            callback.doneSuccess();
                         } else {
                             if (result.invalidCredentials)
                                 callback.invalidCredentials();
@@ -98,8 +98,8 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
                                 callback.unknownError();
                             if (result.networkError)
                                 callback.networkError();
+                            callback.doneFail();
                         }
-                        callback.done();
                     }
                 });
 

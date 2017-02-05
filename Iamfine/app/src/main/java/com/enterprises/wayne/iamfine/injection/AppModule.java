@@ -9,6 +9,8 @@ import com.enterprises.wayne.iamfine.authentication.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.authentication.AuthenticationInteractorImpl;
 import com.enterprises.wayne.iamfine.authentication.RemoteAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.authentication.RemoteAuthenticationDataSourceImpl;
+import com.enterprises.wayne.iamfine.authentication.sign_in.SignInContract;
+import com.enterprises.wayne.iamfine.authentication.sign_in.SignInPresenter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -60,4 +62,8 @@ public class AppModule {
                 AndroidSchedulers.mainThread());
     }
 
+    @Provides
+    SignInContract.Presenter signInPresenter(AuthenticationInteractor interactor){
+        return new SignInPresenter(interactor);
+    }
 }

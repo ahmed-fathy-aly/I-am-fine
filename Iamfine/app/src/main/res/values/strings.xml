@@ -1,3 +1,13 @@
 <resources>
+    <!-- global -->
     <string name="app_name">I am fine</string>
+
+    <!-- sign in -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="new_user_sign_up">New User? Sign Up</string>
+    <string name="invalid_credentials">Invalid Email/Password</string>
+    <string name="network_error">Network Error</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>
