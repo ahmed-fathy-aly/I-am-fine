@@ -2,6 +2,7 @@ package com.enterprises.wayne.iamfine.authentication.sign_in;
 
 import com.enterprises.wayne.iamfine.authentication.AuthenticationInteractor;
 
+
 /**
  * Created by Ahmed on 2/5/2017.
  */
@@ -13,9 +14,7 @@ public class SignInPresenter implements SignInContract.Presenter {
 
     public SignInPresenter(AuthenticationInteractor interactor) {
         mInteractor = interactor;
-        mView = null;
-
-        // TODO - use null object pattern
+        mView = DUMMY_VIEW;
     }
 
     @Override
@@ -25,7 +24,7 @@ public class SignInPresenter implements SignInContract.Presenter {
 
     @Override
     public void unregisterView() {
-        mView = null;
+        mView = DUMMY_VIEW;
     }
 
     @Override
@@ -74,4 +73,56 @@ public class SignInPresenter implements SignInContract.Presenter {
         mView.close();
     }
 
+    final static SignInContract.View DUMMY_VIEW =
+            new SignInContract.View() {
+                @Override
+                public void goToMainScreen() {
+
+                }
+
+                @Override
+                public void goToSignUpScreen() {
+
+                }
+
+                @Override
+                public String getEmail() {
+                    return null;
+                }
+
+                @Override
+                public String getPassword() {
+                    return null;
+                }
+
+                @Override
+                public void showInvalidCredentials() {
+
+                }
+
+                @Override
+                public void showLoading() {
+
+                }
+
+                @Override
+                public void hideLoading() {
+
+                }
+
+                @Override
+                public void showNetworkError() {
+
+                }
+
+                @Override
+                public void showUnknownError() {
+
+                }
+
+                @Override
+                public void close() {
+
+                }
+            };
 }
