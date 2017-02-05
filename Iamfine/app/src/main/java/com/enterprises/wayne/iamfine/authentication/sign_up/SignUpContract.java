@@ -31,6 +31,7 @@ public interface SignUpContract {
 
         void showEmailAlreadyExists();
 
+        void clearErrors();
     }
 
     interface Presenter extends BaseContract.BasePresenter<View> {

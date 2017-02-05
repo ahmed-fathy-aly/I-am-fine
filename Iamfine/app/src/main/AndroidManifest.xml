@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".authentication.sign_up.SignUpActivity"/>
+
     </application>
 
 </manifest>

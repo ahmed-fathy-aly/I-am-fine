@@ -11,6 +11,8 @@ import com.enterprises.wayne.iamfine.authentication.RemoteAuthenticationDataSour
 import com.enterprises.wayne.iamfine.authentication.RemoteAuthenticationDataSourceImpl;
 import com.enterprises.wayne.iamfine.authentication.sign_in.SignInContract;
 import com.enterprises.wayne.iamfine.authentication.sign_in.SignInPresenter;
+import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpContract;
+import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpPresenter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -66,4 +68,10 @@ public class AppModule {
     SignInContract.Presenter signInPresenter(AuthenticationInteractor interactor){
         return new SignInPresenter(interactor);
     }
+
+    @Provides
+    SignUpContract.Presenter signUpPresenter(AuthenticationInteractor interactor){
+        return new SignUpPresenter(interactor);
+    }
+
 }

@@ -1,9 +1,8 @@
-package com.enterprises.wayne.iamfine.authentication.sign_in;
+package com.enterprises.wayne.iamfine.authentication.sign_up;
 
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.ScrollView;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
-import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpActivity;
 import com.enterprises.wayne.iamfine.base.BaseFragment;
 
 import javax.inject.Inject;
@@ -23,32 +21,31 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class SignInFragment extends BaseFragment implements SignInContract.View {
+public class SignUpFragment extends BaseFragment implements SignUpContract.View {
 
     /* UI */
     @BindView(R.id.edit_text_mail)
     EditText editTextMail;
+    @BindView(R.id.edit_text_user_name)
+    EditText editTextUserName;
     @BindView(R.id.edit_text_password)
     EditText editTextPassword;
-    @BindView(R.id.view_content)
-    ScrollView viewContent;
+    @BindView(R.id.button_sign_up)
+    Button buttonSignUp;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.button_sign_in)
-    Button buttonSignIn;
+    @BindView(R.id.view_content)
+    ScrollView viewContent;
 
     /* fields */
     @Inject
-    SignInContract.Presenter mPresenter;
+    SignUpContract.Presenter mPresenter;
 
-    public static SignInFragment newInstance() {
-        return new SignInFragment();
+    public static SignUpFragment newInstance() {
+        return new SignUpFragment();
     }
 
-    public SignInFragment() {
+    public SignUpFragment() {
         // Required empty public constructor
     }
 
@@ -57,11 +54,10 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         ButterKnife.bind(this, view);
 
-
-        // create the presenter
+        // setup the preesnter
         MyApplication app = (MyApplication) getContext().getApplicationContext();
         app.getAppComponent().inject(this);
         mPresenter.registerView(this);
@@ -70,15 +66,14 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     }
 
     @Override
-    public void onDestroyView() {
-        mPresenter.unregisterView();
-        super.onDestroyView();
-    }
-
-    @Override
     protected boolean onExit() {
         mPresenter.onExitClicked();
         return false;
+    }
+
+    @OnClick(R.id.button_sign_up)
+    public void onClick() {
+        mPresenter.onSignUpClicked();
     }
 
     @Override
@@ -87,8 +82,8 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     }
 
     @Override
-    public void goToSignUpScreen() {
-        startActivity(SignUpActivity.newIntent(getContext()));
+    public void closeAllScreens() {
+        getActivity().finishAffinity();
     }
 
     @Override
@@ -102,18 +97,45 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     }
 
     @Override
-    public void showInvalidCredentials() {
-        Snackbar.make(viewContent, R.string.invalid_credentials, Snackbar.LENGTH_LONG).show();
+    public String getUserName() {
+        return editTextPassword.getText().toString();
     }
 
     @Override
-    public void disableSignInButton() {
-        buttonSignIn.setEnabled(false);
+    public void disableSignUpButton() {
+        buttonSignUp.setEnabled(false);
     }
 
     @Override
-    public void enableSignInButton() {
-        buttonSignIn.setEnabled(true);
+    public void enableSignUpButton() {
+        buttonSignUp.setEnabled(true);
+    }
+
+    @Override
+    public void showInvalidEmail() {
+        editTextMail.setError(getString(R.string.invalid_mail));
+    }
+
+    @Override
+    public void showInvalidUserName() {
+        editTextUserName.setError(getString(R.string.invalid_user_name));
+    }
+
+    @Override
+    public void showInvalidPassword() {
+        editTextPassword.setError(getString(R.string.invalid_password));
+    }
+
+    @Override
+    public void showEmailAlreadyExists() {
+        Snackbar.make(viewContent, R.string.email_already_exits, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void clearErrors() {
+        editTextMail.setError(null);
+        editTextUserName.setError(null);
+        editTextPassword.setError(null);
     }
 
     @Override
@@ -140,15 +162,4 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     public void close() {
         getActivity().finish();
     }
-
-    @OnClick(R.id.button_sign_in)
-    public void onSignInClicked(){
-        mPresenter.onSignInClicked();
-    }
-
-    @OnClick(R.id.button_sign_up)
-    public void onSignUpClicked(){
-        mPresenter.onSignUpClicked();
-    }
-
 }

@@ -1,6 +1,8 @@
 <resources>
     <!-- global -->
     <string name="app_name">I am fine</string>
+    <string name="network_error">Network Error</string>
+    <string name="something_went_wrong">Something went wrong</string>
 
     <!-- sign in -->
     <string name="email">Email</string>
@@ -8,6 +10,15 @@
     <string name="sign_in">Sign In</string>
     <string name="new_user_sign_up">New User? Sign Up</string>
     <string name="invalid_credentials">Invalid Email/Password</string>
-    <string name="network_error">Network Error</string>
-    <string name="something_went_wrong">Something went wrong</string>
+
+
+    <!-- sign up -->
+    <string name="sign_up">Sign Up</string>
+    <string name="user_name">User Name</string>
+    <string name="invalid_mail">Invalid Email</string>
+    <string name="invalid_user_name">Invalid User Name</string>
+    <string name="invalid_password">Invalid Password</string>
+    <string name="email_already_exits">A user with e-mail already exists</string>
+
+
 </resources>

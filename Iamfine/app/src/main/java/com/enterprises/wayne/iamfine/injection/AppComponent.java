@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.injection;
 
 import com.enterprises.wayne.iamfine.authentication.sign_in.SignInFragment;
+import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpFragment;
 
 import dagger.Component;
 
@@ -12,4 +13,6 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(SignInFragment signInFragment);
+
+    void inject(SignUpFragment signUpFragment);
 }

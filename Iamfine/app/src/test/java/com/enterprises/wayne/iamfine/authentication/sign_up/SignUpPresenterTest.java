@@ -65,6 +65,7 @@ public class SignUpPresenterTest {
 
         InOrder inOrder = inOrder(view);
         inOrder.verify(view).disableSignUpButton();
+        inOrder.verify(view).clearErrors();
         inOrder.verify(view).showLoading();
         inOrder.verify(view).hideLoading();
         inOrder.verify(view).goToMainScreen();
@@ -96,6 +97,7 @@ public class SignUpPresenterTest {
 
         InOrder inOrder = inOrder(view);
         inOrder.verify(view).disableSignUpButton();
+        inOrder.verify(view).clearErrors();
         inOrder.verify(view).showLoading();
         inOrder.verify(view).showInvalidEmail();
         inOrder.verify(view).showInvalidPassword();

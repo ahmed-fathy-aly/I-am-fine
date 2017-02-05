@@ -32,6 +32,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
     @Override
     public void onSignUpClicked() {
         mView.disableSignUpButton();
+        mView.clearErrors();
         mView.showLoading();
         mInteractor.signUp(mView.getEmail(), mView.getUserName(), mView.getPassword(), signUpCallback);
     }
