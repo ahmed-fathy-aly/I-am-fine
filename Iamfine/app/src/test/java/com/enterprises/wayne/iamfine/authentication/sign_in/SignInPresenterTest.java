@@ -67,6 +67,7 @@ public class SignInPresenterTest {
         presenter.onSignInClicked();
 
         InOrder inorder = Mockito.inOrder(view);
+        inorder.verify(view).disableSignInButton();
         inorder.verify(view).showLoading();
         verify(view).hideLoading();
         verify(view).goToMainScreen();
@@ -91,9 +92,11 @@ public class SignInPresenterTest {
         presenter.onSignInClicked();
 
         InOrder inorder = Mockito.inOrder(view);
+        inorder.verify(view).disableSignInButton();
         inorder.verify(view).showLoading();
         verify(view).hideLoading();
         verify(view).showInvalidCredentials();
+        verify(view).enableSignInButton();
     }
 
 }

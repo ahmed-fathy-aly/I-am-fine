@@ -19,6 +19,10 @@ public interface SignInContract {
         String getPassword();
 
         void showInvalidCredentials();
+
+        void disableSignInButton();
+
+        void enableSignInButton();
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{

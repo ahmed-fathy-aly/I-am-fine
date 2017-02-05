@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -35,6 +36,8 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     ScrollView viewContent;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.button_sign_in)
+    Button buttonSignIn;
 
     /* fields */
     @Inject
@@ -100,6 +103,16 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     @Override
     public void showInvalidCredentials() {
         Snackbar.make(viewContent, R.string.invalid_credentials, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void disableSignInButton() {
+        buttonSignIn.setEnabled(false);
+    }
+
+    @Override
+    public void enableSignInButton() {
+        buttonSignIn.setEnabled(true);
     }
 
     @Override

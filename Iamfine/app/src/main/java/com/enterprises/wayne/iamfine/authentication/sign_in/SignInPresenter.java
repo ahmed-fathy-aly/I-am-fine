@@ -29,6 +29,7 @@ public class SignInPresenter implements SignInContract.Presenter {
 
     @Override
     public void onSignInClicked() {
+        mView.disableSignInButton();
         mView.showLoading();
         mInteractor.signIn(mView.getEmail(), mView.getPassword(), signInCallback);
     }
@@ -43,6 +44,7 @@ public class SignInPresenter implements SignInContract.Presenter {
                 @Override
                 public void doneFail() {
                     mView.hideLoading();
+                    mView.enableSignInButton();
                 }
 
                 @Override
@@ -97,6 +99,16 @@ public class SignInPresenter implements SignInContract.Presenter {
 
                 @Override
                 public void showInvalidCredentials() {
+
+                }
+
+                @Override
+                public void disableSignInButton() {
+
+                }
+
+                @Override
+                public void enableSignInButton() {
 
                 }
 
