@@ -13,7 +13,7 @@ import android.widget.ScrollView;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
-import com.enterprises.wayne.iamfine.base.BaseFragment;
+import com.enterprises.wayne.iamfine.base.BaseFragmentView;
 
 import javax.inject.Inject;
 
@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUpFragment extends BaseFragment implements SignUpContract.View {
+public class SignUpFragment extends BaseFragmentView implements SignUpContract.View {
 
     /* UI */
     @BindView(R.id.edit_text_mail)
@@ -56,6 +56,8 @@ public class SignUpFragment extends BaseFragment implements SignUpContract.View 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         ButterKnife.bind(this, view);
+        setViewContent(viewContent);
+        setProgressBar(progressBar);
 
         // setup the preesnter
         MyApplication app = (MyApplication) getContext().getApplicationContext();
@@ -136,30 +138,5 @@ public class SignUpFragment extends BaseFragment implements SignUpContract.View 
         editTextMail.setError(null);
         editTextUserName.setError(null);
         editTextPassword.setError(null);
-    }
-
-    @Override
-    public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void showNetworkError() {
-        Snackbar.make(viewContent, R.string.network_error, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showUnknownError() {
-        Snackbar.make(viewContent, R.string.something_went_wrong, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void close() {
-        getActivity().finish();
     }
 }

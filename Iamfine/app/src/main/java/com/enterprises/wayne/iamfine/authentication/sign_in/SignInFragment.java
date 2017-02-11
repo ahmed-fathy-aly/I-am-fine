@@ -15,7 +15,7 @@ import android.widget.ScrollView;
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpActivity;
-import com.enterprises.wayne.iamfine.base.BaseFragment;
+import com.enterprises.wayne.iamfine.base.BaseFragmentView;
 
 import javax.inject.Inject;
 
@@ -26,7 +26,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends BaseFragment implements SignInContract.View {
+public class SignInFragment extends BaseFragmentView implements SignInContract.View {
 
     /* UI */
     @BindView(R.id.edit_text_mail)
@@ -59,7 +59,8 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
-
+        setProgressBar(progressBar);
+        setViewContent(viewContent);
 
         // create the presenter
         MyApplication app = (MyApplication) getContext().getApplicationContext();
@@ -114,31 +115,6 @@ public class SignInFragment extends BaseFragment implements SignInContract.View 
     @Override
     public void enableSignInButton() {
         buttonSignIn.setEnabled(true);
-    }
-
-    @Override
-    public void showLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        progressBar.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void showNetworkError() {
-        Snackbar.make(viewContent, R.string.network_error, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showUnknownError() {
-        Snackbar.make(viewContent, R.string.something_went_wrong, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void close() {
-        getActivity().finish();
     }
 
     @OnClick(R.id.button_sign_in)
