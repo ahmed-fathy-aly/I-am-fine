@@ -1,5 +1,10 @@
 package com.enterprises.wayne.iamfine.authentication;
 
+import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
+import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractorImpl;
+import com.enterprises.wayne.iamfine.repo.AuthenticatedUserRepo;
+import com.enterprises.wayne.iamfine.repo.RemoteAuthenticationDataSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

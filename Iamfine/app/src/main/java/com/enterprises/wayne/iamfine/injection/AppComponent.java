@@ -1,7 +1,7 @@
 package com.enterprises.wayne.iamfine.injection;
 
-import com.enterprises.wayne.iamfine.authentication.sign_in.SignInFragment;
-import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpFragment;
+import com.enterprises.wayne.iamfine.screen.sign_in.SignInFragment;
+import com.enterprises.wayne.iamfine.screen.sign_up.SignUpFragment;
 
 import dagger.Component;
 
