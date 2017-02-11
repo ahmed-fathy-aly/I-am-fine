@@ -10,14 +10,14 @@
         android:theme="@style/AppTheme"
         android:name=".app.MyApplication">
 
-        <activity android:name=".authentication.sign_in.SignInActivity">
+        <activity android:name=".screens.sign_in.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".authentication.sign_up.SignUpActivity"/>
+        <activity android:name=".screens.sign_up.SignUpActivity"/>
 
     </application>
 

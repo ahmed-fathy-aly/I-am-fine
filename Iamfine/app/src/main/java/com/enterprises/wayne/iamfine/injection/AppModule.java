@@ -3,16 +3,16 @@ package com.enterprises.wayne.iamfine.injection;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.enterprises.wayne.iamfine.authentication.AuthenticatedUserRepo;
-import com.enterprises.wayne.iamfine.authentication.AuthenticatedUserRepoImpl;
-import com.enterprises.wayne.iamfine.authentication.AuthenticationInteractor;
-import com.enterprises.wayne.iamfine.authentication.AuthenticationInteractorImpl;
-import com.enterprises.wayne.iamfine.authentication.RemoteAuthenticationDataSource;
-import com.enterprises.wayne.iamfine.authentication.RemoteAuthenticationDataSourceImpl;
-import com.enterprises.wayne.iamfine.authentication.sign_in.SignInContract;
-import com.enterprises.wayne.iamfine.authentication.sign_in.SignInPresenter;
-import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpContract;
-import com.enterprises.wayne.iamfine.authentication.sign_up.SignUpPresenter;
+import com.enterprises.wayne.iamfine.repos.AuthenticatedUserRepo;
+import com.enterprises.wayne.iamfine.repos.AuthenticatedUserRepoImpl;
+import com.enterprises.wayne.iamfine.interactors.AuthenticationInteractor;
+import com.enterprises.wayne.iamfine.interactors.AuthenticationInteractorImpl;
+import com.enterprises.wayne.iamfine.repos.RemoteAuthenticationDataSource;
+import com.enterprises.wayne.iamfine.repos.RemoteAuthenticationDataSourceImpl;
+import com.enterprises.wayne.iamfine.screens.sign_in.SignInContract;
+import com.enterprises.wayne.iamfine.screens.sign_in.SignInPresenter;
+import com.enterprises.wayne.iamfine.screens.sign_up.SignUpContract;
+import com.enterprises.wayne.iamfine.screens.sign_up.SignUpPresenter;
 
 import dagger.Module;
 import dagger.Provides;
