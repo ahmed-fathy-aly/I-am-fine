@@ -1,6 +1,8 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
 import com.enterprises.wayne.iamfine.base.BaseContract;
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
+import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
@@ -26,5 +28,10 @@ public interface MainScreenContract {
         void init();
 
         void onSearchText(String searchStr);
+    }
+
+    interface ModelConverter{
+        List<UserViewModel> convertUser(List<UserDataModel> dataModel);
+        List<WhoAskedViewModel> convertWhoAsked(List<WhoAskedDataModel> dataModel);
     }
 }

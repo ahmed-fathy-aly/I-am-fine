@@ -1,5 +1,7 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
+import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
@@ -7,6 +9,8 @@ import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewM
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -19,26 +23,43 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Ahmed on 2/11/2017.
  */
 public class MainScreenPresenterImplTest {
 
+    List<UserDataModel> USERS_DATA = mock(List.class);
+    List<UserViewModel> USERS_VIEW = mock(List.class);
+    List<WhoAskedDataModel> WHO_ASKED_DATA = mock(List.class);
+    List<WhoAskedViewModel> WHO_ASKED_VIEW = mock(List.class);
+
     @Mock
     WhoAskedDataInteractor whoAskedDataInteractor;
     @Mock
     UserDataInteractor userDataInteractor;
     @Mock
+    MainScreenContract.ModelConverter modelConverter;
+    @Mock
     MainScreenContract.View view;
+
     MainScreenContract.Presenter presenter;
+
+    @Captor
+    ArgumentCaptor captor;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         presenter = new MainScreenPresenterImpl(
-                whoAskedDataInteractor, userDataInteractor);
+                whoAskedDataInteractor,
+                userDataInteractor,
+                modelConverter);
         presenter.registerView(view);
+
+        when(modelConverter.convertUser(USERS_DATA)).thenReturn(USERS_VIEW);
+        when(modelConverter.convertWhoAsked(WHO_ASKED_DATA)).thenReturn(WHO_ASKED_VIEW);
     }
 
     @Test
@@ -51,21 +72,18 @@ public class MainScreenPresenterImplTest {
 
     @Test
     public void testInitFoundData() {
-        List<UserViewModel> RECOMMENDED_USERS = Mockito.mock(List.class);
         doAnswer((invc) -> {
             UserDataInteractor.GetRecommendedUsersCallback callback
                     = (UserDataInteractor.GetRecommendedUsersCallback) invc.getArguments()[0];
-            callback.recommendedUsers(RECOMMENDED_USERS);
+            callback.recommendedUsers(USERS_DATA);
             callback.doneSuccess();
             return null;
         }).when(userDataInteractor).getRecommendedUsers(
                 any(UserDataInteractor.GetRecommendedUsersCallback.class));
-
-        List<WhoAskedViewModel> WHO_ASKED = Mockito.mock(List.class);
         doAnswer((invc) -> {
             WhoAskedDataInteractor.GetWhoAskedCallback callback
                     = (WhoAskedDataInteractor.GetWhoAskedCallback) invc.getArguments()[0];
-            callback.thoseAsked(WHO_ASKED);
+            callback.thoseAsked(WHO_ASKED_DATA);
             callback.doneSuccess();
             return null;
         }).when(whoAskedDataInteractor).getWhoAsked(
@@ -75,14 +93,14 @@ public class MainScreenPresenterImplTest {
 
         verify(view).showLoading();
         verify(view).clearUserList();
-        verify(view).showUserList(RECOMMENDED_USERS);
-        verify(view).showWhoAskedAboutYou(WHO_ASKED);
+        verify(view).showUserList(USERS_VIEW);
+        verify(view).showWhoAskedAboutYou(WHO_ASKED_VIEW);
         verify(view).hideLoading();
         verifyNoMoreInteractions(view);
     }
 
     @Test
-    public void testInitNoDataFound(){
+    public void testInitNoDataFound() {
         doAnswer((invc) -> {
             UserDataInteractor.GetRecommendedUsersCallback callback
                     = (UserDataInteractor.GetRecommendedUsersCallback) invc.getArguments()[0];
@@ -112,12 +130,11 @@ public class MainScreenPresenterImplTest {
     }
 
     @Test
-    public void testSearchWithResultsFound(){
-        List<UserViewModel> USERS = mock(List.class);
-        doAnswer((invc)->{
+    public void testSearchWithResultsFound() {
+        doAnswer((invc) -> {
             UserDataInteractor.SearchUsersCallback callback
                     = (UserDataInteractor.SearchUsersCallback) invc.getArguments()[1];
-            callback.foundUsers(USERS);
+            callback.foundUsers(USERS_DATA);
             callback.doneSuccess();
             return null;
         }).when(userDataInteractor).searchUsers(
@@ -129,14 +146,14 @@ public class MainScreenPresenterImplTest {
 
         verify(view).showLoading();
         verify(view).clearUserList();
-        verify(view).showUserList(USERS);
+        verify(view).showUserList(USERS_VIEW);
         verify(view).hideLoading();
         verifyNoMoreInteractions(view);
     }
 
     @Test
-    public void testSearchWithNoResultsFound(){
-        doAnswer((invc)->{
+    public void testSearchWithNoResultsFound() {
+        doAnswer((invc) -> {
             UserDataInteractor.SearchUsersCallback callback
                     = (UserDataInteractor.SearchUsersCallback) invc.getArguments()[1];
             callback.noneFound();

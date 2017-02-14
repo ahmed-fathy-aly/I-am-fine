@@ -1,9 +1,9 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
+import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
-import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
-import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
 import java.util.List;
 
@@ -15,13 +15,16 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
     private UserDataInteractor mUserInteractor;
     private WhoAskedDataInteractor mWhoAskedInteractor;
+    private MainScreenContract.ModelConverter mModelConverter;
     private MainScreenContract.View mView;
 
     public MainScreenPresenterImpl(
             WhoAskedDataInteractor whoAskedInteractor,
-            UserDataInteractor userInteractor) {
+            UserDataInteractor userInteractor,
+            MainScreenContract.ModelConverter modelConverter) {
         mWhoAskedInteractor = whoAskedInteractor;
         mUserInteractor = userInteractor;
+        mModelConverter = modelConverter;
         mView = null;
 
         // TODO - null object pattern
@@ -43,9 +46,9 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         mUserInteractor.getRecommendedUsers(
                 new UserDataInteractor.GetRecommendedUsersCallback() {
                     @Override
-                    public void recommendedUsers(List<UserViewModel> users) {
+                    public void recommendedUsers(List<UserDataModel> users) {
                         mView.clearUserList();
-                        mView.showUserList(users);
+                        mView.showUserList(mModelConverter.convertUser(users));
                     }
 
                     @Override
@@ -77,8 +80,8 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         mWhoAskedInteractor.getWhoAsked(
                 new WhoAskedDataInteractor.GetWhoAskedCallback() {
                     @Override
-                    public void thoseAsked(List<WhoAskedViewModel> whoAsked) {
-                        mView.showWhoAskedAboutYou(whoAsked);
+                    public void thoseAsked(List<WhoAskedDataModel> whoAsked) {
+                        mView.showWhoAskedAboutYou(mModelConverter.convertWhoAsked(whoAsked));
                     }
 
                     @Override
@@ -115,9 +118,9 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
     final UserDataInteractor.SearchUsersCallback searchCallback = new UserDataInteractor.SearchUsersCallback() {
         @Override
-        public void foundUsers(List<UserViewModel> users) {
+        public void foundUsers(List<UserDataModel> users) {
             mView.clearUserList();
-            mView.showUserList(users);
+            mView.showUserList(mModelConverter.convertUser(users));
         }
 
         @Override

@@ -1,7 +1,7 @@
 package com.enterprises.wayne.iamfine.interactor;
 
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
-import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface UserDataInteractor {
     void getRecommendedUsers(GetRecommendedUsersCallback callback);
 
     interface GetRecommendedUsersCallback extends BaseNetworkCallback{
-        void recommendedUsers(List<UserViewModel> users);
+        void recommendedUsers(List<UserDataModel> users);
 
         void noneRecommended();
     }
@@ -22,7 +22,7 @@ public interface UserDataInteractor {
     void searchUsers(String abc, SearchUsersCallback callback);
 
     interface SearchUsersCallback extends BaseNetworkCallback{
-        void foundUsers(List<UserViewModel> users);
+        void foundUsers(List<UserDataModel> users);
 
         void noneFound();
     }
