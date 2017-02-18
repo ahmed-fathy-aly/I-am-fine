@@ -19,6 +19,9 @@
 
         <activity android:name=".screen.sign_up.SignUpActivity"/>
 
+        <provider
+            android:name=".database.WhoAskedProvider"
+            android:authorities="com.enterprises.wayne.i_am_fine"/>
     </application>
 
 </manifest>

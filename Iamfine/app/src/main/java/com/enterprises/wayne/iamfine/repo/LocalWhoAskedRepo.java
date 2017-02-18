@@ -9,6 +9,9 @@ import java.util.List;
  */
 public interface LocalWhoAskedRepo {
 
+    /**
+     * @return null if the table is cleared or the list of who asked
+     */
     List<WhoAskedDataModel> getWhoAsked();
 
     void updateWhoAsked(List<WhoAskedDataModel> whoAsked);

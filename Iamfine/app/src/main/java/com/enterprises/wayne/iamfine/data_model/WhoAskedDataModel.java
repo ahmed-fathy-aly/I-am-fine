@@ -5,7 +5,6 @@ package com.enterprises.wayne.iamfine.data_model;
  */
 
 public class WhoAskedDataModel {
-
     private UserDataModel user;
     private long whenAsked;
 
