@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.repo;
+package com.enterprises.wayne.iamfine.repo.local;
 
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 

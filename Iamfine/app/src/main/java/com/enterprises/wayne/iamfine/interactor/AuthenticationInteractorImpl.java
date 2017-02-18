@@ -1,7 +1,7 @@
 package com.enterprises.wayne.iamfine.interactor;
 
-import com.enterprises.wayne.iamfine.repo.AuthenticatedUserRepo;
-import com.enterprises.wayne.iamfine.repo.RemoteAuthenticationDataSource;
+import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepo;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.base.BaseObserver;
 
 import io.reactivex.Observable;

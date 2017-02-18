@@ -3,7 +3,7 @@ package com.enterprises.wayne.iamfine.interactor;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;
-import com.enterprises.wayne.iamfine.repo.RemoteUserDataRepo;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteUserDataRepo;
 
 import org.junit.Before;
 import org.junit.Test;

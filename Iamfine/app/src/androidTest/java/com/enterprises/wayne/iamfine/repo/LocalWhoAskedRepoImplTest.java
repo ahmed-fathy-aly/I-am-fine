@@ -4,6 +4,8 @@ import android.support.test.InstrumentationRegistry;
 
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
+import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
+import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepoImpl;
 
 import junit.framework.Assert;
 

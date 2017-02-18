@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.repo;
+package com.enterprises.wayne.iamfine.repo.local;
 
 /**
  * Created by Ahmed on 2/4/2017.

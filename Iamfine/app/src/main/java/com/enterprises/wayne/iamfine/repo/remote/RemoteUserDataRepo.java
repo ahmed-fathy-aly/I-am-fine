@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.repo;
+package com.enterprises.wayne.iamfine.repo.remote;
 
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;

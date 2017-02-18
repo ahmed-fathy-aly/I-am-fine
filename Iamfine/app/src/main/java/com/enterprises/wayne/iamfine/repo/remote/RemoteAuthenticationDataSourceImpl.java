@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.repo;
+package com.enterprises.wayne.iamfine.repo.remote;
 
 /**
  * Fake data source, it will contact a remote API later

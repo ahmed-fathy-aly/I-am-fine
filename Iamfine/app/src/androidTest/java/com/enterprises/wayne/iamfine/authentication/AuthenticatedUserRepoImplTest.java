@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.enterprises.wayne.iamfine.repo.AuthenticatedUserRepoImpl;
+import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepoImpl;
 
 import org.junit.After;
 import org.junit.Before;

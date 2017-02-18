@@ -2,8 +2,8 @@ package com.enterprises.wayne.iamfine.interactor;
 
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
-import com.enterprises.wayne.iamfine.repo.LocalWhoAskedRepo;
-import com.enterprises.wayne.iamfine.repo.RemoteWhoAskedRepo;
+import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepo;
 
 import org.junit.Before;
 import org.junit.Test;

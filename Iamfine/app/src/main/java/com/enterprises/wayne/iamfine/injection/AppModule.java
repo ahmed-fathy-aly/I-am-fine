@@ -3,12 +3,12 @@ package com.enterprises.wayne.iamfine.injection;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.enterprises.wayne.iamfine.repo.AuthenticatedUserRepo;
-import com.enterprises.wayne.iamfine.repo.AuthenticatedUserRepoImpl;
+import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepo;
+import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepoImpl;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractorImpl;
-import com.enterprises.wayne.iamfine.repo.RemoteAuthenticationDataSource;
-import com.enterprises.wayne.iamfine.repo.RemoteAuthenticationDataSourceImpl;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteAuthenticationDataSource;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteAuthenticationDataSourceImpl;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInContract;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInPresenter;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpContract;
