@@ -1,13 +1,12 @@
 package com.enterprises.wayne.iamfine.interactor;
 
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;
 import com.enterprises.wayne.iamfine.repo.RemoteUserDataRepo;
-import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -16,8 +15,10 @@ import java.util.List;
 
 import io.reactivex.schedulers.Schedulers;
 
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -51,10 +52,10 @@ public class UserDataInteractorImplTest {
 
         interactor.getRecommendedUsers(getRecommendedUsersCallback);
 
-        InOrder inOrder = inOrder(getRecommendedUsersCallback);
-        inOrder.verify(getRecommendedUsersCallback).recommendedUsers(USERS);
-        inOrder.verify(getRecommendedUsersCallback).doneSuccess();
-        inOrder.verifyNoMoreInteractions();
+        verify(getRecommendedUsersCallback, timeout(100))
+                .recommendedUsers(USERS);
+        verify(getRecommendedUsersCallback).doneSuccess();
+        verifyNoMoreInteractions(getRecommendedUsersCallback);
     }
 
     @Test
@@ -64,10 +65,10 @@ public class UserDataInteractorImplTest {
 
         interactor.getRecommendedUsers(getRecommendedUsersCallback);
 
-        InOrder inOrder = inOrder(getRecommendedUsersCallback);
-        inOrder.verify(getRecommendedUsersCallback).noneRecommended();
-        inOrder.verify(getRecommendedUsersCallback).doneSuccess();
-        inOrder.verifyNoMoreInteractions();
+        verify(getRecommendedUsersCallback, timeout(100))
+                .noneRecommended();
+        verify(getRecommendedUsersCallback).doneSuccess();
+        verifyNoMoreInteractions(getRecommendedUsersCallback);
     }
 
     @Test
@@ -77,10 +78,10 @@ public class UserDataInteractorImplTest {
 
         interactor.getRecommendedUsers(getRecommendedUsersCallback);
 
-        InOrder inOrder = inOrder(getRecommendedUsersCallback);
-        inOrder.verify(getRecommendedUsersCallback).networkError();
-        inOrder.verify(getRecommendedUsersCallback).doneFail();
-        inOrder.verifyNoMoreInteractions();
+        verify(getRecommendedUsersCallback, timeout(100))
+                .networkError();
+        verify(getRecommendedUsersCallback).doneFail();
+        verifyNoMoreInteractions(getRecommendedUsersCallback);
     }
 
     @Test
@@ -91,22 +92,20 @@ public class UserDataInteractorImplTest {
 
         interactor.searchUsers("abc", searchUsersCallback);
 
-        InOrder inOrder = inOrder(searchUsersCallback);
-        inOrder.verify(searchUsersCallback).foundUsers(USERS);
-        inOrder.verify(searchUsersCallback).doneSuccess();
-        inOrder.verifyNoMoreInteractions();
+        verify(searchUsersCallback, timeout(100)).foundUsers(USERS);
+        verify(searchUsersCallback).doneSuccess();
+        verifyNoMoreInteractions(searchUsersCallback);
     }
 
     @Test
     public void testSearchNone() throws Exception{
-        when(remoteRepo.searchUsers("abc")).thenReturn(null);
+        when(remoteRepo.searchUsers("abc")).thenReturn(new ArrayList<UserDataModel>());
 
         interactor.searchUsers("abc", searchUsersCallback);
 
-        InOrder inOrder = inOrder(searchUsersCallback);
-        inOrder.verify(searchUsersCallback).noneFound();
-        inOrder.verify(searchUsersCallback).doneSuccess();
-        inOrder.verifyNoMoreInteractions();
+        verify(searchUsersCallback, timeout(100)).noneFound();
+        verify(searchUsersCallback).doneSuccess();
+        verifyNoMoreInteractions(searchUsersCallback);
     }
 
     @Test
@@ -115,10 +114,9 @@ public class UserDataInteractorImplTest {
 
         interactor.searchUsers("abc", searchUsersCallback);
 
-        InOrder inOrder = inOrder(searchUsersCallback);
-        inOrder.verify(searchUsersCallback).unknownError();
-        inOrder.verify(searchUsersCallback).doneFail();
-        inOrder.verifyNoMoreInteractions();
+        verify(searchUsersCallback, timeout(100)).unknownError();
+        verify(searchUsersCallback).doneFail();
+        verifyNoMoreInteractions(searchUsersCallback);
     }
 
 
