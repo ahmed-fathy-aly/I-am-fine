@@ -19,6 +19,7 @@
     <string name="invalid_user_name">Invalid User Name</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="email_already_exits">A user with e-mail already exists</string>
+    <string name="search_users">Search For friends</string>
 
 
 </resources>
