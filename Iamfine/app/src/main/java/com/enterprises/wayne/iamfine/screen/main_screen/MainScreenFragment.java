@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.enterprises.wayne.iamfine.R;
@@ -41,8 +39,8 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     ViewGroup mViewContent;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.edit_text_search)
-    EditText mEditTextSearch;
+    @BindView(R.id.search_view)
+    SearchView mSearchView;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.progress_bar)
@@ -68,23 +66,28 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
         setViewContent(mViewContent);
 
         // setup the search edit text
-        mEditTextSearch.addTextChangedListener(new TextWatcher() {
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public boolean onQueryTextSubmit(String query) {
+                mPresenter.onSearchTextSubmit(query);
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                mPresenter.onSearchText(editable.toString());
+            public boolean onQueryTextChange(String newText) {
+                mPresenter.onSearchTextChanged(newText);
+                return false;
             }
         });
-
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mPresenter.onSearchCancel();
+                return false;
+            }
+        });
+        
         // setup the recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new GenericRecyclerViewAdapter();
@@ -134,6 +137,18 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     @Override
     public void clearUserList() {
         mAdapter.removeAll(UserViewAdapterDelegate.class);
+    }
+
+    @Override
+    public void enableSearchSubmitButton() {
+        if (mSearchView != null)
+            mSearchView.setSubmitButtonEnabled(true);
+    }
+
+    @Override
+    public void disableSearchSubmitButton() {
+        if (mSearchView != null)
+            mSearchView.setSubmitButtonEnabled(false);
     }
 
     @Override

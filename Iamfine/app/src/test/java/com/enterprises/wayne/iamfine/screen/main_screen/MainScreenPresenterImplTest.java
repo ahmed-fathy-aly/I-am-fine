@@ -96,6 +96,7 @@ public class MainScreenPresenterImplTest {
         verify(view).showUserList(USERS_VIEW);
         verify(view).showWhoAskedAboutYou(WHO_ASKED_VIEW);
         verify(view).hideLoading();
+        verify(view).disableSearchSubmitButton();
         verifyNoMoreInteractions(view);
     }
 
@@ -125,6 +126,7 @@ public class MainScreenPresenterImplTest {
         verify(view).clearUserList();
         verify(view).hideWhoAskedAboutYou();
         verify(view).hideLoading();
+        verify(view).disableSearchSubmitButton();
         verifyNoMoreInteractions(view);
 
     }
@@ -142,7 +144,7 @@ public class MainScreenPresenterImplTest {
                 any(UserDataInteractor.SearchUsersCallback.class)
         );
 
-        presenter.onSearchText("abc");
+        presenter.onSearchTextSubmit("abc");
 
         verify(view).showLoading();
         verify(view).clearUserList();
@@ -164,12 +166,43 @@ public class MainScreenPresenterImplTest {
                 any(UserDataInteractor.SearchUsersCallback.class)
         );
 
-        presenter.onSearchText("abc");
+        presenter.onSearchTextSubmit("abc");
 
         verify(view).showLoading();
         verify(view).clearUserList();
         verify(view).hideLoading();
         verifyNoMoreInteractions(view);
+    }
+
+
+    @Test
+    public void testSearchChange() {
+
+        int minLength = MainScreenContract.MIN_SEARCH_TEXT_LENGTH;
+        for (int i = 0; i < minLength - 1; i++)
+            presenter.onSearchTextChanged(createStr(i));
+        verifyNoMoreInteractions(view);
+
+        presenter.onSearchTextChanged(createStr(minLength));
+        verify(view).enableSearchSubmitButton();
+        verifyNoMoreInteractions(view);
+
+        presenter.onSearchTextChanged(createStr(minLength + 1));
+        verifyNoMoreInteractions(view);
+
+
+        presenter.onSearchTextChanged(createStr(minLength));
+        verifyNoMoreInteractions(view);
+
+        presenter.onSearchTextChanged(createStr(minLength - 1));
+        verify(view).disableSearchSubmitButton();
+    }
+
+    private String createStr(int length) {
+        StringBuilder strb = new StringBuilder();
+        for (int i = 0; i < length; i++)
+            strb.append("x");
+        return strb.toString();
     }
 
 }

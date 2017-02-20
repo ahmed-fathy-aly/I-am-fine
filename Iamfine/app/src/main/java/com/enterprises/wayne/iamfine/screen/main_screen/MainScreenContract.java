@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface MainScreenContract {
 
+    int MIN_SEARCH_TEXT_LENGTH = 3;
+
     interface View extends BaseContract.BaseView{
         void showWhoAskedAboutYou(List<WhoAskedViewModel> whoAsked);
 
@@ -22,16 +24,25 @@ public interface MainScreenContract {
         void showUserList(List<UserViewModel> users);
 
         void clearUserList();
+
+        void enableSearchSubmitButton();
+
+        void disableSearchSubmitButton();
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{
         void init();
 
-        void onSearchText(String searchStr);
+        void onSearchTextSubmit(String searchStr);
+
+        void onSearchTextChanged(String newStr);
+
+        void onSearchCancel();
     }
 
     interface ModelConverter{
         List<UserViewModel> convertUser(List<UserDataModel> dataModel);
         List<WhoAskedViewModel> convertWhoAsked(List<WhoAskedDataModel> dataModel);
     }
+
 }
