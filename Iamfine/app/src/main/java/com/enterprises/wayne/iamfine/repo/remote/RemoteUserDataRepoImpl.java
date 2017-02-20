@@ -15,6 +15,11 @@ import java.util.List;
 public class RemoteUserDataRepoImpl implements RemoteUserDataRepo {
     @Override
     public List<UserDataModel> searchUsers(String searchStr) throws NetworkErrorException, UnKnownErrorException {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         List<UserDataModel> users = new ArrayList<>();
         for (int i = 0; i < 5; i++)
             users.add(new UserDataModel("id" + i, searchStr + " hamada", "hamada@gmail.com", "", System.currentTimeMillis() - (i + 1) * 100000));
@@ -23,6 +28,11 @@ public class RemoteUserDataRepoImpl implements RemoteUserDataRepo {
 
     @Override
     public List<UserDataModel> getSuggestedUsers() throws NetworkErrorException, UnKnownErrorException {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return Arrays.asList(
                 new UserDataModel("1", "Hamada", "hamada@gmail.com", "", System.currentTimeMillis() - 100000),
                 new UserDataModel("2", "Aba", "aba@gmail.com", "", System.currentTimeMillis() - 200000),

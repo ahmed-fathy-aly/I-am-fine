@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.injection;
 
+import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenFragment;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInFragment;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpFragment;
 
@@ -15,4 +16,6 @@ public interface AppComponent {
     void inject(SignInFragment signInFragment);
 
     void inject(SignUpFragment signUpFragment);
+
+    void inject(MainScreenFragment mainScreenFragment);
 }

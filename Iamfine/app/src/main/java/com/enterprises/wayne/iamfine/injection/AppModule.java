@@ -3,12 +3,27 @@ package com.enterprises.wayne.iamfine.injection;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepo;
-import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepoImpl;
+import com.enterprises.wayne.iamfine.helper.TimeFormatter;
+import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractorImpl;
+import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
+import com.enterprises.wayne.iamfine.interactor.UserDataInteractorImpl;
+import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
+import com.enterprises.wayne.iamfine.interactor.WhoAskedInteractorImpl;
+import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepo;
+import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepoImpl;
+import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
+import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepoImpl;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteAuthenticationDataSourceImpl;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteUserDataRepo;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteUserDataRepoImpl;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepo;
+import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepoImpl;
+import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenContract;
+import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenModelConverter;
+import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenPresenterImpl;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInContract;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInPresenter;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpContract;
@@ -65,13 +80,58 @@ public class AppModule {
     }
 
     @Provides
-    SignInContract.Presenter signInPresenter(AuthenticationInteractor interactor){
+    SignInContract.Presenter signInPresenter(AuthenticationInteractor interactor) {
         return new SignInPresenter(interactor);
     }
 
     @Provides
-    SignUpContract.Presenter signUpPresenter(AuthenticationInteractor interactor){
+    SignUpContract.Presenter signUpPresenter(AuthenticationInteractor interactor) {
         return new SignUpPresenter(interactor);
     }
 
+    @Provides
+    TimeFormatter timeFormatter() {
+        return new TimeFormatterImpl();
+    }
+
+    @Provides
+    MainScreenContract.ModelConverter mainScreenConverter(TimeFormatter timeFormatter) {
+        return new MainScreenModelConverter(timeFormatter);
+    }
+
+    @Provides
+    RemoteWhoAskedRepo remoteWhoAskedRepo(){
+        return new RemoteWhoAskedRepoImpl();
+    }
+
+    @Provides
+    LocalWhoAskedRepo localWhoAskedRepo(Context context){
+        return new LocalWhoAskedRepoImpl(context);
+    }
+
+    @Provides
+    WhoAskedDataInteractor whoAskedDataInteractor(
+            RemoteWhoAskedRepo remoteRepo,
+            LocalWhoAskedRepo localRepo) {
+        return new WhoAskedInteractorImpl(remoteRepo, localRepo, Schedulers.io(), AndroidSchedulers.mainThread());
+    }
+
+
+    @Provides
+    RemoteUserDataRepo remoteUserDataRepo(){
+        return new RemoteUserDataRepoImpl();
+    }
+
+    @Provides
+    UserDataInteractor userDataInteractor(RemoteUserDataRepo remoteRepo){
+        return new UserDataInteractorImpl(remoteRepo, Schedulers.io(), AndroidSchedulers.mainThread());
+    }
+
+    @Provides
+    MainScreenContract.Presenter mainScreenPresenter(
+            UserDataInteractor userInteractor,
+            WhoAskedDataInteractor whoAskedDataInteractor,
+            MainScreenContract.ModelConverter modelConverter) {
+        return new MainScreenPresenterImpl(whoAskedDataInteractor, userInteractor, modelConverter);
+    }
 }
