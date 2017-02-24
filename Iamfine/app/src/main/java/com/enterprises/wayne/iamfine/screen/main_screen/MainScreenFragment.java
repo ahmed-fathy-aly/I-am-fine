@@ -87,7 +87,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
                 return false;
             }
         });
-        
+
         // setup the recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new GenericRecyclerViewAdapter();
