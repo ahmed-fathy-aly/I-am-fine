@@ -19,7 +19,10 @@
     <string name="invalid_user_name">Invalid User Name</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="email_already_exits">A user with e-mail already exists</string>
+
+    <!-- main screen -->
     <string name="search_users">Search For friends</string>
+    <string name="ask_if_fine">Ask \"How are you ?\"</string>
 
 
 </resources>

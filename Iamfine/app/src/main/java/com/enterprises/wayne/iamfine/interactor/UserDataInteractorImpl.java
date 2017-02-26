@@ -32,7 +32,7 @@ public class UserDataInteractorImpl implements UserDataInteractor {
     @Override
     public void getRecommendedUsers(GetRecommendedUsersCallback callback) {
         Observable
-                .defer(()->Observable.just(mRemoteRepo.getSuggestedUsers()))
+                .defer(() -> Observable.just(mRemoteRepo.getSuggestedUsers()))
                 .subscribeOn(mBackgroundThread)
                 .observeOn(mForegroundThread)
                 .subscribe(new BaseObserver<List<UserDataModel>>() {
@@ -44,11 +44,12 @@ public class UserDataInteractorImpl implements UserDataInteractor {
                             callback.recommendedUsers(users);
                         callback.doneSuccess();
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         if (e instanceof NetworkErrorException)
                             callback.networkError();
-                        else if (e instanceof UnKnownErrorException )
+                        else if (e instanceof UnKnownErrorException)
                             callback.unknownError();
                         callback.doneFail();
                     }
@@ -59,7 +60,7 @@ public class UserDataInteractorImpl implements UserDataInteractor {
     @Override
     public void searchUsers(String searchStr, SearchUsersCallback callback) {
         Observable
-                .defer(()->Observable.just(mRemoteRepo.searchUsers(searchStr)))
+                .defer(() -> Observable.just(mRemoteRepo.searchUsers(searchStr)))
                 .subscribeOn(mBackgroundThread)
                 .observeOn(mForegroundThread)
                 .subscribe(new BaseObserver<List<UserDataModel>>() {
@@ -71,14 +72,43 @@ public class UserDataInteractorImpl implements UserDataInteractor {
                             callback.foundUsers(users);
                         callback.doneSuccess();
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         if (e instanceof NetworkErrorException)
                             callback.networkError();
-                        else if (e instanceof UnKnownErrorException )
+                        else if (e instanceof UnKnownErrorException)
                             callback.unknownError();
                         callback.doneFail();
                     }
                 });
+    }
+
+    @Override
+    public void askAboutUser(String userId, AskAboutUserCallback callback) {
+        Observable
+                .defer(() -> Observable.just(mRemoteRepo.askIfUserIsFine(userId)))
+                .subscribeOn(mBackgroundThread)
+                .observeOn(mForegroundThread)
+                .subscribe(new BaseObserver<Boolean>() {
+                    @Override
+                    public void onNext(Boolean asked) {
+                        if (asked)
+                            callback.asked();
+                        else
+                            callback.cantAsk();
+                        callback.doneSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NetworkErrorException)
+                            callback.networkError();
+                        else if (e instanceof UnKnownErrorException)
+                            callback.unknownError();
+                        callback.doneFail();
+                    }
+                });
+
     }
 }

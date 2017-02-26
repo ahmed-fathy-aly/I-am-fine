@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -20,6 +21,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -196,6 +198,46 @@ public class MainScreenPresenterImplTest {
 
         presenter.onSearchTextChanged(createStr(minLength - 1));
         verify(view).disableSearchSubmitButton();
+    }
+
+    @Test
+    public void testOnAskIfUserFine(){
+        doAnswer((i) -> {
+            UserDataInteractor.AskAboutUserCallback callback =
+                    (UserDataInteractor.AskAboutUserCallback) i.getArguments()[1];
+            callback.asked();
+            callback.doneSuccess();
+            return null;
+        }).when(userDataInteractor).askAboutUser(
+                eq("42"),
+                any(UserDataInteractor.AskAboutUserCallback.class));
+
+        presenter.onAskIfUserFine("42");
+
+        InOrder inOrder = inOrder(view);
+        inOrder.verify(view).showLoading();
+        inOrder.verify(view).showAskedAboutUser();
+        inOrder.verify(view).hideLoading();
+    }
+
+    @Test
+    public void testOnAskIfUserFineNetworkError(){
+        doAnswer((i) -> {
+            UserDataInteractor.AskAboutUserCallback callback =
+                    (UserDataInteractor.AskAboutUserCallback) i.getArguments()[1];
+            callback.networkError();
+            callback.doneFail();
+            return null;
+        }).when(userDataInteractor).askAboutUser(
+                eq("42"),
+                any(UserDataInteractor.AskAboutUserCallback.class));
+
+        presenter.onAskIfUserFine("42");
+
+        InOrder inOrder = inOrder(view);
+        inOrder.verify(view).showLoading();
+        inOrder.verify(view).showNetworkError();
+        inOrder.verify(view).hideLoading();
     }
 
     private String createStr(int length) {

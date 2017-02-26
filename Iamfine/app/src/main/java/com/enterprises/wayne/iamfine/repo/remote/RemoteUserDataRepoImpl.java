@@ -38,4 +38,14 @@ public class RemoteUserDataRepoImpl implements RemoteUserDataRepo {
                 new UserDataModel("2", "Aba", "aba@gmail.com", "", System.currentTimeMillis() - 200000),
                 new UserDataModel("3", "Yara", "yara@gmail.com", "", System.currentTimeMillis() - 400000));
     }
+
+    @Override
+    public boolean askIfUserIsFine(String userId) throws NetworkErrorException, UnKnownErrorException {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }

@@ -76,6 +76,12 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     }
 
     @Override
+    public void onAskIfUserFine(String userId) {
+        mView.showLoading();
+        mUserInteractor.askAboutUser(userId, askAboutUserCallback);
+    }
+
+    @Override
     public void onExitClicked() {
         mView.close();
     }
@@ -145,7 +151,6 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
                 }
             };
 
-
     final UserDataInteractor.SearchUsersCallback searchCallback = new UserDataInteractor.SearchUsersCallback() {
         @Override
         public void foundUsers(List<UserDataModel> users) {
@@ -179,4 +184,35 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         }
     };
 
+    final UserDataInteractor.AskAboutUserCallback askAboutUserCallback = new UserDataInteractor.AskAboutUserCallback() {
+        @Override
+        public void asked() {
+            mView.showAskedAboutUser();
+        }
+
+        @Override
+        public void cantAsk() {
+            mView.showCouldntAskAboutUser();
+        }
+
+        @Override
+        public void doneFail() {
+            mView.hideLoading();
+        }
+
+        @Override
+        public void doneSuccess() {
+            mView.hideLoading();
+        }
+
+        @Override
+        public void networkError() {
+            mView.showNetworkError();
+        }
+
+        @Override
+        public void unknownError() {
+            mView.showUnknownError();
+        }
+    };
 }

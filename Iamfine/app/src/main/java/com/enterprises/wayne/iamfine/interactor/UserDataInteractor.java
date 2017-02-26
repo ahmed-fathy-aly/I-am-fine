@@ -26,4 +26,12 @@ public interface UserDataInteractor {
 
         void noneFound();
     }
+
+    void askAboutUser(String userId, AskAboutUserCallback callback);
+
+    interface AskAboutUserCallback extends BaseNetworkCallback{
+        void asked();
+
+        void cantAsk();
+    }
 }

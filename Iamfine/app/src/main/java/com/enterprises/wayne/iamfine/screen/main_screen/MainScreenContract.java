@@ -28,6 +28,10 @@ public interface MainScreenContract {
         void enableSearchSubmitButton();
 
         void disableSearchSubmitButton();
+
+        void showAskedAboutUser();
+
+        void showCouldntAskAboutUser();
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{
@@ -38,6 +42,8 @@ public interface MainScreenContract {
         void onSearchTextChanged(String newStr);
 
         void onSearchCancel();
+
+        void onAskIfUserFine(String userId);
     }
 
     interface ModelConverter{

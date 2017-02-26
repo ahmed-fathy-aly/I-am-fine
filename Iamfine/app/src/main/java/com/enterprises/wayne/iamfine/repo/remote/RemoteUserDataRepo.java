@@ -18,4 +18,10 @@ public interface RemoteUserDataRepo {
     List<UserDataModel> getSuggestedUsers()
             throws NetworkErrorException, UnKnownErrorException;
 
+    /**
+     * @return if request made to ask about the user
+     */
+    boolean askIfUserIsFine(String userId)
+            throws NetworkErrorException, UnKnownErrorException;
+
 }

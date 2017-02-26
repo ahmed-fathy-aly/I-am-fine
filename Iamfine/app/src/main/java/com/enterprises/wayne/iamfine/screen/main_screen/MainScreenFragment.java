@@ -152,7 +152,17 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     }
 
     @Override
+    public void showAskedAboutUser() {
+
+    }
+
+    @Override
     public void onUserClicked(String userId) {
         Timber.d("on user clicked %s", userId);
+    }
+
+    @Override
+    public void showCouldntAskAboutUser() {
+
     }
 }

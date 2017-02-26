@@ -15,6 +15,7 @@ import java.util.List;
 
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
@@ -34,6 +35,9 @@ public class UserDataInteractorImplTest {
     UserDataInteractor.GetRecommendedUsersCallback getRecommendedUsersCallback;
     @Mock
     UserDataInteractor.SearchUsersCallback searchUsersCallback;
+
+    @Mock
+    UserDataInteractor.AskAboutUserCallback askAboutUserCallback;
 
     @Before
     public void setup(){
@@ -119,5 +123,26 @@ public class UserDataInteractorImplTest {
         verifyNoMoreInteractions(searchUsersCallback);
     }
 
+    @Test
+    public void testAskAboutUserAsked() throws Exception{
+        when(remoteRepo.askIfUserIsFine(eq("42"))).thenReturn(true);
 
+        interactor.askAboutUser("42", askAboutUserCallback);
+
+        verify(askAboutUserCallback, timeout(100)).asked();
+        verify(askAboutUserCallback, timeout(100)).doneSuccess();
+        verifyNoMoreInteractions(askAboutUserCallback);
+    }
+
+
+    @Test
+    public void testAskAboutUserNetworkError() throws Exception{
+        when(remoteRepo.askIfUserIsFine(eq("42"))).thenThrow(new NetworkErrorException());
+
+        interactor.askAboutUser("42", askAboutUserCallback);
+
+        verify(askAboutUserCallback, timeout(100)).networkError();
+        verify(askAboutUserCallback, timeout(100)).doneFail();
+        verifyNoMoreInteractions(askAboutUserCallback);
+    }
 }
