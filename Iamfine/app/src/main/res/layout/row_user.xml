@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="120dp"
     android:layout_margin="8dp"
     android:id="@+id/container" >
 
@@ -43,15 +43,14 @@
             android:maxLines="1"
             android:textColor="@color/primary_text"
             android:textSize="13sp"
-            tools:text="Title ddddddddd d     ddd sdsa dlsadk dosadkl asodk ds dsddsa dsad asd sdks asd ksad ksad" />
+            tools:text="Title" />
 
         <TextView
             android:id="@+id/text_view_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/view_center"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="16dp"
+            android:layout_below="@id/view_center"
             android:layout_marginBottom="6dp"
             android:textColor="@color/secondary_text"
             android:textSize="13sp"
@@ -62,10 +61,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ask_if_fine"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/text_view_time"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackground"
             android:textColor="?attr/colorPrimary"
-            android:padding="6dp"/>
+            android:padding="6dp"/>R
     </RelativeLayout>
 </android.support.v7.widget.CardView>

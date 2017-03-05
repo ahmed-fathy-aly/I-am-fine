@@ -48,6 +48,11 @@ public abstract class BaseFragmentView extends BaseFragment implements BaseContr
             Snackbar.make(viewContent, R.string.something_went_wrong, Snackbar.LENGTH_LONG).show();
     }
 
+    protected void showMessage(int message){
+        if (viewContent != null)
+            Snackbar.make(viewContent,message, Snackbar.LENGTH_LONG).show();
+    }
+
     @Override
     public void close() {
         getActivity().finish();

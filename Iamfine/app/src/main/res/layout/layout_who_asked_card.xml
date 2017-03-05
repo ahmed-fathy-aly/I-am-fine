@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/your_friends_asked_about_you"/>
+
+
+        <LinearLayout
+            android:id="@+id/view_group_users"
+            android:layout_width="800dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+
+        <TextView
+            android:id="@+id/button_i_am_fine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="6dp"
+            android:text="@string/i_am_fine"
+            android:textColor="?attr/colorPrimary"/>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

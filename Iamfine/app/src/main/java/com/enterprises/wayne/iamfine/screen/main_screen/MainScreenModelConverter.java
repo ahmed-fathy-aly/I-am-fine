@@ -1,5 +1,8 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
+import android.content.Context;
+
+import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
@@ -16,9 +19,11 @@ import java.util.List;
 public class MainScreenModelConverter implements MainScreenContract.ModelConverter {
 
     private TimeFormatter mTimeFormatter;
+    private Context mContext;
 
-    public MainScreenModelConverter(TimeFormatter timeFormatter) {
+    public MainScreenModelConverter(Context context, TimeFormatter timeFormatter) {
         mTimeFormatter = timeFormatter;
+        mContext = context;
     }
 
     @Override
@@ -28,7 +33,7 @@ public class MainScreenModelConverter implements MainScreenContract.ModelConvert
             viewModels.add(new UserViewModel(
                     dataModel.getId(),
                     dataModel.getName(),
-                    mTimeFormatter.getDisplayTime(dataModel.getLastFineData()),
+                    mContext.getString(R.string.was_fine_when, mTimeFormatter.getDisplayTime(dataModel.getLastFineData())),
                     dataModel.getProfilePic()));
         return viewModels;
     }

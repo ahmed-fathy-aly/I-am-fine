@@ -15,6 +15,8 @@ import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseFragmentView;
 import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.UserViewAdapterDelegate;
+import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.WhoAskedAdapterDelegate;
+import com.enterprises.wayne.iamfine.screen.main_screen.view.WhoAskedCard;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewAdapter;
@@ -32,7 +34,7 @@ import timber.log.Timber;
  * Created by Ahmed on 2/19/2017.
  */
 
-public class MainScreenFragment extends BaseFragmentView implements MainScreenContract.View, UserViewAdapterDelegate.Listener {
+public class MainScreenFragment extends BaseFragmentView implements MainScreenContract.View, UserViewAdapterDelegate.Listener, WhoAskedAdapterDelegate.Listener{
 
     /* UI */
     @BindView(R.id.view_content)
@@ -119,18 +121,20 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
         Timber.d("show who asked ");
         for (WhoAskedViewModel viewModel : whoAsked)
             Timber.d("%s asked", viewModel.getDisplayName());
+        WhoAskedAdapterDelegate whoAskedAdapterDelegate = new WhoAskedAdapterDelegate(this, whoAsked);
+        mAdapter.add(0, whoAskedAdapterDelegate);
     }
 
     @Override
     public void hideWhoAskedAboutYou() {
-        Timber.d("hide who asked");
+        mAdapter.removeAll(WhoAskedAdapterDelegate.class);
     }
 
     @Override
     public void showUserList(List<UserViewModel> users) {
         List<UserViewAdapterDelegate> delegates = new ArrayList<>();
         for (UserViewModel viewModel : users)
-            delegates.add(mAdapter.getItemCount(), new UserViewAdapterDelegate(viewModel, this));
+            delegates.add(new UserViewAdapterDelegate(viewModel, this));
         mAdapter.addAll(mAdapter.getItemCount(), delegates);
     }
 
@@ -153,7 +157,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
 
     @Override
     public void showAskedAboutUser() {
-
+        showMessage(R.string.asked_about_user);
     }
 
     @Override
@@ -162,7 +166,17 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     }
 
     @Override
+    public void onAskIfFine(String userId) {
+        mPresenter.onAskIfUserFine(userId);
+    }
+
+    @Override
     public void showCouldntAskAboutUser() {
+        showMessage(R.string.could_not_ask);
+    }
+
+    @Override
+    public void onIamFineClicked() {
 
     }
 }

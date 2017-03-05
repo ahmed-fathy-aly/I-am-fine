@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.enterprises.wayne.iamfine.R;
@@ -57,6 +58,8 @@ public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<User
         TextView textViewTitle;
         @BindView(R.id.text_view_time)
         TextView textViewTime;
+        @BindView(R.id.button_ask_if_fine)
+        View buttonAskIfFine;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -67,10 +70,19 @@ public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<User
                             mListener.onUserClicked(mViewModel.getId());
                     }
             );
+            buttonAskIfFine.setOnClickListener(
+                    (v) -> {
+                        if (mListener != null)
+                            mListener.onAskIfFine(mViewModel.getId());
+                    }
+            );
+
         }
     }
 
     public interface Listener {
         void onUserClicked(String userId);
+
+        void onAskIfFine(String userId);
     }
 }

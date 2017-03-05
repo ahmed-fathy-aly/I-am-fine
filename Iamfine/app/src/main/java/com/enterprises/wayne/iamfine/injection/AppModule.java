@@ -95,8 +95,8 @@ public class AppModule {
     }
 
     @Provides
-    MainScreenContract.ModelConverter mainScreenConverter(TimeFormatter timeFormatter) {
-        return new MainScreenModelConverter(timeFormatter);
+    MainScreenContract.ModelConverter mainScreenConverter(Context context, TimeFormatter timeFormatter) {
+        return new MainScreenModelConverter(context, timeFormatter);
     }
 
     @Provides
