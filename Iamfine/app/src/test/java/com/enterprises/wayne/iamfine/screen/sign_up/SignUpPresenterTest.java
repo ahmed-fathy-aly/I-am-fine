@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.screen.sign_up;
 
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
+import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,13 +25,15 @@ public class SignUpPresenterTest {
     @Mock
     AuthenticationInteractor interactor;
     @Mock
+    TrackerInteractor tracker;
+    @Mock
     SignUpContract.View view;
     SignUpPresenter presenter;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        presenter = new SignUpPresenter(interactor);
+        presenter = new SignUpPresenter(interactor, tracker);
         presenter.registerView(view);
     }
 
@@ -106,4 +109,10 @@ public class SignUpPresenterTest {
 
     }
 
+    @Test
+    public void testOnOpenScreen(){
+        presenter.onOpenScreen();
+
+        verify(tracker).trackSignUpOpen();
+    }
 }

@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.screen.sign_up;
 
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
+import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 
 /**
  * Created by Ahmed on 2/5/2017.
@@ -8,12 +9,14 @@ import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 
 public class SignUpPresenter implements SignUpContract.Presenter {
 
+    private TrackerInteractor mTracker;
     AuthenticationInteractor mInteractor;
     SignUpContract.View mView;
 
 
-    public SignUpPresenter(AuthenticationInteractor interactor) {
+    public SignUpPresenter(AuthenticationInteractor interactor, TrackerInteractor tracker) {
         mInteractor = interactor;
+        mTracker = tracker;
         mView = null;
 
         // TODO - null object pattern
@@ -27,6 +30,11 @@ public class SignUpPresenter implements SignUpContract.Presenter {
     @Override
     public void unregisterView() {
         mView = null;
+    }
+
+    @Override
+    public void onOpenScreen() {
+        mTracker.trackSignUpOpen();
     }
 
     @Override

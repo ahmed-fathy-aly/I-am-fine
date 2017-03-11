@@ -100,8 +100,8 @@ public class AppModule {
     }
 
     @Provides
-    SignUpContract.Presenter signUpPresenter(AuthenticationInteractor interactor) {
-        return new SignUpPresenter(interactor);
+    SignUpContract.Presenter signUpPresenter(AuthenticationInteractor interactor, TrackerInteractor tracker) {
+        return new SignUpPresenter(interactor, tracker);
     }
 
     @Provides
