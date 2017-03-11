@@ -68,7 +68,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
         setViewContent(mViewContent);
 
         // setup the search edit text
-        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
