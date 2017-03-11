@@ -63,6 +63,15 @@ public class WhoAskedInteractorImpl implements WhoAskedDataInteractor {
                         callback.doneSuccess();
                     }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NetworkErrorException)
+                            callback.networkError();
+                        else if (e instanceof UnKnownErrorException)
+                            callback.unknownError();
+                        System.out.println(e.getMessage());
+                        callback.doneFail();
+                    }
                 });
 
     }

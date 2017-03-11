@@ -23,7 +23,7 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter {
      * add an enty to any position within the recycler view
      * @param position  must be less than {@code getItemCount()}
      */
-    public void add(int position, GenericRecyclerViewDelegate delegate) {
+    public void     add(int position, GenericRecyclerViewDelegate delegate) {
         mDelegates.add(position, delegate);
         notifyItemInserted(position);
     }
