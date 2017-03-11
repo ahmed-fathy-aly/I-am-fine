@@ -73,7 +73,6 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     public void onSearchCancel() {
         // TODO - improve performance
         Timber.d("cancel clicked");
-        init();
     }
 
     @Override
