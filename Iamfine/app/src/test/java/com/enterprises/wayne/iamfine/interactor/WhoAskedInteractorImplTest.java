@@ -1,9 +1,12 @@
 package com.enterprises.wayne.iamfine.interactor;
 
+import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepo;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -34,6 +38,9 @@ public class WhoAskedInteractorImplTest {
 
     @Mock
     WhoAskedDataInteractor.GetWhoAskedCallback whoAskedCallback;
+
+    @Mock
+    BaseNetworkCallback iAmFineCallback;
 
     @Captor
     ArgumentCaptor captor;
@@ -103,5 +110,32 @@ public class WhoAskedInteractorImplTest {
         verify(whoAskedCallback).doneFail();
     }
 
+    @Test
+    public void testsayIamFineSuccess() throws Exception{
+        when(remoteRepo.sayIAmFine()).thenReturn(null);
+
+        interactor.sayiAmFine(iAmFineCallback);
+
+        verify(iAmFineCallback, timeout(100)).doneSuccess();
+        verifyNoMoreInteractions(iAmFineCallback);
+
+        verify(remoteRepo).sayIAmFine();
+        verify(localRepo).updateWhoAsked((List<WhoAskedDataModel>) captor.capture());
+        List<WhoAskedDataModel> shouldBeEmptyList = (List<WhoAskedDataModel>) captor.getValue();
+        Assert.assertTrue(shouldBeEmptyList.isEmpty());
+    }
+
+    @Test
+    public void testSayIamFineFailed() throws Exception{
+        when(remoteRepo.sayIAmFine()).thenThrow(new NetworkErrorException());
+
+        interactor.sayiAmFine(iAmFineCallback);
+
+        verify(iAmFineCallback, timeout(100)).networkError();
+        verify(iAmFineCallback).doneFail();
+        verifyNoMoreInteractions(iAmFineCallback);
+
+        verifyNoMoreInteractions(localRepo);
+    }
 
 }

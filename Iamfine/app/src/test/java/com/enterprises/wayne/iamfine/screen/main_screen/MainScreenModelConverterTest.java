@@ -30,7 +30,7 @@ public class MainScreenModelConverterTest {
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
-        converter = new MainScreenModelConverter(timeFormatter);
+        converter = new MainScreenModelConverter(null, timeFormatter);
     }
 
     @Test

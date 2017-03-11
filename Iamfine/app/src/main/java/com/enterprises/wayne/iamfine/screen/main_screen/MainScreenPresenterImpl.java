@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
+import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
@@ -79,6 +80,12 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     public void onAskIfUserFine(String userId) {
         mView.showLoading();
         mUserInteractor.askAboutUser(userId, askAboutUserCallback);
+    }
+
+    @Override
+    public void onSayIAmFine() {
+        mView.showLoading();
+        mWhoAskedInteractor.sayiAmFine(sayIAmFineCallback);
     }
 
     @Override
@@ -202,6 +209,29 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
         @Override
         public void doneSuccess() {
+            mView.hideLoading();
+        }
+
+        @Override
+        public void networkError() {
+            mView.showNetworkError();
+        }
+
+        @Override
+        public void unknownError() {
+            mView.showUnknownError();
+        }
+    };
+
+    final BaseNetworkCallback sayIAmFineCallback = new BaseNetworkCallback() {
+        @Override
+        public void doneFail() {
+            mView.hideLoading();
+        }
+
+        @Override
+        public void doneSuccess() {
+            mView.hideWhoAskedAboutYou();
             mView.hideLoading();
         }
 

@@ -34,4 +34,9 @@ public class RemoteWhoAskedRepoImpl implements RemoteWhoAskedRepo {
                 new WhoAskedDataModel(new UserDataModel("9", "Yara6", "yara@gmail.com", "", System.currentTimeMillis() - 400000),
                         System.currentTimeMillis() - 400000));
     }
+
+    @Override
+    public Void sayIAmFine() throws NetworkErrorException, UnKnownErrorException {
+        return null;
+    }
 }

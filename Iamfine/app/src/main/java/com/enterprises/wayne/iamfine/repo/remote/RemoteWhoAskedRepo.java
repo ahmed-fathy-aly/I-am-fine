@@ -14,4 +14,6 @@ public interface RemoteWhoAskedRepo {
     List<WhoAskedDataModel> getWhoAsked()
             throws NetworkErrorException, UnKnownErrorException;
 
+    Void sayIAmFine()
+            throws NetworkErrorException, UnKnownErrorException;
 }

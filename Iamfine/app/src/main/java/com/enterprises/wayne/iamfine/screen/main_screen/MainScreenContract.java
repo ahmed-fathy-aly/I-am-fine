@@ -44,6 +44,8 @@ public interface MainScreenContract {
         void onSearchCancel();
 
         void onAskIfUserFine(String userId);
+
+        void onSayIAmFine();
     }
 
     interface ModelConverter{

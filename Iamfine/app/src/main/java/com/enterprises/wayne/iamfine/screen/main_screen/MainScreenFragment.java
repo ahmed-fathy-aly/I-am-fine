@@ -127,7 +127,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
 
     @Override
     public void hideWhoAskedAboutYou() {
-        mAdapter.removeAll(WhoAskedAdapterDelegate.class);
+        mAdapter.removeFirst(WhoAskedAdapterDelegate.class);
     }
 
     @Override
@@ -177,6 +177,6 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
 
     @Override
     public void onIamFineClicked() {
-
+        mPresenter.onSayIAmFine();
     }
 }

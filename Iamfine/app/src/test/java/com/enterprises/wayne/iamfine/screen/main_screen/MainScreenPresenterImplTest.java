@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
+import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
@@ -238,6 +239,25 @@ public class MainScreenPresenterImplTest {
         inOrder.verify(view).showLoading();
         inOrder.verify(view).showNetworkError();
         inOrder.verify(view).hideLoading();
+    }
+
+    @Test
+    public void testonSayIAmFineSuccess() {
+        doAnswer((i) -> {
+                    BaseNetworkCallback callback =
+                            (BaseNetworkCallback) i.getArguments()[0];
+                    callback.doneSuccess();
+                    return null;
+                }
+        ).when(whoAskedDataInteractor).sayiAmFine(any(BaseNetworkCallback.class));
+
+        presenter.onSayIAmFine();
+
+        InOrder inOrder = inOrder(view);
+        inOrder.verify(view).showLoading();
+        inOrder.verify(view).hideWhoAskedAboutYou();
+        inOrder.verify(view).hideLoading();
+        inOrder.verifyNoMoreInteractions();
     }
 
     private String createStr(int length) {

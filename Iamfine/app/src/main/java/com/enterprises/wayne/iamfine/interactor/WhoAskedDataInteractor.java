@@ -17,4 +17,9 @@ public interface WhoAskedDataInteractor {
         void noOneAsked();
 
     }
+
+    /**
+     * make a call to the remote source saying i am find and clearing the local who asked list
+     */
+    void sayiAmFine(BaseNetworkCallback callback);
 }

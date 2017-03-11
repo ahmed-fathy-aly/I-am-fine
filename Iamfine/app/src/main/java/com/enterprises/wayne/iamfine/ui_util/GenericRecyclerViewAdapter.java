@@ -47,6 +47,22 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    /**
+     * remove the first delegate of that class
+     */
+    public void removeFirst(Class deletedClass){
+        int pos = -1;
+        for (int i = 0; i < mDelegates.size(); i++)
+            if (mDelegates.get(i).getClass().equals(deletedClass)) {
+                pos = i;
+                break;
+            }
+        if (pos != -1) {
+            mDelegates.remove(pos);
+            notifyItemRemoved(pos);
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {

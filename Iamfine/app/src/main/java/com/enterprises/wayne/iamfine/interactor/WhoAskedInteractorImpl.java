@@ -1,12 +1,15 @@
 package com.enterprises.wayne.iamfine.interactor;
 
+import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.base.BaseObserver;
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;
 import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -60,15 +63,36 @@ public class WhoAskedInteractorImpl implements WhoAskedDataInteractor {
                         callback.doneSuccess();
                     }
 
+                });
+
+    }
+
+    @Override
+    public void sayiAmFine(BaseNetworkCallback callback) {
+        Observable
+                .defer(() -> {
+                    mRemoteRepo.sayIAmFine();
+                    mLocalRepo.updateWhoAsked(new ArrayList<>());
+                    return Observable.just(true);
+                })
+                .subscribeOn(mBackgroundThread)
+                .observeOn(mForegroundThread)
+                .subscribe(new BaseObserver<Boolean>() {
+                    @Override
+                    public void onNext(Boolean success) {
+                        if (success)
+                            callback.doneSuccess();
+                    }
+
                     @Override
                     public void onError(Throwable e) {
                         if (e instanceof NetworkErrorException)
                             callback.networkError();
-                        else if (e instanceof UnKnownErrorException )
+                        else if (e instanceof UnKnownErrorException)
                             callback.unknownError();
+                        System.out.println(e.getMessage());
                         callback.doneFail();
                     }
                 });
-
     }
 }
