@@ -3,8 +3,10 @@ package com.enterprises.wayne.iamfine.screen.main_screen;
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
+import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
     private UserDataInteractor mUserInteractor;
     private WhoAskedDataInteractor mWhoAskedInteractor;
+    private TrackerInteractor mTracker;
     private MainScreenContract.ModelConverter mModelConverter;
     private String mPrevSearchStr = ""; // TODO - use an interactor
     private MainScreenContract.View mView;
@@ -25,10 +28,12 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     public MainScreenPresenterImpl(
             WhoAskedDataInteractor whoAskedInteractor,
             UserDataInteractor userInteractor,
+            TrackerInteractor tracker,
             MainScreenContract.ModelConverter modelConverter) {
         mWhoAskedInteractor = whoAskedInteractor;
         mUserInteractor = userInteractor;
         mModelConverter = modelConverter;
+        mTracker = tracker;
         mView = null;
 
         // TODO - null object pattern
@@ -45,10 +50,13 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     }
 
     @Override
-    public void init() {
+    public void init(boolean firstTime) {
         mView.showLoading();
         mUserInteractor.getRecommendedUsers(getRecommendedUsersCallback);
-        mWhoAskedInteractor.getWhoAsked(getWhoAskedCallback);
+        if (firstTime) {
+            mWhoAskedInteractor.getWhoAsked(getWhoAskedCallback);
+            mTracker.trackMainScreenOpen();
+        }
         mView.disableSearchSubmitButton();
         mPrevSearchStr = "";
     }

@@ -146,7 +146,8 @@ public class AppModule {
     MainScreenContract.Presenter mainScreenPresenter(
             UserDataInteractor userInteractor,
             WhoAskedDataInteractor whoAskedDataInteractor,
+            TrackerInteractor tracker,
             MainScreenContract.ModelConverter modelConverter) {
-        return new MainScreenPresenterImpl(whoAskedDataInteractor, userInteractor, modelConverter);
+        return new MainScreenPresenterImpl(whoAskedDataInteractor, userInteractor, tracker, modelConverter);
     }
 }

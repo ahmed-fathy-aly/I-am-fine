@@ -35,7 +35,7 @@ public interface MainScreenContract {
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{
-        void init();
+        void init(boolean firstTime);
 
         void onSearchTextSubmit(String searchStr);
 

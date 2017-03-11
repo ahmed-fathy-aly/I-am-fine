@@ -14,15 +14,15 @@
         android:name=".app.MyApplication">
 
         <activity android:name=".screen.sign_in.SignInActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".screen.sign_up.SignUpActivity"/>
 
         <activity android:name=".screen.main_screen.MainScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <provider

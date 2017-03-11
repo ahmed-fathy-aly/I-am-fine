@@ -99,7 +99,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
         MyApplication app = (MyApplication) getContext().getApplicationContext();
         app.getAppComponent().inject(this);
         mPresenter.registerView(this);
-        mPresenter.init();
+        mPresenter.init(savedInstanceState == null);
 
         return view;
     }

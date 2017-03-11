@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.screen.main_screen;
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
+import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
@@ -43,6 +44,8 @@ public class MainScreenPresenterImplTest {
     @Mock
     UserDataInteractor userDataInteractor;
     @Mock
+    TrackerInteractor tracker;
+    @Mock
     MainScreenContract.ModelConverter modelConverter;
     @Mock
     MainScreenContract.View view;
@@ -58,6 +61,7 @@ public class MainScreenPresenterImplTest {
         presenter = new MainScreenPresenterImpl(
                 whoAskedDataInteractor,
                 userDataInteractor,
+                tracker,
                 modelConverter);
         presenter.registerView(view);
 
@@ -92,7 +96,7 @@ public class MainScreenPresenterImplTest {
         }).when(whoAskedDataInteractor).getWhoAsked(
                 any(WhoAskedDataInteractor.GetWhoAskedCallback.class));
 
-        presenter.init();
+        presenter.init(true);
 
         verify(view).showLoading();
         verify(view).clearUserList();
@@ -101,6 +105,8 @@ public class MainScreenPresenterImplTest {
         verify(view).hideLoading();
         verify(view).disableSearchSubmitButton();
         verifyNoMoreInteractions(view);
+
+        verify(tracker).trackMainScreenOpen();
     }
 
     @Test
@@ -123,7 +129,7 @@ public class MainScreenPresenterImplTest {
         }).when(whoAskedDataInteractor).getWhoAsked(
                 any(WhoAskedDataInteractor.GetWhoAskedCallback.class));
 
-        presenter.init();
+        presenter.init(true);
 
         verify(view).showLoading();
         verify(view).clearUserList();
@@ -133,6 +139,7 @@ public class MainScreenPresenterImplTest {
         verifyNoMoreInteractions(view);
 
     }
+
 
     @Test
     public void testSearchWithResultsFound() {
