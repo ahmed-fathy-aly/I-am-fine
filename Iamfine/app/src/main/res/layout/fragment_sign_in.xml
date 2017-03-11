@@ -32,6 +32,7 @@
                     android:drawableStart="@drawable/ic_mail"
                     android:drawableTint="@color/gray"
                     android:hint="@string/email"
+                    android:contentDescription="@string/email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:nextFocusForward="@+id/edit_text_password" />
@@ -45,6 +46,7 @@
                     android:drawableTint="@color/gray"
                     android:focusable="true"
                     android:hint="@string/password"
+                    android:contentDescription="@string/password"
                     android:imeOptions="actionDone"
                     android:nextFocusForward="@+id/button_sign_in"
                     android:inputType="textPassword"
@@ -58,6 +60,7 @@
             style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/sign_in"
             android:text="@string/sign_in" />
 
         <TextView
@@ -68,6 +71,7 @@
             android:gravity="center_horizontal"
             android:padding="8dp"
             android:text="@string/new_user_sign_up"
+            android:contentDescription="@string/sign_up"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:textColor="@color/white" />
 

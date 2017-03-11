@@ -32,6 +32,7 @@
                     android:drawableStart="@drawable/ic_mail"
                     android:drawableTint="@color/gray"
                     android:hint="@string/email"
+                    android:contentDescription="@string/email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:nextFocusForward="@+id/edit_text_user_name" />
@@ -46,6 +47,7 @@
                     android:drawableTint="@color/gray"
                     android:focusable="true"
                     android:hint="@string/user_name"
+                    android:contentDescription="@string/user_name"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@+id/edit_text_password"
                     android:inputType="text"
@@ -60,6 +62,7 @@
                     android:drawableTint="@color/gray"
                     android:focusable="true"
                     android:hint="@string/password"
+                    android:contentDescription="@string/password"
                     android:imeOptions="actionDone"
                     android:nextFocusForward="@+id/button_sign_in"
                     android:inputType="textPassword"
@@ -73,6 +76,7 @@
             style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/sign_up"
             android:text="@string/sign_up" />
 
         <ProgressBar

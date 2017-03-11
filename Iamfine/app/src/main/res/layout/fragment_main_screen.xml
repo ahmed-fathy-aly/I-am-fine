@@ -46,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/Theme.AppCompat"
+                    android:contentDescription="@string/search_users"
                     app:queryHint="@string/search_users"
                     />
 
