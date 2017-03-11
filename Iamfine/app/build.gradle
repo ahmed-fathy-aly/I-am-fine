@@ -47,7 +47,9 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'agency.tango.android:avatar-view:0.0.2'
     compile 'agency.tango.android:avatar-view-glide:0.0.2'
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
 
 
 }
 
+apply plugin: 'com.google.gms.google-services'

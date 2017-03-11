@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +67,9 @@ public class SignInFragment extends BaseFragmentView implements SignInContract.V
         MyApplication app = (MyApplication) getContext().getApplicationContext();
         app.getAppComponent().inject(this);
         mPresenter.registerView(this);
+        Timber.d("saved instance null %b", (savedInstanceState == null));
+//        if (savedInstanceState == null)
+            mPresenter.onOpenScreen();
 
         return view;
     }

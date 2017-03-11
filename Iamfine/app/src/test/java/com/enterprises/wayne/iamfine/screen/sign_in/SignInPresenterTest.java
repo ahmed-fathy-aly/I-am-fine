@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.screen.sign_in;
 
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
+import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,9 @@ import static org.mockito.Mockito.when;
 public class SignInPresenterTest {
 
     @Mock
-    AuthenticationInteractor interactor;
+    AuthenticationInteractor authenticator;
+    @Mock
+    TrackerInteractor tracker;
     @Mock
     SignInContract.View view;
     SignInPresenter presenter;
@@ -30,7 +33,7 @@ public class SignInPresenterTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        presenter = new SignInPresenter(interactor);
+        presenter = new SignInPresenter(authenticator, tracker);
         presenter.registerView(view);
     }
 
@@ -57,7 +60,7 @@ public class SignInPresenterTest {
                     (AuthenticationInteractor.SignInCallback) inv.getArguments()[2];
             callback.doneSuccess();
             return null;
-        }).when(interactor).
+        }).when(authenticator).
                 signIn(eq("mail"), eq("pass"), any(AuthenticationInteractor.SignInCallback.class));
 
         when(view.getEmail()).thenReturn("mail");
@@ -82,7 +85,7 @@ public class SignInPresenterTest {
             callback.invalidCredentials();
             callback.doneFail();
             return null;
-        }).when(interactor).
+        }).when(authenticator).
                 signIn(eq("mail"), eq("pass"), any(AuthenticationInteractor.SignInCallback.class));
 
         when(view.getEmail()).thenReturn("mail");
@@ -99,4 +102,9 @@ public class SignInPresenterTest {
         verify(view).enableSignInButton();
     }
 
+    @Test
+    public void testOnOpenScreen(){
+        presenter.onOpenScreen();
+        verify(tracker).trackSignInOpen();
+    }
 }

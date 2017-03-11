@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.screen.sign_in;
 
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
+import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 
 
 /**
@@ -9,11 +10,13 @@ import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 
 public class SignInPresenter implements SignInContract.Presenter {
 
-    private AuthenticationInteractor mInteractor;
+    private AuthenticationInteractor mAuthenticator;
+    private TrackerInteractor mTracker;
     private SignInContract.View mView;
 
-    public SignInPresenter(AuthenticationInteractor interactor) {
-        mInteractor = interactor;
+    public SignInPresenter(AuthenticationInteractor authenticator, TrackerInteractor tracker) {
+        mAuthenticator = authenticator;
+        mTracker = tracker;
         mView = DUMMY_VIEW;
     }
 
@@ -31,7 +34,7 @@ public class SignInPresenter implements SignInContract.Presenter {
     public void onSignInClicked() {
         mView.disableSignInButton();
         mView.showLoading();
-        mInteractor.signIn(mView.getEmail(), mView.getPassword(), signInCallback);
+        mAuthenticator.signIn(mView.getEmail(), mView.getPassword(), signInCallback);
     }
 
     final AuthenticationInteractor.SignInCallback signInCallback = new
@@ -68,6 +71,11 @@ public class SignInPresenter implements SignInContract.Presenter {
     @Override
     public void onSignUpClicked() {
         mView.goToSignUpScreen();
+    }
+
+    @Override
+    public void onOpenScreen() {
+        mTracker.trackSignInOpen();
     }
 
     @Override

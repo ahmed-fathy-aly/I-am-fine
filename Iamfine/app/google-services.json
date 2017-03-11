@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "106276449914",
+    "project_id": "firebase-i-am-fine"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106276449914:android:10dd7dc36ebeeacc",
+        "android_client_info": {
+          "package_name": "com.enterprises.wayne.iamfine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsJ4JEmgzvC2SCa6ztX7NPsX9jPO_YcBA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-93526056-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
