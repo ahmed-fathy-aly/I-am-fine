@@ -110,9 +110,18 @@ public class SignUpPresenterTest {
     }
 
     @Test
-    public void testOnOpenScreen(){
-        presenter.onOpenScreen();
+    public void testOnOpenScreenFirstTime(){
+        presenter.onOpenScreen(true);
 
         verify(tracker).trackSignUpOpen();
     }
+
+
+    @Test
+    public void testOnOpenScreenNotFirstTime(){
+        presenter.onOpenScreen(false);
+
+        verifyZeroInteractions(tracker);
+    }
+
 }

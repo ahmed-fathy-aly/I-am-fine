@@ -31,6 +31,6 @@ public interface SignInContract {
 
         void onSignUpClicked();
 
-        void onOpenScreen();
+        void onOpenScreen(boolean firstTime);
     }
 }

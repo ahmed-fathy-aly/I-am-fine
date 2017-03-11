@@ -33,8 +33,9 @@ public class SignUpPresenter implements SignUpContract.Presenter {
     }
 
     @Override
-    public void onOpenScreen() {
-        mTracker.trackSignUpOpen();
+    public void onOpenScreen(boolean firstTime) {
+        if (firstTime)
+            mTracker.trackSignUpOpen();
     }
 
     @Override

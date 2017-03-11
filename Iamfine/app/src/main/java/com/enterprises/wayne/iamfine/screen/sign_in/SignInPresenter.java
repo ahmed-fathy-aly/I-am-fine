@@ -74,8 +74,9 @@ public class SignInPresenter implements SignInContract.Presenter {
     }
 
     @Override
-    public void onOpenScreen() {
-        mTracker.trackSignInOpen();
+    public void onOpenScreen(boolean firstTime) {
+        if (firstTime)
+            mTracker.trackSignInOpen();
     }
 
     @Override

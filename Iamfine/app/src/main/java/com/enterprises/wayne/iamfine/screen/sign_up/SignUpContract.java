@@ -35,7 +35,7 @@ public interface SignUpContract {
     }
 
     interface Presenter extends BaseContract.BasePresenter<View> {
-        void onOpenScreen();
+        void onOpenScreen(boolean firstTime);
 
         void onSignUpClicked();
     }

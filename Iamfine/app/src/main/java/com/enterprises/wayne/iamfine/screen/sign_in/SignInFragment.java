@@ -67,9 +67,7 @@ public class SignInFragment extends BaseFragmentView implements SignInContract.V
         MyApplication app = (MyApplication) getContext().getApplicationContext();
         app.getAppComponent().inject(this);
         mPresenter.registerView(this);
-        Timber.d("saved instance null %b", (savedInstanceState == null));
-//        if (savedInstanceState == null)
-            mPresenter.onOpenScreen();
+        mPresenter.onOpenScreen(savedInstanceState == null);
 
         return view;
     }

@@ -63,6 +63,7 @@ public class SignUpFragment extends BaseFragmentView implements SignUpContract.V
         MyApplication app = (MyApplication) getContext().getApplicationContext();
         app.getAppComponent().inject(this);
         mPresenter.registerView(this);
+        mPresenter.onOpenScreen(savedInstanceState == null);
 
         return view;
     }
