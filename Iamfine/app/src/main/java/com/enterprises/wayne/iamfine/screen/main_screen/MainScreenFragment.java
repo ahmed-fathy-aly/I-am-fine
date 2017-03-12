@@ -28,7 +28,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by Ahmed on 2/19/2017.
@@ -118,9 +117,6 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
 
     @Override
     public void showWhoAskedAboutYou(List<WhoAskedViewModel> whoAsked) {
-        Timber.d("show who asked ");
-        for (WhoAskedViewModel viewModel : whoAsked)
-            Timber.d("%s asked", viewModel.getDisplayName());
         WhoAskedAdapterDelegate whoAskedAdapterDelegate = new WhoAskedAdapterDelegate(this, whoAsked);
         mAdapter.add(0, whoAskedAdapterDelegate);
     }
@@ -162,7 +158,6 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
 
     @Override
     public void onUserClicked(String userId) {
-        Timber.d("on user clicked %s", userId);
     }
 
     @Override
