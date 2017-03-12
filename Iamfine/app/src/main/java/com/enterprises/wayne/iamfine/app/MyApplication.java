@@ -20,12 +20,13 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Timber.plant(new Timber.DebugTree());
+
         mAppComponent = DaggerAppComponent
                 .builder()
                 .appModule(new AppModule(this))
                 .build();
 
-        Timber.plant(new Timber.DebugTree());
     }
 
     public AppComponent getAppComponent(){
