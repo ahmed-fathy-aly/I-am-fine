@@ -1,11 +1,9 @@
-package com.enterprises.wayne.iamfine.notifications;
+package com.enterprises.wayne.iamfine.notification;
 
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import timber.log.Timber;
 
 /**
  * monitors the refresh of the notifications token

@@ -1,11 +1,9 @@
-package com.enterprises.wayne.iamfine.notifications;
+package com.enterprises.wayne.iamfine.notification;
 
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import timber.log.Timber;
 
 /**
  * notifications are received here
