@@ -6,7 +6,6 @@ import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.List;
 

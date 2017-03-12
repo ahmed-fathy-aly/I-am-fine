@@ -2,12 +2,9 @@ package com.enterprises.wayne.iamfine.app;
 
 import android.app.Application;
 
-import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.injection.AppComponent;
 import com.enterprises.wayne.iamfine.injection.AppModule;
 import com.enterprises.wayne.iamfine.injection.DaggerAppComponent;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 
 import timber.log.Timber;
 
@@ -18,7 +15,6 @@ import timber.log.Timber;
 public class MyApplication extends Application {
 
     private AppComponent mAppComponent;
-    private Tracker mTracker;
 
     @Override
     public void onCreate() {
@@ -26,7 +22,7 @@ public class MyApplication extends Application {
 
         mAppComponent = DaggerAppComponent
                 .builder()
-                .appModule(new AppModule(this, getDefaultTracker()))
+                .appModule(new AppModule(this))
                 .build();
 
         Timber.plant(new Timber.DebugTree());
@@ -37,16 +33,5 @@ public class MyApplication extends Application {
     }
 
 
-    /**
-     * Gets the default {@link Tracker} for this {@link Application}.
-     * @return tracker
-     */
-    synchronized public Tracker getDefaultTracker() {
-        if (mTracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-            mTracker = analytics.newTracker(R.xml.global_tracker);
-        }
-        return mTracker;
-    }
+
 }

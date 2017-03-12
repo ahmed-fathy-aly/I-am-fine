@@ -7,7 +7,7 @@ import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractorImpl;
-import com.enterprises.wayne.iamfine.interactor.GAtrackerImpl;
+import com.enterprises.wayne.iamfine.interactor.FirebaseTrackerInteractprImpl;
 import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractorImpl;
@@ -30,7 +30,6 @@ import com.enterprises.wayne.iamfine.screen.sign_in.SignInContract;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInPresenter;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpContract;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpPresenter;
-import com.google.android.gms.analytics.Tracker;
 
 import dagger.Module;
 import dagger.Provides;
@@ -45,11 +44,9 @@ import io.reactivex.schedulers.Schedulers;
 public class AppModule {
 
     private Context mContext;
-    private Tracker mTracker;
 
-    public AppModule(Context context, Tracker defaultTracker) {
+    public AppModule(Context context) {
         mContext = context;
-        mTracker = defaultTracker;
     }
 
     @Provides
@@ -58,18 +55,13 @@ public class AppModule {
     }
 
     @Provides
-    Tracker tracker(){
-        return mTracker;
-    }
-
-    @Provides
     SharedPreferences preferences() {
         return mContext.getSharedPreferences("i_am_fine_pref", Context.MODE_PRIVATE);
     }
 
     @Provides
-    TrackerInteractor trackerInteractor(Tracker tracker){
-        return new GAtrackerImpl(tracker);
+    TrackerInteractor trackerInteractor(Context context){
+        return new FirebaseTrackerInteractprImpl(context);
     }
 
     @Provides
