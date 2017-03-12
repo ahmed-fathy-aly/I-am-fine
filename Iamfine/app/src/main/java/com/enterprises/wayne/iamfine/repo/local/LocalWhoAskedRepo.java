@@ -15,4 +15,6 @@ public interface LocalWhoAskedRepo {
     List<WhoAskedDataModel> getWhoAsked();
 
     void updateWhoAsked(List<WhoAskedDataModel> whoAsked);
+
+    void addWhoAsked(WhoAskedDataModel whoAsked);
 }
