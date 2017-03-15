@@ -48,7 +48,7 @@ dependencies {
     compile 'agency.tango.android:avatar-view-glide:0.0.2'
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-messaging:10.2.0'
-
+    compile 'com.firebase:firebase-jobdispatcher:0.5.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

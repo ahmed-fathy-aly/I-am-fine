@@ -78,22 +78,26 @@ public class LocalWhoAskedRepoImpl implements LocalWhoAskedRepo {
 
     @Override
     public void addWhoAsked(WhoAskedDataModel whoAsked) {
-
-        // TODO - add tests
-        
         // create content values
         ContentValues contentValues = new ContentValues();
 
-            contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_ID, whoAsked.getUser().getId());
-            contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_NAME, whoAsked.getUser().getName());
-            contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_MAIL, whoAsked.getUser().getEmail());
-            contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_PP, whoAsked.getUser().getProfilePic());
-            contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_WHEN_ASKED, whoAsked.getWhenAsked());
+        contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_ID, whoAsked.getUser().getId());
+        contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_NAME, whoAsked.getUser().getName());
+        contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_MAIL, whoAsked.getUser().getEmail());
+        contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_USER_PP, whoAsked.getUser().getProfilePic());
+        contentValues.put(DatabaseContract.WhoAskedEntry.COLOUMN_WHEN_ASKED, whoAsked.getWhenAsked());
 
 
         // insert
         mContext
                 .getContentResolver()
                 .insert(DatabaseContract.WhoAskedEntry.CONTENT_URI, contentValues);
+    }
+
+    @Override
+    public void clear() {
+        mContext
+                .getContentResolver()
+                .delete(DatabaseContract.WhoAskedEntry.CONTENT_URI, "", null);
     }
 }

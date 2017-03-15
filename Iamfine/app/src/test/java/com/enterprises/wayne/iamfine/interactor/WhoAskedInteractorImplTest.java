@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.interactor;
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
+import com.enterprises.wayne.iamfine.notification.NotificationsConstant;
 import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepo;
 
@@ -15,13 +16,16 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -120,9 +124,7 @@ public class WhoAskedInteractorImplTest {
         verifyNoMoreInteractions(iAmFineCallback);
 
         verify(remoteRepo).sayIAmFine();
-        verify(localRepo).updateWhoAsked((List<WhoAskedDataModel>) captor.capture());
-        List<WhoAskedDataModel> shouldBeEmptyList = (List<WhoAskedDataModel>) captor.getValue();
-        Assert.assertTrue(shouldBeEmptyList.isEmpty());
+        verify(localRepo).clear();
     }
 
     @Test
@@ -138,4 +140,38 @@ public class WhoAskedInteractorImplTest {
         verifyNoMoreInteractions(localRepo);
     }
 
+    @Test
+    public void testUpdateWhoAskedValidData(){
+        Map<String, String> notificationsData = new HashMap<>();
+        notificationsData.put(NotificationsConstant.KEY_USER_ID, "id");
+        notificationsData.put(NotificationsConstant.KEY_USER_HANDLE, "handle");
+        notificationsData.put(NotificationsConstant.KEY_USER_EMAIL, "email");
+        notificationsData.put(NotificationsConstant.KEY_USER_PP, "pp");
+        notificationsData.put(NotificationsConstant.KEY_WHEN_ASKED, "1000");
+
+        interactor.updateWhoAsked(notificationsData);
+
+        verify(localRepo).addWhoAsked((WhoAskedDataModel) captor.capture());
+        WhoAskedDataModel dataModel = (WhoAskedDataModel) captor.getValue();
+        Assert.assertEquals(1000, dataModel.getWhenAsked());
+        Assert.assertEquals("id", dataModel.getUser().getId());
+        Assert.assertEquals("handle", dataModel.getUser().getName());
+        Assert.assertEquals("email", dataModel.getUser().getEmail());
+        Assert.assertEquals("pp", dataModel.getUser().getProfilePic());
+    }
+
+
+    @Test
+    public void testUpdateWhoAskedInvalidData(){
+        Map<String, String> notificationsData = new HashMap<>();
+        notificationsData.put("userId", "id");
+        notificationsData.put("userHandle", "handle");
+        notificationsData.put("userEmail", "email");
+        notificationsData.put("userProfilePicUrl", "pp");
+        notificationsData.put("whenAsked", "1000xx");
+
+        interactor.updateWhoAsked(notificationsData);
+
+        verifyZeroInteractions(localRepo);
+    }
 }

@@ -17,4 +17,6 @@ public interface LocalWhoAskedRepo {
     void updateWhoAsked(List<WhoAskedDataModel> whoAsked);
 
     void addWhoAsked(WhoAskedDataModel whoAsked);
+
+    void clear();
 }

@@ -1,0 +1,8 @@
+Someone asked about you
+
+type: someoneAskedAboutYou
+userId: id of the user who asked
+userHandle: handle of the user who asked
+userEmail : ...
+userProfilePicUrl:
+whenAsked : when that used asked about you

@@ -12,6 +12,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +30,7 @@ public class LocalWhoAskedRepoImplTest {
     @Before
     public void setup() {
         localWhoAskedRepo = new LocalWhoAskedRepoImpl(InstrumentationRegistry.getTargetContext());
+        localWhoAskedRepo.clear();
     }
 
     @Test
@@ -37,6 +39,24 @@ public class LocalWhoAskedRepoImplTest {
         localWhoAskedRepo.updateWhoAsked(data);
 
         List<WhoAskedDataModel> whoAsked = localWhoAskedRepo.getWhoAsked();
+        Collections.sort(whoAsked, (l, r) -> {return (int)(l.getWhenAsked() - r.getWhenAsked());});
+        Assert.assertEquals(2, whoAsked.size());
+        verifySameDataModel(WHO_ASKED_1, whoAsked.get(0));
+        verifySameDataModel(WHO_ASKED_2, whoAsked.get(1));
+    }
+
+    @Test
+    public void testAddAndRead(){
+
+        // add an entry and read it back
+        localWhoAskedRepo.addWhoAsked(WHO_ASKED_1);
+        List<WhoAskedDataModel> whoAsked = localWhoAskedRepo.getWhoAsked();
+        Assert.assertEquals(1, whoAsked.size());
+        verifySameDataModel(WHO_ASKED_1, whoAsked.get(0));
+
+        // add another and read them back
+        localWhoAskedRepo.addWhoAsked(WHO_ASKED_2);
+        whoAsked = localWhoAskedRepo.getWhoAsked();
         Collections.sort(whoAsked, (l, r) -> {return (int)(l.getWhenAsked() - r.getWhenAsked());});
         Assert.assertEquals(2, whoAsked.size());
         verifySameDataModel(WHO_ASKED_1, whoAsked.get(0));

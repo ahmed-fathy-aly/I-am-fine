@@ -6,11 +6,14 @@ import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;
+import com.enterprises.wayne.iamfine.notification.NotificationsConstant;
 import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
@@ -81,7 +84,7 @@ public class WhoAskedInteractorImpl implements WhoAskedDataInteractor {
         Observable
                 .defer(() -> {
                     mRemoteRepo.sayIAmFine();
-                    mLocalRepo.updateWhoAsked(new ArrayList<>());
+                    mLocalRepo.clear();
                     return Observable.just(true);
                 })
                 .subscribeOn(mBackgroundThread)
@@ -103,5 +106,40 @@ public class WhoAskedInteractorImpl implements WhoAskedDataInteractor {
                         callback.doneFail();
                     }
                 });
+    }
+
+    @Override
+    public void updateWhoAsked(Map<String, String> notificationsData) {
+        // get the data
+        if (notificationsData == null)
+            return;
+        String userId = notificationsData.get(NotificationsConstant.KEY_USER_ID);
+        String userEmail = notificationsData.get(NotificationsConstant.KEY_USER_EMAIL);
+        String userHandle = notificationsData.get(NotificationsConstant.KEY_USER_HANDLE);
+        String userPP = notificationsData.get(NotificationsConstant.KEY_USER_PP);
+        String whenAskedStr = notificationsData.get(NotificationsConstant.KEY_WHEN_ASKED);
+
+        // validate
+        if (userId == null
+                || userEmail == null
+                || userHandle == null
+                || userPP == null
+                || whenAskedStr == null || !isLong(whenAskedStr))
+            return;
+
+        // make a model and add it to the local data base
+        long whenAsked = Long.parseLong(whenAskedStr);
+        UserDataModel userDataModel = new UserDataModel(userId, userHandle, userEmail, userPP, 0);
+        WhoAskedDataModel dataModel = new WhoAskedDataModel(userDataModel, whenAsked);
+        mLocalRepo.addWhoAsked(dataModel);
+    }
+
+    private boolean isLong(String str) {
+        try {
+            long x = Long.parseLong(str);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 }
