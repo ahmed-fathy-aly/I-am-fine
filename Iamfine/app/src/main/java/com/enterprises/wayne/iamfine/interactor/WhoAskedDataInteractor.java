@@ -29,5 +29,5 @@ public interface WhoAskedDataInteractor {
      * @param notificationsData data sent from gcm, should be parsed to the who asked data model
      *                          (check notifications desription file)
      */
-    void updateWhoAsked(Map<String, String> notificationsData);
+    WhoAskedDataModel updateWhoAsked(Map<String, String> notificationsData);
 }

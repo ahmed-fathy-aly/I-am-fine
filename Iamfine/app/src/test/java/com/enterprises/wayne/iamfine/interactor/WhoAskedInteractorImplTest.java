@@ -149,7 +149,12 @@ public class WhoAskedInteractorImplTest {
         notificationsData.put(NotificationsConstant.KEY_USER_PP, "pp");
         notificationsData.put(NotificationsConstant.KEY_WHEN_ASKED, "1000");
 
-        interactor.updateWhoAsked(notificationsData);
+        WhoAskedDataModel returnDataModel = interactor.updateWhoAsked(notificationsData);
+        Assert.assertEquals(1000, returnDataModel.getWhenAsked());
+        Assert.assertEquals("id", returnDataModel.getUser().getId());
+        Assert.assertEquals("handle", returnDataModel.getUser().getName());
+        Assert.assertEquals("email", returnDataModel.getUser().getEmail());
+        Assert.assertEquals("pp", returnDataModel.getUser().getProfilePic());
 
         verify(localRepo).addWhoAsked((WhoAskedDataModel) captor.capture());
         WhoAskedDataModel dataModel = (WhoAskedDataModel) captor.getValue();
@@ -170,7 +175,9 @@ public class WhoAskedInteractorImplTest {
         notificationsData.put("userProfilePicUrl", "pp");
         notificationsData.put("whenAsked", "1000xx");
 
-        interactor.updateWhoAsked(notificationsData);
+        WhoAskedDataModel dataModel = interactor.updateWhoAsked(notificationsData);
+
+        Assert.assertNull(dataModel);
 
         verifyZeroInteractions(localRepo);
     }

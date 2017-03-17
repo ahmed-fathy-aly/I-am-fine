@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.notification;
 import android.util.Log;
 
 import com.enterprises.wayne.iamfine.app.MyApplication;
+import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
@@ -37,9 +38,9 @@ public class SomeoneAskedNotificationJobService extends JobService{
 					data.put(key, job.getExtras().getString(key));
 
 		// update the database
-		mWhoAskedInteractor.updateWhoAsked(data);
+		WhoAskedDataModel dataModel = mWhoAskedInteractor.updateWhoAsked(data);
 
-		Log.e("GCM", "done someone asked job");
+ 		Log.e("GCM", "done someone asked job");
 		 
 		return false;
 	}

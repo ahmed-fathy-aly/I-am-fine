@@ -109,10 +109,10 @@ public class WhoAskedInteractorImpl implements WhoAskedDataInteractor {
     }
 
     @Override
-    public void updateWhoAsked(Map<String, String> notificationsData) {
+    public WhoAskedDataModel updateWhoAsked(Map<String, String> notificationsData) {
         // get the data
         if (notificationsData == null)
-            return;
+            return null;
         String userId = notificationsData.get(NotificationsConstant.KEY_USER_ID);
         String userEmail = notificationsData.get(NotificationsConstant.KEY_USER_EMAIL);
         String userHandle = notificationsData.get(NotificationsConstant.KEY_USER_HANDLE);
@@ -125,13 +125,14 @@ public class WhoAskedInteractorImpl implements WhoAskedDataInteractor {
                 || userHandle == null
                 || userPP == null
                 || whenAskedStr == null || !isLong(whenAskedStr))
-            return;
+            return null;
 
         // make a model and add it to the local data base
         long whenAsked = Long.parseLong(whenAskedStr);
         UserDataModel userDataModel = new UserDataModel(userId, userHandle, userEmail, userPP, 0);
         WhoAskedDataModel dataModel = new WhoAskedDataModel(userDataModel, whenAsked);
         mLocalRepo.addWhoAsked(dataModel);
+        return dataModel;
     }
 
     private boolean isLong(String str) {
