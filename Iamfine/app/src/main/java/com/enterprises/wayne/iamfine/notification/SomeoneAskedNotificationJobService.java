@@ -1,10 +1,16 @@
 package com.enterprises.wayne.iamfine.notification;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
+import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
@@ -41,8 +47,40 @@ public class SomeoneAskedNotificationJobService extends JobService{
 		WhoAskedDataModel dataModel = mWhoAskedInteractor.updateWhoAsked(data);
 
  		Log.e("GCM", "done someone asked job");
-		 
+
+		// make a notification
+		if (dataModel != null && dataModel.getUser() != null && dataModel.getUser().getName() != null)
+		showNotification(dataModel.getUser().getName());
+
 		return false;
+	}
+
+	private void showNotification(String username) {
+		// the title of the notification is username asked about you
+		String title = getString(R.string.x_asked_about_you, username);
+		NotificationCompat.Builder notificationBuilder =
+				new NotificationCompat.Builder(this)
+						.setSmallIcon(R.mipmap.ic_launcher)
+						.setContentTitle(title)
+						.setContentText(title);
+
+		// clicking on the notificaiton opens the main screen
+		Intent resultIntent = new Intent(this, MainScreenActivity.class);
+		PendingIntent resultPendingIntent =
+				PendingIntent.getActivity(
+						this,
+						0,
+						resultIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT
+				);
+		notificationBuilder
+				.setContentIntent(resultPendingIntent)
+				.setAutoCancel(true);
+
+		// start the notification
+		NotificationManager notificationmanager =
+				(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		notificationmanager.notify((int) (System.currentTimeMillis() % 100000), notificationBuilder.build());
 	}
 
 	@Override

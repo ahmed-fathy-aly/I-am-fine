@@ -49,6 +49,7 @@ public class NotificationsService extends FirebaseMessagingService {
 						.setRecurring(false)
 						.setReplaceCurrent(false)
 						.setExtras(extrasBundle)
+						.setTrigger(Trigger.NOW)
 						.build();
 				dispatcher.mustSchedule(myJob);
 
