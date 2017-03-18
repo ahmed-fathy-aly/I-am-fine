@@ -6,7 +6,7 @@ android {
         debug {
             keyAlias 'wayne enterprises'
             keyPassword 'abc123'
-            storeFile file('/Users/afathy/my_projects/I-am-fine/Iamfine/debug_keystore.jks')
+            storeFile file("$rootDir/debug_keystore.jks")
             storePassword 'abc123'
         }
     }
