@@ -1,5 +1,7 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
+import android.util.Log;
+
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
@@ -21,7 +23,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     private WhoAskedDataInteractor mWhoAskedInteractor;
     private TrackerInteractor mTracker;
     private MainScreenContract.ModelConverter mModelConverter;
-    private String mPrevSearchStr = ""; // TODO - use an interactor
+    private String mPrevSearchStr = "";
     private MainScreenContract.View mView;
 
     public MainScreenPresenterImpl(
@@ -50,6 +52,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
     @Override
     public void init(boolean firstTime) {
+        Log.e("Game", "previous search " + mPrevSearchStr);
         mView.showLoading();
         mUserInteractor.getRecommendedUsers(getRecommendedUsersCallback);
         if (firstTime) {
@@ -58,6 +61,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         }
         mView.disableSearchSubmitButton();
         mPrevSearchStr = "";
+        mView.showAd();
     }
 
     @Override

@@ -20,6 +20,8 @@ import com.enterprises.wayne.iamfine.screen.main_screen.view.WhoAskedCard;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,8 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     RecyclerView mRecyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
+    @BindView(R.id.adView)
+    AdView mAdView;
 
     /* fields */
     @Inject
@@ -168,6 +172,13 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     @Override
     public void showCouldntAskAboutUser() {
         showMessage(R.string.could_not_ask);
+    }
+
+    @Override
+    public void showAd() {
+        mAdView.setVisibility(View.VISIBLE);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override

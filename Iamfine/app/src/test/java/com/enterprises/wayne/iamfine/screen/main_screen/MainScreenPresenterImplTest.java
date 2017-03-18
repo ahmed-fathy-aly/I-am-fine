@@ -104,6 +104,7 @@ public class MainScreenPresenterImplTest {
         verify(view).showWhoAskedAboutYou(WHO_ASKED_VIEW);
         verify(view).hideLoading();
         verify(view).disableSearchSubmitButton();
+        verify(view).showAd();
         verifyNoMoreInteractions(view);
 
         verify(tracker).trackMainScreenOpen();
@@ -136,6 +137,7 @@ public class MainScreenPresenterImplTest {
         verify(view).hideWhoAskedAboutYou();
         verify(view).hideLoading();
         verify(view).disableSearchSubmitButton();
+        verify(view).showAd();
         verifyNoMoreInteractions(view);
 
     }

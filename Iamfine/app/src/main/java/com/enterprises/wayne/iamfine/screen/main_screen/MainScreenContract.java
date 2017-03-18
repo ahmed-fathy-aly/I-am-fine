@@ -32,6 +32,8 @@ public interface MainScreenContract {
         void showAskedAboutUser();
 
         void showCouldntAskAboutUser();
+
+        void showAd();
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{

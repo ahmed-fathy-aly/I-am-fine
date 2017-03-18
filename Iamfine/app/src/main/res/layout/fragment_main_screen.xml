@@ -50,8 +50,16 @@
                     app:queryHint="@string/search_users"
                     />
 
-
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    app:adSize="BANNER"
+                    app:adUnitId="@string/banner_ad_unit_id"/>
             </LinearLayout>
+
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
