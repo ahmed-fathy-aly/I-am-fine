@@ -8,6 +8,8 @@ import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
+import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
+import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
 import java.util.List;
 
@@ -35,10 +37,8 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         mUserInteractor = userInteractor;
         mModelConverter = modelConverter;
         mTracker = tracker;
-        mView = null;
-
-        // TODO - null object pattern
-    }
+        mView = DUMMY_VIEW;
+}
 
     @Override
     public void registerView(MainScreenContract.View view) {
@@ -47,7 +47,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
     @Override
     public void unregisterView() {
-        mView = null;
+        mView = DUMMY_VIEW;
     }
 
     @Override
@@ -253,6 +253,78 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         @Override
         public void unknownError() {
             mView.showUnknownError();
+        }
+    };
+
+    final MainScreenContract.View DUMMY_VIEW = new MainScreenContract.View() {
+        @Override
+        public void showWhoAskedAboutYou(List<WhoAskedViewModel> whoAsked) {
+
+        }
+
+        @Override
+        public void hideWhoAskedAboutYou() {
+
+        }
+
+        @Override
+        public void showUserList(List<UserViewModel> users) {
+
+        }
+
+        @Override
+        public void clearUserList() {
+
+        }
+
+        @Override
+        public void enableSearchSubmitButton() {
+
+        }
+
+        @Override
+        public void disableSearchSubmitButton() {
+
+        }
+
+        @Override
+        public void showAskedAboutUser() {
+
+        }
+
+        @Override
+        public void showCouldntAskAboutUser() {
+
+        }
+
+        @Override
+        public void showAd() {
+
+        }
+
+        @Override
+        public void showLoading() {
+
+        }
+
+        @Override
+        public void hideLoading() {
+
+        }
+
+        @Override
+        public void showNetworkError() {
+
+        }
+
+        @Override
+        public void showUnknownError() {
+
+        }
+
+        @Override
+        public void close() {
+
         }
     };
 }
