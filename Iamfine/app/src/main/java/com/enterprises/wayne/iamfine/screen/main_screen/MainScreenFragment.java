@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +61,23 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
         return new MainScreenFragment();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.e("LifeCycle", "onCreate");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("LifeCycle", "onDestroy");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e("LifeCycle", "onCreateView");
+
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
 
         // setup the layout and base fragment stuff
@@ -85,13 +100,6 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
                 return false;
             }
         });
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                mPresenter.onSearchCancel();
-                return false;
-            }
-        });
 
         // setup the recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -110,6 +118,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     @Override
     public void onDestroyView() {
         mPresenter.unregisterView();
+        Log.e("LifeCycle", "onDestroyView");
         super.onDestroyView();
     }
 

@@ -21,12 +21,13 @@ import timber.log.Timber;
 
 public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
+    private MainScreenContract.View mView;
     private UserDataInteractor mUserInteractor;
     private WhoAskedDataInteractor mWhoAskedInteractor;
     private TrackerInteractor mTracker;
     private MainScreenContract.ModelConverter mModelConverter;
+
     private String mPrevSearchStr = "";
-    private MainScreenContract.View mView;
 
     public MainScreenPresenterImpl(
             WhoAskedDataInteractor whoAskedInteractor,
@@ -38,7 +39,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         mModelConverter = modelConverter;
         mTracker = tracker;
         mView = DUMMY_VIEW;
-}
+    }
 
     @Override
     public void registerView(MainScreenContract.View view) {
@@ -52,7 +53,6 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
     @Override
     public void init(boolean firstTime) {
-        Log.e("Game", "previous search " + mPrevSearchStr);
         mView.showLoading();
         mUserInteractor.getRecommendedUsers(getRecommendedUsersCallback);
         if (firstTime) {
@@ -78,12 +78,6 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         else if (mPrevSearchStr.length() >= minLength && newStr.length() < minLength)
             mView.disableSearchSubmitButton();
         mPrevSearchStr = newStr;
-    }
-
-    @Override
-    public void onSearchCancel() {
-        // TODO - improve performance
-        Timber.d("cancel clicked");
     }
 
     @Override

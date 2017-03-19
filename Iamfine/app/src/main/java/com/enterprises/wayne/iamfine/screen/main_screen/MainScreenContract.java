@@ -43,8 +43,6 @@ public interface MainScreenContract {
 
         void onSearchTextChanged(String newStr);
 
-        void onSearchCancel();
-
         void onAskIfUserFine(String userId);
 
         void onSayIAmFine();
