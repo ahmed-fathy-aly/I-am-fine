@@ -4,6 +4,7 @@ import com.enterprises.wayne.iamfine.notification.SomeoneAskedNotificationJobSer
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenFragment;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInFragment;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpFragment;
+import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenActivity;
 import com.enterprises.wayne.iamfine.widget.WidgetService;
 
 import dagger.Component;
@@ -24,4 +25,6 @@ public interface AppComponent {
 	void inject(SomeoneAskedNotificationJobService someoneAskedNotificationJobService);
 
 	void inject(WidgetService widgetService);
+
+	void inject(SplashScreenActivity splashScreenActivity);
 }

@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.screen.sign_in;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.ScrollView;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
+import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpActivity;
 import com.enterprises.wayne.iamfine.base.BaseFragmentView;
 
@@ -85,7 +87,9 @@ public class SignInFragment extends BaseFragmentView implements SignInContract.V
 
     @Override
     public void goToMainScreen() {
-
+        Context context = getContext();
+        if (context != null)
+            startActivity(MainScreenActivity.newIntent(context));
     }
 
     @Override

@@ -28,6 +28,11 @@ public class FirebaseTrackerInteractprImpl implements TrackerInteractor {
 
     @Override
     public void trackMainScreenOpen() {
+        mFirebaseAnalytics.logEvent("main_screen_open", null);
+    }
+
+    @Override
+    public void trackSplashScreenOpen() {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
     }
 }

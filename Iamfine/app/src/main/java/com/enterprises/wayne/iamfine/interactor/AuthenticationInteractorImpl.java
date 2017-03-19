@@ -81,6 +81,11 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
     }
 
     @Override
+    public boolean isSignedIn() {
+        return mAuthenticatedUserRepo.hasUserSaved();
+    }
+
+    @Override
     public void signIn(String email, String password, SignInCallback callback) {
         Observable
                 .defer(() -> Observable.just(mAuthenticationDataSource.signIn(email, password)))

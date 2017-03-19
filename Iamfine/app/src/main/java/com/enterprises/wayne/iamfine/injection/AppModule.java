@@ -30,6 +30,8 @@ import com.enterprises.wayne.iamfine.screen.sign_in.SignInContract;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInPresenter;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpContract;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpPresenter;
+import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenContract;
+import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenPresenter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -144,4 +146,13 @@ public class AppModule {
         return new MainScreenPresenterImpl(
                 whoAskedDataInteractor, userInteractor, tracker, authenticator, modelConverter);
     }
+
+    @Provides
+    SplashScreenContract.Presenter splashScreenpresenter(
+            AuthenticationInteractor authenticator,
+            TrackerInteractor tracker
+    ) {
+        return new SplashScreenPresenter(authenticator, tracker);
+    }
+
 }

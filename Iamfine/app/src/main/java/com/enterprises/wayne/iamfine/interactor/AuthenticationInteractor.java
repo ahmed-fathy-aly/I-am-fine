@@ -10,7 +10,9 @@ public interface AuthenticationInteractor {
     void signUp(String email, String userName, String password,
                 SignUpCallback callback);
 
-    interface SignUpCallback extends BaseNetworkCallback {
+	boolean isSignedIn();
+
+	interface SignUpCallback extends BaseNetworkCallback {
         void invalidEmail();
 
         void invalidUserName();

@@ -218,7 +218,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     public void openSignInScreen() {
         Context context = getContext();
         if (context != null)
-            startActivity(SignInActivity.newIntent(getContext()));
+            startActivity(SignInActivity.newIntent(context));
     }
 
     @Override

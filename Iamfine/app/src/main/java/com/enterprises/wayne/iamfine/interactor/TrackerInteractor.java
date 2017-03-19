@@ -8,4 +8,5 @@ public interface TrackerInteractor {
 
 	void trackMainScreenOpen();
 
+	void trackSplashScreenOpen();
 }
