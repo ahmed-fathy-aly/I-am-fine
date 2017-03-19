@@ -36,6 +36,3 @@ captures/
 *.iml
 .idea/
 projectFileBackup/
-
-# Keystore files
-*.jks
