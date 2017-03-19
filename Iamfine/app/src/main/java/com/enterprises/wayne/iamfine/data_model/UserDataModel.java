@@ -1,10 +1,12 @@
 package com.enterprises.wayne.iamfine.data_model;
 
+import java.io.Serializable;
+
 /**
  * Created by Ahmed on 2/12/2017.
  */
 
-public class UserDataModel {
+public class UserDataModel implements Serializable{
     private String id;
     private String name;
     private String email;

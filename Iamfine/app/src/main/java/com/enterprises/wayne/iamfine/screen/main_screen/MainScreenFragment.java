@@ -17,7 +17,6 @@ import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseFragmentView;
 import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.UserViewAdapterDelegate;
 import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.WhoAskedAdapterDelegate;
-import com.enterprises.wayne.iamfine.screen.main_screen.view.WhoAskedCard;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewAdapter;
@@ -37,6 +36,9 @@ import butterknife.ButterKnife;
  */
 
 public class MainScreenFragment extends BaseFragmentView implements MainScreenContract.View, UserViewAdapterDelegate.Listener, WhoAskedAdapterDelegate.Listener{
+
+    /* constants */
+    public static final String KEY_SAVED_STATE = "outState";
 
     /* UI */
     @BindView(R.id.view_content)
@@ -64,20 +66,16 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("LifeCycle", "onCreate");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("LifeCycle", "onDestroy");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.e("LifeCycle", "onCreateView");
-
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
 
         // setup the layout and base fragment stuff
@@ -109,16 +107,29 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
         // setup the presenter
         MyApplication app = (MyApplication) getContext().getApplicationContext();
         app.getAppComponent().inject(this);
-        mPresenter.registerView(this);
-        mPresenter.init(savedInstanceState == null);
 
         return view;
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPresenter.registerView(this);
+        MainScreenContract.SavedState savedState = null;
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SAVED_STATE))
+            savedState = (MainScreenContract.SavedState) savedInstanceState.getSerializable(KEY_SAVED_STATE);
+        mPresenter.init(savedState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_SAVED_STATE, mPresenter.getSavedState());
+    }
+
+    @Override
     public void onDestroyView() {
         mPresenter.unregisterView();
-        Log.e("LifeCycle", "onDestroyView");
         super.onDestroyView();
     }
 

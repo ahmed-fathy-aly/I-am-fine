@@ -1,10 +1,12 @@
 package com.enterprises.wayne.iamfine.data_model;
 
+import java.io.Serializable;
+
 /**
  * Created by Ahmed on 2/14/2017.
  */
 
-public class WhoAskedDataModel {
+public class WhoAskedDataModel implements Serializable{
     private UserDataModel user;
     private long whenAsked;
 

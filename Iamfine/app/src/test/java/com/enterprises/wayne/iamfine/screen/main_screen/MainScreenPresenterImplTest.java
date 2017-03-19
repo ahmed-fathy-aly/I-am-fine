@@ -9,6 +9,8 @@ import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -79,28 +81,15 @@ public class MainScreenPresenterImplTest {
 
     @Test
     public void testInitFoundData() {
-        doAnswer((invc) -> {
-            UserDataInteractor.GetRecommendedUsersCallback callback
-                    = (UserDataInteractor.GetRecommendedUsersCallback) invc.getArguments()[0];
-            callback.recommendedUsers(USERS_DATA);
-            callback.doneSuccess();
-            return null;
-        }).when(userDataInteractor).getRecommendedUsers(
-                any(UserDataInteractor.GetRecommendedUsersCallback.class));
-        doAnswer((invc) -> {
-            WhoAskedDataInteractor.GetWhoAskedCallback callback
-                    = (WhoAskedDataInteractor.GetWhoAskedCallback) invc.getArguments()[0];
-            callback.thoseAsked(WHO_ASKED_DATA);
-            callback.doneSuccess();
-            return null;
-        }).when(whoAskedDataInteractor).getWhoAsked(
-                any(WhoAskedDataInteractor.GetWhoAskedCallback.class));
+        mockGetRecommendedUsers();
+        mockGetWhoAsked();
 
-        presenter.init(true);
+        presenter.init(null);
 
         verify(view).showLoading();
         verify(view).clearUserList();
         verify(view).showUserList(USERS_VIEW);
+        verify(view).hideWhoAskedAboutYou();
         verify(view).showWhoAskedAboutYou(WHO_ASKED_VIEW);
         verify(view).hideLoading();
         verify(view).disableSearchSubmitButton();
@@ -130,7 +119,7 @@ public class MainScreenPresenterImplTest {
         }).when(whoAskedDataInteractor).getWhoAsked(
                 any(WhoAskedDataInteractor.GetWhoAskedCallback.class));
 
-        presenter.init(true);
+        presenter.init(null);
 
         verify(view).showLoading();
         verify(view).clearUserList();
@@ -145,16 +134,7 @@ public class MainScreenPresenterImplTest {
 
     @Test
     public void testSearchWithResultsFound() {
-        doAnswer((invc) -> {
-            UserDataInteractor.SearchUsersCallback callback
-                    = (UserDataInteractor.SearchUsersCallback) invc.getArguments()[1];
-            callback.foundUsers(USERS_DATA);
-            callback.doneSuccess();
-            return null;
-        }).when(userDataInteractor).searchUsers(
-                eq("abc"),
-                any(UserDataInteractor.SearchUsersCallback.class)
-        );
+        mockSearch("abc");
 
         presenter.onSearchTextSubmit("abc");
 
@@ -189,7 +169,6 @@ public class MainScreenPresenterImplTest {
 
     @Test
     public void testSearchChange() {
-
         int minLength = MainScreenContract.MIN_SEARCH_TEXT_LENGTH;
         for (int i = 0; i < minLength - 1; i++)
             presenter.onSearchTextChanged(createStr(i));
@@ -232,15 +211,7 @@ public class MainScreenPresenterImplTest {
 
     @Test
     public void testOnAskIfUserFineNetworkError(){
-        doAnswer((i) -> {
-            UserDataInteractor.AskAboutUserCallback callback =
-                    (UserDataInteractor.AskAboutUserCallback) i.getArguments()[1];
-            callback.networkError();
-            callback.doneFail();
-            return null;
-        }).when(userDataInteractor).askAboutUser(
-                eq("42"),
-                any(UserDataInteractor.AskAboutUserCallback.class));
+        mockAskAboutuser("42");
 
         presenter.onAskIfUserFine("42");
 
@@ -249,6 +220,7 @@ public class MainScreenPresenterImplTest {
         inOrder.verify(view).showNetworkError();
         inOrder.verify(view).hideLoading();
     }
+
 
     @Test
     public void testonSayIAmFineSuccess() {
@@ -267,6 +239,79 @@ public class MainScreenPresenterImplTest {
         inOrder.verify(view).hideWhoAskedAboutYou();
         inOrder.verify(view).hideLoading();
         inOrder.verifyNoMoreInteractions();
+    }
+
+    @Test
+    public void testGetSavedStateAfterSearch(){
+        mockSearch("abc");
+
+        presenter.onSearchTextChanged("abc");
+        presenter.onSearchTextSubmit("abc");
+
+        MainScreenContract.SavedState savedState  = presenter.getSavedState();
+
+        Assert.assertEquals("abc", savedState.searchText);
+        Assert.assertEquals(USERS_DATA, savedState.searchUsers);
+    }
+
+    @Test
+    public void testGetSavedStateAfterInit(){
+        mockGetWhoAsked();
+        mockGetRecommendedUsers();
+
+        presenter.init(null);
+
+        MainScreenContract.SavedState savedState  = presenter.getSavedState();
+
+        Assert.assertEquals(USERS_DATA, savedState.searchUsers);
+        Assert.assertEquals(WHO_ASKED_DATA, savedState.whoAsked);
+    }
+
+    private void mockSearch(String searchStr) {
+        doAnswer((invc) -> {
+            UserDataInteractor.SearchUsersCallback callback
+                    = (UserDataInteractor.SearchUsersCallback) invc.getArguments()[1];
+            callback.foundUsers(USERS_DATA);
+            callback.doneSuccess();
+            return null;
+        }).when(userDataInteractor).searchUsers(
+                eq(searchStr),
+                any(UserDataInteractor.SearchUsersCallback.class)
+        );
+    }
+
+    private void mockAskAboutuser(String userId) {
+        doAnswer((i) -> {
+            UserDataInteractor.AskAboutUserCallback callback =
+                    (UserDataInteractor.AskAboutUserCallback) i.getArguments()[1];
+            callback.networkError();
+            callback.doneFail();
+            return null;
+        }).when(userDataInteractor).askAboutUser(
+                eq(userId),
+                any(UserDataInteractor.AskAboutUserCallback.class));
+    }
+
+    private void mockGetWhoAsked() {
+        doAnswer((invc) -> {
+            WhoAskedDataInteractor.GetWhoAskedCallback callback
+                    = (WhoAskedDataInteractor.GetWhoAskedCallback) invc.getArguments()[0];
+            callback.thoseAsked(WHO_ASKED_DATA);
+            callback.doneSuccess();
+            return null;
+        }).when(whoAskedDataInteractor).getWhoAsked(
+                any(WhoAskedDataInteractor.GetWhoAskedCallback.class));
+    }
+
+    private void mockGetRecommendedUsers() {
+        doAnswer((invc) -> {
+            UserDataInteractor.GetRecommendedUsersCallback callback
+                    = (UserDataInteractor.GetRecommendedUsersCallback) invc.getArguments()[0];
+            callback.recommendedUsers(USERS_DATA);
+            callback.doneSuccess();
+            return null;
+        }).when(userDataInteractor).getRecommendedUsers(
+                any(UserDataInteractor.GetRecommendedUsersCallback.class));
     }
 
     private String createStr(int length) {

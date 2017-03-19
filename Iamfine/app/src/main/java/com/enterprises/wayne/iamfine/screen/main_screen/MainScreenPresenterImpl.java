@@ -1,6 +1,6 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
-import android.util.Log;
+import android.provider.SyncStateContract;
 
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
@@ -12,8 +12,6 @@ import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 /**
  * Created by Ahmed on 2/11/2017.
@@ -27,7 +25,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     private TrackerInteractor mTracker;
     private MainScreenContract.ModelConverter mModelConverter;
 
-    private String mPrevSearchStr = "";
+    private MainScreenContract.SavedState mSavedState;
 
     public MainScreenPresenterImpl(
             WhoAskedDataInteractor whoAskedInteractor,
@@ -38,6 +36,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
         mUserInteractor = userInteractor;
         mModelConverter = modelConverter;
         mTracker = tracker;
+        mSavedState = new MainScreenContract.SavedState();
         mView = DUMMY_VIEW;
     }
 
@@ -52,15 +51,33 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     }
 
     @Override
-    public void init(boolean firstTime) {
-        mView.showLoading();
-        mUserInteractor.getRecommendedUsers(getRecommendedUsersCallback);
-        if (firstTime) {
-            mWhoAskedInteractor.getWhoAsked(getWhoAskedCallback);
+    public void init(MainScreenContract.SavedState savedInstance) {
+        if (savedInstance != null){
+            mSavedState = savedInstance;
+
+            if (mSavedState.searchText.length() >= MainScreenContract.MIN_SEARCH_TEXT_LENGTH)
+                mView.enableSearchSubmitButton();
+            else
+                mView.disableSearchSubmitButton();
+
+            List<UserDataModel> searchUsers = mSavedState.searchUsers;
+            if (searchUsers != null)
+                showUserList(searchUsers);
+
+            List<WhoAskedDataModel> whoAsked = mSavedState.whoAsked;
+            if (whoAsked != null)
+                showWhoAsked(whoAsked);
+
+        } else{
             mTracker.trackMainScreenOpen();
+
+            mView.disableSearchSubmitButton();
+
+            mView.showLoading();
+            mUserInteractor.getRecommendedUsers(getRecommendedUsersCallback);
+            mWhoAskedInteractor.getWhoAsked(getWhoAskedCallback);
         }
-        mView.disableSearchSubmitButton();
-        mPrevSearchStr = "";
+
         mView.showAd();
     }
 
@@ -73,11 +90,11 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     @Override
     public void onSearchTextChanged(String newStr) {
         int minLength = MainScreenContract.MIN_SEARCH_TEXT_LENGTH;
-        if (mPrevSearchStr.length() < minLength && newStr.length() >= minLength)
+        if (mSavedState.searchText.length() < minLength && newStr.length() >= minLength)
             mView.enableSearchSubmitButton();
-        else if (mPrevSearchStr.length() >= minLength && newStr.length() < minLength)
+        else if (mSavedState.searchText.length() >= minLength && newStr.length() < minLength)
             mView.disableSearchSubmitButton();
-        mPrevSearchStr = newStr;
+        mSavedState.searchText = newStr;
     }
 
     @Override
@@ -93,16 +110,33 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     }
 
     @Override
+    public MainScreenContract.SavedState getSavedState() {
+        return mSavedState;
+    }
+
+    @Override
     public void onExitClicked() {
         mView.close();
+    }
+
+
+    private void showUserList(List<UserDataModel> dataModels) {
+        mView.clearUserList();
+        mView.showUserList(mModelConverter.convertUser(dataModels));
+        mSavedState.searchUsers = dataModels;
+    }
+
+    private void showWhoAsked(List<WhoAskedDataModel> whoAsked) {
+        mView.hideWhoAskedAboutYou();
+        mView.showWhoAskedAboutYou(mModelConverter.convertWhoAsked(whoAsked));
+        mSavedState.whoAsked = whoAsked;
     }
 
     final UserDataInteractor.GetRecommendedUsersCallback getRecommendedUsersCallback =
             new UserDataInteractor.GetRecommendedUsersCallback() {
                 @Override
                 public void recommendedUsers(List<UserDataModel> users) {
-                    mView.clearUserList();
-                    mView.showUserList(mModelConverter.convertUser(users));
+                    showUserList(users);
                 }
 
                 @Override
@@ -135,7 +169,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
             new WhoAskedDataInteractor.GetWhoAskedCallback() {
                 @Override
                 public void thoseAsked(List<WhoAskedDataModel> whoAsked) {
-                    mView.showWhoAskedAboutYou(mModelConverter.convertWhoAsked(whoAsked));
+                    showWhoAsked(whoAsked);
                 }
 
                 @Override
@@ -165,8 +199,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     final UserDataInteractor.SearchUsersCallback searchCallback = new UserDataInteractor.SearchUsersCallback() {
         @Override
         public void foundUsers(List<UserDataModel> users) {
-            mView.clearUserList();
-            mView.showUserList(mModelConverter.convertUser(users));
+            showUserList(users);
         }
 
         @Override

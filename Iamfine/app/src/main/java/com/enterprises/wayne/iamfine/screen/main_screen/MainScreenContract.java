@@ -6,6 +6,7 @@ import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public interface MainScreenContract {
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{
-        void init(boolean firstTime);
+        void init(SavedState savedInstance);
 
         void onSearchTextSubmit(String searchStr);
 
@@ -46,6 +47,18 @@ public interface MainScreenContract {
         void onAskIfUserFine(String userId);
 
         void onSayIAmFine();
+
+        SavedState getSavedState();
+    }
+
+    class SavedState implements Serializable{
+        String searchText;
+        List<UserDataModel> searchUsers;
+        List<WhoAskedDataModel> whoAsked;
+
+        public SavedState(){
+            searchText = "";
+        }
     }
 
     interface ModelConverter{
