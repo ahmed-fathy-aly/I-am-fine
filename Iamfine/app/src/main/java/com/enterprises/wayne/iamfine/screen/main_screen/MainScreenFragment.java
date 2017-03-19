@@ -2,6 +2,7 @@ package com.enterprises.wayne.iamfine.screen.main_screen;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -49,10 +50,10 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     SearchView mSearchView;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.progress_bar)
-    ProgressBar mProgressBar;
     @BindView(R.id.adView)
     AdView mAdView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefresh;
 
     /* fields */
     @Inject
@@ -80,8 +81,11 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
 
         // setup the layout and base fragment stuff
         ButterKnife.bind(this, view);
-        setProgressBar(mProgressBar);
         setViewContent(mViewContent);
+
+        // use a disabled swipe refresh as the progress bar
+        mSwipeRefresh.setEnabled(false);
+        mSwipeRefresh.setColorSchemeResources(R.color.accent);
 
         // setup the search edit text
         mSearchView.setIconifiedByDefault(false);
@@ -205,4 +209,15 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     public void onIamFineClicked() {
         mPresenter.onSayIAmFine();
     }
+
+    @Override
+    public void showLoading() {
+        mSwipeRefresh.setRefreshing(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        mSwipeRefresh.setRefreshing(false);
+    }
+
 }
