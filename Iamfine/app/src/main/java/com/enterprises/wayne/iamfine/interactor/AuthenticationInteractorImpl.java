@@ -109,7 +109,7 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
 
     @Override
     public void signOut() {
-
+        mAuthenticatedUserRepo.clear();
     }
 
 }

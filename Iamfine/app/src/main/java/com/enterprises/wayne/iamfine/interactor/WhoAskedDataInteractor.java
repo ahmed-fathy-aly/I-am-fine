@@ -12,14 +12,16 @@ import java.util.Map;
 public interface WhoAskedDataInteractor {
     void getWhoAsked(GetWhoAskedCallback callback);
 
-    interface GetWhoAskedCallback extends BaseNetworkCallback{
+	interface GetWhoAskedCallback extends BaseNetworkCallback{
         void thoseAsked(List<WhoAskedDataModel> whoAsked);
 
         void noOneAsked();
 
     }
 
-    /**
+	void clearWhoAsked();
+
+	/**
      * make a call to the remote source saying i am find and clearing the local who asked list
      */
     void sayiAmFine(BaseNetworkCallback callback);

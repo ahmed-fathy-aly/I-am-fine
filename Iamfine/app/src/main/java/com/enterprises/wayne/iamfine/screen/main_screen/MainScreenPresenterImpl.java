@@ -5,6 +5,7 @@ import android.provider.SyncStateContract;
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
+import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
@@ -23,6 +24,7 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     private UserDataInteractor mUserInteractor;
     private WhoAskedDataInteractor mWhoAskedInteractor;
     private TrackerInteractor mTracker;
+    private AuthenticationInteractor mAuthenticator;
     private MainScreenContract.ModelConverter mModelConverter;
 
     private MainScreenContract.SavedState mSavedState;
@@ -31,11 +33,13 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
             WhoAskedDataInteractor whoAskedInteractor,
             UserDataInteractor userInteractor,
             TrackerInteractor tracker,
+            AuthenticationInteractor authenticator,
             MainScreenContract.ModelConverter modelConverter) {
         mWhoAskedInteractor = whoAskedInteractor;
         mUserInteractor = userInteractor;
         mModelConverter = modelConverter;
         mTracker = tracker;
+        mAuthenticator = authenticator;
         mSavedState = new MainScreenContract.SavedState();
         mView = DUMMY_VIEW;
     }
@@ -107,6 +111,15 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
     public void onSayIAmFine() {
         mView.showLoading();
         mWhoAskedInteractor.sayiAmFine(sayIAmFineCallback);
+    }
+
+    @Override
+    public void onSignOutClicked() {
+        mAuthenticator.signOut();
+        mWhoAskedInteractor.clearWhoAsked();
+
+        mView.openSignInScreen();
+        mView.close();
     }
 
     @Override
@@ -326,6 +339,11 @@ public class MainScreenPresenterImpl implements MainScreenContract.Presenter {
 
         @Override
         public void showAd() {
+
+        }
+
+        @Override
+        public void openSignInScreen() {
 
         }
 

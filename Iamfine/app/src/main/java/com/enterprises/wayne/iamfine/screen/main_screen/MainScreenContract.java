@@ -35,6 +35,8 @@ public interface MainScreenContract {
         void showCouldntAskAboutUser();
 
         void showAd();
+
+        void openSignInScreen();
     }
 
     interface Presenter extends BaseContract.BasePresenter<View>{
@@ -47,6 +49,8 @@ public interface MainScreenContract {
         void onAskIfUserFine(String userId);
 
         void onSayIAmFine();
+
+        void onSignOutClicked();
 
         SavedState getSavedState();
     }

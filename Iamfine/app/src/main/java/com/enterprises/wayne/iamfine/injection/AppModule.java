@@ -138,8 +138,10 @@ public class AppModule {
     MainScreenContract.Presenter mainScreenPresenter(
             UserDataInteractor userInteractor,
             WhoAskedDataInteractor whoAskedDataInteractor,
+            AuthenticationInteractor authenticator,
             TrackerInteractor tracker,
             MainScreenContract.ModelConverter modelConverter) {
-        return new MainScreenPresenterImpl(whoAskedDataInteractor, userInteractor, tracker, modelConverter);
+        return new MainScreenPresenterImpl(
+                whoAskedDataInteractor, userInteractor, tracker, authenticator, modelConverter);
     }
 }

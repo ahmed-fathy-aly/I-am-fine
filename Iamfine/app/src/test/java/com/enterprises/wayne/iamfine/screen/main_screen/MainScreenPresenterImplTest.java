@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.screen.main_screen;
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
+import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 import com.enterprises.wayne.iamfine.interactor.UserDataInteractor;
 import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
@@ -48,6 +49,8 @@ public class MainScreenPresenterImplTest {
     @Mock
     TrackerInteractor tracker;
     @Mock
+    AuthenticationInteractor authenticator;
+    @Mock
     MainScreenContract.ModelConverter modelConverter;
     @Mock
     MainScreenContract.View view;
@@ -64,6 +67,7 @@ public class MainScreenPresenterImplTest {
                 whoAskedDataInteractor,
                 userDataInteractor,
                 tracker,
+                authenticator,
                 modelConverter);
         presenter.registerView(view);
 
@@ -265,6 +269,20 @@ public class MainScreenPresenterImplTest {
 
         Assert.assertEquals(USERS_DATA, savedState.searchUsers);
         Assert.assertEquals(WHO_ASKED_DATA, savedState.whoAsked);
+    }
+
+    @Test
+    public void testLogoutClicked(){
+        presenter.onSignOutClicked();
+
+        InOrder inOrder = inOrder(view);
+        inOrder.verify(view).openSignInScreen();
+        inOrder.verify(view).close();
+        inOrder.verifyNoMoreInteractions();
+
+        verify(authenticator).signOut();
+
+        verify(whoAskedDataInteractor).clearWhoAsked();
     }
 
     private void mockSearch(String searchStr) {

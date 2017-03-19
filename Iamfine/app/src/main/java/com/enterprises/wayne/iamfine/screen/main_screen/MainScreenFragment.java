@@ -1,25 +1,32 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
+import com.enterprises.wayne.iamfine.base.BaseActivity;
 import com.enterprises.wayne.iamfine.base.BaseFragmentView;
 import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.UserViewAdapterDelegate;
 import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.WhoAskedAdapterDelegate;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
+import com.enterprises.wayne.iamfine.screen.sign_in.SignInActivity;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -67,6 +74,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -82,6 +90,7 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
         // setup the layout and base fragment stuff
         ButterKnife.bind(this, view);
         setViewContent(mViewContent);
+        ((BaseActivity) getActivity()).setSupportActionBar(mToolbar);
 
         // use a disabled swipe refresh as the progress bar
         mSwipeRefresh.setEnabled(false);
@@ -206,6 +215,13 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     }
 
     @Override
+    public void openSignInScreen() {
+        Context context = getContext();
+        if (context != null)
+            startActivity(SignInActivity.newIntent(getContext()));
+    }
+
+    @Override
     public void onIamFineClicked() {
         mPresenter.onSayIAmFine();
     }
@@ -218,6 +234,23 @@ public class MainScreenFragment extends BaseFragmentView implements MainScreenCo
     @Override
     public void hideLoading() {
         mSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main_screem, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_sign_out:
+                mPresenter.onSignOutClicked();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

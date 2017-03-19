@@ -80,6 +80,11 @@ public class WhoAskedInteractorImpl implements WhoAskedDataInteractor {
     }
 
     @Override
+    public void clearWhoAsked() {
+        mLocalRepo.clear();
+    }
+
+    @Override
     public void sayiAmFine(BaseNetworkCallback callback) {
         Observable
                 .defer(() -> {
