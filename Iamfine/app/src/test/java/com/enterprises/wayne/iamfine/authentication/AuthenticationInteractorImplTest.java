@@ -59,7 +59,7 @@ public class AuthenticationInteractorImplTest {
     public void testSignUpSuccessful() throws Exception {
 
         when(authenticationDataSource.signUp("mail", "userName", "pass"))
-                .thenReturn(RemoteAuthenticationDataSource.SignUpResult.success("42", "tok"));
+                .thenReturn(RemoteAuthenticationDataSource.AuthenticationResult.success("42", "tok"));
 
         interactor.signUp("mail", "userName", "pass", signUpCallback);
 
@@ -74,14 +74,11 @@ public class AuthenticationInteractorImplTest {
     public void testSignUpFail() throws Exception {
 
         when(authenticationDataSource.signUp("mail", "userName", "pass"))
-                .thenReturn(RemoteAuthenticationDataSource.SignUpResult.fail(
-                        true, true, true, false, false, false));
+                .thenThrow(new RemoteAuthenticationDataSource.InvalidMailException());
 
         interactor.signUp("mail", "userName", "pass", signUpCallback);
 
         verify(signUpCallback, timeout(100)).invalidEmail();
-        verify(signUpCallback).invalidUserName();
-        verify(signUpCallback).invalidPassword();
         verify(signUpCallback).doneFail();
         verifyNoMoreInteractions(signUpCallback);
 
@@ -89,10 +86,11 @@ public class AuthenticationInteractorImplTest {
     }
 
     @Test
-    public void testSignInSuccess() {
+    public void testSignInSuccess() throws Exception{
 
         when(authenticationDataSource.signIn("email", "password"))
-                .thenReturn(RemoteAuthenticationDataSource.SignInResult.success("42", "tok"));
+                .thenReturn(RemoteAuthenticationDataSource.AuthenticationResult.success("42", "tok"));
+
         interactor.signIn("email", "password", signInCallback);
 
         verify(signInCallback, timeout(100)).doneSuccess();
@@ -102,10 +100,11 @@ public class AuthenticationInteractorImplTest {
     }
 
     @Test
-    public void testSignInFail() {
+    public void testSignInFail() throws Exception{
 
         when(authenticationDataSource.signIn("email", "password"))
-                .thenReturn(RemoteAuthenticationDataSource.SignInResult.fail(true, false, false));
+                .thenThrow(new RemoteAuthenticationDataSource.InvalidCredentialsException());
+
         interactor.signIn("email", "password", signInCallback);
 
         verify(signInCallback, timeout(100)).invalidCredentials();
