@@ -1,7 +1,11 @@
 package com.enterprises.wayne.iamfine.repo.remote;
 
+import android.support.annotation.NonNull;
+
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
@@ -11,6 +15,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.UnknownFormatConversionException;
 import java.util.concurrent.CountDownLatch;
@@ -89,9 +96,26 @@ public class RemoteAuthenticationDataSourceImpl implements RemoteAuthenticationD
 				new NetworkErrorException();
 		}
 
-		FirebaseUser user = request.getResult().getUser();
-		// TODO create the user data
-		return AuthenticationResult.success(user.getUid(), user.getUid());
+		FirebaseUser firebaseUser = request.getResult().getUser();
+		UserDataModel userDataModel = new UserDataModel(firebaseUser.getUid(), name, email, null, System.currentTimeMillis());
+		CountDownLatch createdUserDone = new CountDownLatch(1);
+		Task<Void> createuserRequest = FirebaseDatabase
+				.getInstance()
+				.getReference()
+				.child("users")
+				.child(firebaseUser.getUid())
+				.setValue(userDataModel)
+				.addOnCompleteListener(task -> createdUserDone.countDown());
+		try {
+			createdUserDone.await();
+		} catch (InterruptedException e) {
+		}
+		if (!createuserRequest.isSuccessful()){
+			// here the user is signed up but has no entry in user.....this sucks and I cant fix it
+			throw new UnKnownErrorException();
+		} else{
+			return AuthenticationResult.success(firebaseUser.getUid(), firebaseUser.getUid());
+		}
 	}
 
 }
