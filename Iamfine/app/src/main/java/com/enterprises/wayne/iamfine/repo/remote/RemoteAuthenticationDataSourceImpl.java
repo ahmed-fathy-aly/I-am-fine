@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.UnknownFormatConversionException;
 import java.util.concurrent.CountDownLatch;
 
+import static android.R.attr.name;
+
 /**
  * uses firebase for authnetication
  */
@@ -61,7 +63,7 @@ public class RemoteAuthenticationDataSourceImpl implements RemoteAuthenticationD
 	}
 
 	@Override
-	public AuthenticationResult signUp(String email, String password, String name)
+	public AuthenticationResult signUp(String email, String name, String password)
 			throws InvalidCredentialsException, NetworkErrorException, UnKnownErrorException,
 			InvalidMailException, InvalidUserNameException, InvalidPasswordException, DuplicateMailException {
 		// check the fields are not empty before making the request

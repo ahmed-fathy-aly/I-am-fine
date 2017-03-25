@@ -26,7 +26,7 @@ public interface RemoteAuthenticationDataSource {
 
     class InvalidCredentialsException extends Exception{};
 
-    AuthenticationResult signUp(String email, String password, String name)
+    AuthenticationResult signUp(String email, String name, String password)
             throws InvalidCredentialsException, NetworkErrorException, UnKnownErrorException,
             InvalidMailException, InvalidUserNameException, InvalidPasswordException,
             DuplicateMailException;

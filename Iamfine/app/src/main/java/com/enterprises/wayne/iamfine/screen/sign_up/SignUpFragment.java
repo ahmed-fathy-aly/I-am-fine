@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseFragmentView;
+import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
 
 import javax.inject.Inject;
 
@@ -81,7 +82,7 @@ public class SignUpFragment extends BaseFragmentView implements SignUpContract.V
 
     @Override
     public void goToMainScreen() {
-
+        startActivity(MainScreenActivity.newIntent(getContext()));
     }
 
     @Override
@@ -101,7 +102,7 @@ public class SignUpFragment extends BaseFragmentView implements SignUpContract.V
 
     @Override
     public String getUserName() {
-        return editTextPassword.getText().toString();
+        return editTextUserName.getText().toString();
     }
 
     @Override
