@@ -26,8 +26,6 @@
 
         <activity android:name=".screen.main_screen.MainScreenActivity"/>
 
-        <activity android:name=".loader.LoaderDemoActivity"/>
-
         <provider
             android:name=".database.WhoAskedProvider"
             android:authorities="com.enterprises.wayne.i_am_fine"/>
