@@ -36,6 +36,25 @@ public interface RemoteAuthenticationDataSource {
             signInResult.unknownError = unknownError;
             return signInResult;
         }
+
+        public static SignInResult invalidCredentials(){
+            SignInResult result = new SignInResult();
+            result.invalidCredentials = true;
+            return result;
+        }
+
+        public static SignInResult unknownError(){
+            SignInResult result = new SignInResult();
+            result.unknownError = true;
+            return result;
+        }
+
+
+        public static SignInResult networkError(){
+            SignInResult result = new SignInResult();
+            result.networkError = true;
+            return result;
+        }
     }
 
 
@@ -73,5 +92,42 @@ public interface RemoteAuthenticationDataSource {
             return result;
         }
 
+        public static SignUpResult invalidMail(){
+            SignUpResult result = new SignUpResult();
+            result.invalidEmail = true;
+            return result;
+        }
+
+
+        public static SignUpResult emailAlreadyExists(){
+            SignUpResult result = new SignUpResult();
+            result.emailAlreadyExists = true;
+            return result;
+        }
+
+        public static SignUpResult invalidPass(){
+            SignUpResult result = new SignUpResult();
+            result.invalidPassword = true;
+            return result;
+        }
+
+        public static SignUpResult invalidUserName(){
+            SignUpResult result = new SignUpResult();
+            result.invalidUserName = true;
+            return result;
+        }
+
+        public static SignUpResult unknownError(){
+            SignUpResult result = new SignUpResult();
+            result.unknownError = true;
+            return result;
+        }
+
+
+        public static SignUpResult networkError(){
+            SignUpResult result = new SignUpResult();
+            result.networkError = true;
+            return result;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.enterprises.wayne.iamfine.interactor;
 
+import android.util.Log;
+
 import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepo;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.base.BaseObserver;
@@ -107,6 +109,13 @@ public class AuthenticationInteractorImpl implements AuthenticationInteractor {
                                 callback.networkError();
                             callback.doneFail();
                         }
+                        Log.e("Game", "onNext " + result.success);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Game", "error " + e.getMessage());
+                        super.onError(e);
                     }
                 });
 

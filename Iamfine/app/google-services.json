@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1058274548555-ecfj37hfq9nacvhabdueqvvuf84eugmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enterprises.wayne.iamfine",
+            "certificate_hash": "80119cd1bd3280908b5c5dad4240aab5273ad371"
+          }
+        },
+        {
           "client_id": "1058274548555-va8ii08fh5m9h7vj9fq4delacam45mnc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
