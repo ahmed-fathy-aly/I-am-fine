@@ -12,6 +12,7 @@ public interface RemoteAuthenticationDataSource {
     AuthenticationResult signIn(String email, String password)
             throws InvalidCredentialsException, NetworkErrorException, UnKnownErrorException;
 
+
     class AuthenticationResult {
         public String userId;
         public String token;
