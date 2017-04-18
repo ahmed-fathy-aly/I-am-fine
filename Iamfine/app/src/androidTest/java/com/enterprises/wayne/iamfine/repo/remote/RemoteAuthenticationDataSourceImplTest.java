@@ -21,8 +21,8 @@ public class RemoteAuthenticationDataSourceImplTest {
 
 	@Ignore
 	@Test
-	public void testSignup(){
-		int count = 4;
+	public void testSignup() throws Exception {
+		int count = 1;
 		String mail = String.format("test%d@mail.com", count);
 		String name = String.format("test%d", count);
 		String pass = "abc123";
@@ -31,7 +31,7 @@ public class RemoteAuthenticationDataSourceImplTest {
 
 	@Ignore
 	@Test
-	public void testSignIn(){
+	public void testSignIn() throws Exception{
 		int count = 4;
 		String mail = String.format("test%d@mail.com", count);
 		String pass = "abc123";
