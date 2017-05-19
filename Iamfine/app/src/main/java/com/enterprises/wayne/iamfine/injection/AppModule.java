@@ -27,7 +27,7 @@ import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenContract;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenModelConverter;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenPresenterImpl;
 import com.enterprises.wayne.iamfine.screen.sign_in.SignInContract;
-import com.enterprises.wayne.iamfine.screen.sign_in.SignInPresenter;
+import com.enterprises.wayne.iamfine.screen.sign_in.SignInViewModel;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpContract;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpPresenter;
 import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenContract;
@@ -89,8 +89,8 @@ public class AppModule {
     }
 
     @Provides
-    SignInContract.Presenter signInPresenter(AuthenticationInteractor interactor, TrackerInteractor tracker) {
-        return new SignInPresenter(interactor, tracker);
+    SignInViewModel signInViewModel(AuthenticationInteractor interactor) {
+        return new SignInViewModel(interactor);
     }
 
     @Provides

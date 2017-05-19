@@ -1,8 +1,11 @@
 package com.enterprises.wayne.iamfine.screen.sign_in;
 
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +18,9 @@ import android.widget.ScrollView;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
+import com.enterprises.wayne.iamfine.base.BaseFragment;
+import com.enterprises.wayne.iamfine.injection.AppModule;
+import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpActivity;
 import com.enterprises.wayne.iamfine.base.BaseFragmentView;
@@ -28,7 +34,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignInFragment extends BaseFragmentView implements SignInContract.View {
+public class SignInFragment extends BaseFragment {
 
     /* UI */
     @BindView(R.id.edit_text_mail)
@@ -36,15 +42,17 @@ public class SignInFragment extends BaseFragmentView implements SignInContract.V
     @BindView(R.id.edit_text_password)
     EditText editTextPassword;
     @BindView(R.id.view_content)
-    ScrollView viewContent;
+    View viewContent;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.button_sign_in)
-    Button buttonSignIn;
+    View buttonSignIn;
+	@BindView(R.id.button_sign_up)
+	View buttonSignUp;
 
     /* fields */
     @Inject
-    SignInContract.Presenter mPresenter;
+    SignInViewModel.Factory viewModelFactory;
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
@@ -54,82 +62,34 @@ public class SignInFragment extends BaseFragmentView implements SignInContract.V
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
-        setProgressBar(progressBar);
-        setViewContent(viewContent);
-
-        // create the presenter
-        MyApplication app = (MyApplication) getContext().getApplicationContext();
-        app.getAppComponent().inject(this);
-        mPresenter.registerView(this);
-        mPresenter.onOpenScreen(savedInstanceState == null);
-
-        return view;
+		return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        mPresenter.unregisterView();
-        super.onDestroyView();
-    }
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-    @Override
-    protected boolean onExit() {
-        mPresenter.onExitClicked();
-        return false;
-    }
 
-    @Override
-    public void goToMainScreen() {
-        Context context = getContext();
-        if (context != null)
-            startActivity(MainScreenActivity.newIntent(context));
-    }
+		// create the view model
+		MyApplication app = (MyApplication) getContext().getApplicationContext();
+		app.getAppComponent().inject(this);
+		SignInViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignInViewModel.class);
 
-    @Override
-    public void goToSignUpScreen() {
-        startActivity(SignUpActivity.newIntent(getContext()));
-    }
+		buttonSignIn.setOnClickListener(v -> viewModel.onSignInClicked(editTextMail.getText().toString(), editTextPassword.getText().toString()));
+		buttonSignUp.setOnClickListener(v -> viewModel.onSignUpClicked());
 
-    @Override
-    public String getEmail() {
-        return editTextMail.getText().toString();
-    }
-
-    @Override
-    public String getPassword() {
-        return editTextPassword.getText().toString();
-    }
-
-    @Override
-    public void showInvalidCredentials() {
-        Snackbar.make(viewContent, R.string.invalid_credentials, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void disableSignInButton() {
-        buttonSignIn.setEnabled(false);
-    }
-
-    @Override
-    public void enableSignInButton() {
-        buttonSignIn.setEnabled(true);
-    }
-
-    @OnClick(R.id.button_sign_in)
-    public void onSignInClicked(){
-        mPresenter.onSignInClicked();
-    }
-
-    @OnClick(R.id.button_sign_up)
-    public void onSignUpClicked(){
-        mPresenter.onSignUpClicked();
+		viewModel.getLoadingProgress().observe(this, b -> progressBar.setVisibility(b ? View.VISIBLE : View.INVISIBLE));
+		viewModel.getError().observe(this, resId -> Snackbar.make(viewContent, resId, Snackbar.LENGTH_SHORT).show());
+		viewModel.getSignInEnabled().observe(this, b -> buttonSignIn.setEnabled(b));
+		viewModel.getOpenMainScreen().observe(this, b -> startActivity(MainScreenActivity.newIntent(getContext())));
+		viewModel.getOpenSignUpScreen().observe(this, b -> startActivity(SignUpActivity.newIntent(getContext())));
+		viewModel.getClose().observe(this, b -> getActivity().finish());
+		viewModel.getShowKeyboard().observe(this, b -> showKeyboard(b));
     }
 
 }
