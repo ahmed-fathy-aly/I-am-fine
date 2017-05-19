@@ -67,6 +67,7 @@ public class SignInViewModel extends ViewModel {
 
 	public void onSignUpClicked() {
 		openSignUpScreen.setValue(true);
+		openSignUpScreen.setValue(false);
 	}
 
 	public void onSignInClicked(String email, String password) {

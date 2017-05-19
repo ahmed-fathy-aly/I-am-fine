@@ -36,39 +36,39 @@ import butterknife.OnClick;
  */
 public class SignInFragment extends BaseFragment {
 
-    /* UI */
-    @BindView(R.id.edit_text_mail)
-    EditText editTextMail;
-    @BindView(R.id.edit_text_password)
-    EditText editTextPassword;
-    @BindView(R.id.view_content)
-    View viewContent;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-    @BindView(R.id.button_sign_in)
-    View buttonSignIn;
+	/* UI */
+	@BindView(R.id.edit_text_mail)
+	EditText editTextMail;
+	@BindView(R.id.edit_text_password)
+	EditText editTextPassword;
+	@BindView(R.id.view_content)
+	View viewContent;
+	@BindView(R.id.progress_bar)
+	ProgressBar progressBar;
+	@BindView(R.id.button_sign_in)
+	View buttonSignIn;
 	@BindView(R.id.button_sign_up)
 	View buttonSignUp;
 
-    /* fields */
-    @Inject
-    SignInViewModel.Factory viewModelFactory;
+	/* fields */
+	@Inject
+	SignInViewModel.Factory viewModelFactory;
 
-    public static SignInFragment newInstance() {
-        return new SignInFragment();
-    }
+	public static SignInFragment newInstance() {
+		return new SignInFragment();
+	}
 
-    public SignInFragment() {
-        // Required empty public constructor
-    }
+	public SignInFragment() {
+		// Required empty public constructor
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
-        ButterKnife.bind(this, view);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+		ButterKnife.bind(this, view);
 		return view;
-    }
+	}
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -87,9 +87,12 @@ public class SignInFragment extends BaseFragment {
 		viewModel.getError().observe(this, resId -> Snackbar.make(viewContent, resId, Snackbar.LENGTH_SHORT).show());
 		viewModel.getSignInEnabled().observe(this, b -> buttonSignIn.setEnabled(b));
 		viewModel.getOpenMainScreen().observe(this, b -> startActivity(MainScreenActivity.newIntent(getContext())));
-		viewModel.getOpenSignUpScreen().observe(this, b -> startActivity(SignUpActivity.newIntent(getContext())));
+		viewModel.getOpenSignUpScreen().observe(this, b -> {
+			if (b)
+				startActivity(SignUpActivity.newIntent(getContext()));
+		});
 		viewModel.getClose().observe(this, b -> getActivity().finish());
 		viewModel.getShowKeyboard().observe(this, b -> showKeyboard(b));
-    }
+	}
 
 }
