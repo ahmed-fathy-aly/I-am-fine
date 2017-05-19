@@ -88,8 +88,10 @@ public class SignInFragment extends BaseFragment {
 		viewModel.getSignInEnabled().observe(this, b -> buttonSignIn.setEnabled(b));
 		viewModel.getOpenMainScreen().observe(this, b -> startActivity(MainScreenActivity.newIntent(getContext())));
 		viewModel.getOpenSignUpScreen().observe(this, b -> {
-			if (b)
+			if (b) {
 				startActivity(SignUpActivity.newIntent(getContext()));
+				viewModel.doneOpeningSignUp();
+			}
 		});
 		viewModel.getClose().observe(this, b -> getActivity().finish());
 		viewModel.getShowKeyboard().observe(this, b -> showKeyboard(b));

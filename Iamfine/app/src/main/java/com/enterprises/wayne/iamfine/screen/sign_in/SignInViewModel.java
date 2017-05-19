@@ -67,6 +67,9 @@ public class SignInViewModel extends ViewModel {
 
 	public void onSignUpClicked() {
 		openSignUpScreen.setValue(true);
+	}
+
+	public void doneOpeningSignUp() {
 		openSignUpScreen.setValue(false);
 	}
 
@@ -106,6 +109,7 @@ public class SignInViewModel extends ViewModel {
 			}
 		});
 	}
+
 
 	public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
