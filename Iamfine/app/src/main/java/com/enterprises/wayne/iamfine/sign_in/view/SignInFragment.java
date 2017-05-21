@@ -1,9 +1,7 @@
-package com.enterprises.wayne.iamfine.screen.sign_in;
+package com.enterprises.wayne.iamfine.sign_in.view;
 
 
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -11,25 +9,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseFragment;
-import com.enterprises.wayne.iamfine.injection.AppModule;
-import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpActivity;
-import com.enterprises.wayne.iamfine.base.BaseFragmentView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,23 +70,33 @@ public class SignInFragment extends BaseFragment {
 		// create the view model
 		MyApplication app = (MyApplication) getContext().getApplicationContext();
 		app.getAppComponent().inject(this);
+
 		SignInViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(SignInViewModel.class);
 
 		buttonSignIn.setOnClickListener(v -> viewModel.onSignInClicked(editTextMail.getText().toString(), editTextPassword.getText().toString()));
 		buttonSignUp.setOnClickListener(v -> viewModel.onSignUpClicked());
 
 		viewModel.getLoadingProgress().observe(this, b -> progressBar.setVisibility(b ? View.VISIBLE : View.INVISIBLE));
-		viewModel.getError().observe(this, resId -> Snackbar.make(viewContent, resId, Snackbar.LENGTH_SHORT).show());
+		viewModel.getMessage().observe(this, resId -> Snackbar.make(viewContent, resId, Snackbar.LENGTH_SHORT).show());
 		viewModel.getSignInEnabled().observe(this, b -> buttonSignIn.setEnabled(b));
 		viewModel.getOpenMainScreen().observe(this, b -> startActivity(MainScreenActivity.newIntent(getContext())));
 		viewModel.getOpenSignUpScreen().observe(this, b -> {
 			if (b) {
 				startActivity(SignUpActivity.newIntent(getContext()));
-				viewModel.doneOpeningSignUp();
 			}
 		});
 		viewModel.getClose().observe(this, b -> getActivity().finish());
 		viewModel.getShowKeyboard().observe(this, b -> showKeyboard(b));
+		viewModel.getEmailError().observe(this, resId -> {
+			if (resId != null) {
+				editTextMail.setError(getString(resId));
+			}
+		});
+		viewModel.getPasswordError().observe(this, resId -> {
+			if (resId != null) {
+				editTextPassword.setError(getString(resId));
+			}
+		});
 	}
 
 }

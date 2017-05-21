@@ -2,19 +2,13 @@ package com.enterprises.wayne.iamfine.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
-import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
-import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
 import java.util.List;
-
-import static android.R.style.Widget;
 
 public class WidgetViewFactory implements RemoteViewsService.RemoteViewsFactory {
 	private List<WhoAskedWidgetViewModel> mData;

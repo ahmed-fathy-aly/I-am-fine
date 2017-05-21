@@ -1,8 +1,8 @@
 package com.enterprises.wayne.iamfine.repo.remote;
 
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;
-import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 
 import java.util.List;
 

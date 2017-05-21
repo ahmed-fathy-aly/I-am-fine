@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import timber.log.Timber;
-
 /**
  * Created by Ahmed on 2/18/2017.
  */

@@ -1,12 +1,10 @@
 package com.enterprises.wayne.iamfine.interactor;
 
-import android.util.Log;
-
+import com.enterprises.wayne.iamfine.base.BaseObserver;
 import com.enterprises.wayne.iamfine.exception.NetworkErrorException;
 import com.enterprises.wayne.iamfine.exception.UnKnownErrorException;
 import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepo;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteAuthenticationDataSource;
-import com.enterprises.wayne.iamfine.base.BaseObserver;
 
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;

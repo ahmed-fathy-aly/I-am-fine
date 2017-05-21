@@ -1,7 +1,6 @@
 package com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.screen.main_screen.view.WhoAskedCard;
-import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewDelegate;
 

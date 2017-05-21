@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseActivity;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
-import com.enterprises.wayne.iamfine.screen.sign_in.SignInActivity;
+import com.enterprises.wayne.iamfine.sign_in.view.SignInActivity;
 
 import javax.inject.Inject;
 

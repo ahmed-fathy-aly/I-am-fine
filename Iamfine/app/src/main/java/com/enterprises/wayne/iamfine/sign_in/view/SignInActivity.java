@@ -1,11 +1,10 @@
-package com.enterprises.wayne.iamfine.screen.sign_in;
+package com.enterprises.wayne.iamfine.sign_in.view;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.enterprises.wayne.iamfine.base.BaseFragment;
 import com.enterprises.wayne.iamfine.base.BaseFragmentActivity;
-import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenFragment;
 
 /**
  * Created by Ahmed on 2/5/2017.

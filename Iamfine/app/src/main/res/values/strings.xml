@@ -9,7 +9,8 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="new_user_sign_up">New User? Sign Up</string>
-    <string name="invalid_credentials">Invalid Email/Password</string>
+    <string name="email_not_found">That email is not registered</string>
+    <string name="wrong_password">That password is incorrect</string>
 
 
     <!-- sign up -->

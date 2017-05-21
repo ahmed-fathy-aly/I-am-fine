@@ -1,6 +1,5 @@
 package com.enterprises.wayne.iamfine.screen.splash_screen;
 
-import com.enterprises.wayne.iamfine.base.BaseContract;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
 import com.enterprises.wayne.iamfine.interactor.TrackerInteractor;
 

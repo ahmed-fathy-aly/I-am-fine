@@ -10,8 +10,6 @@ import com.enterprises.wayne.iamfine.notification.NotificationsConstant;
 import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
 import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

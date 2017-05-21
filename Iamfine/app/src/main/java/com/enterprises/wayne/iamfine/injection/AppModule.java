@@ -2,7 +2,9 @@ package com.enterprises.wayne.iamfine.injection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 
+import com.enterprises.wayne.iamfine.app.Configuration;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
@@ -26,17 +28,24 @@ import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepoImpl;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenContract;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenModelConverter;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenPresenterImpl;
-import com.enterprises.wayne.iamfine.screen.sign_in.SignInContract;
-import com.enterprises.wayne.iamfine.screen.sign_in.SignInViewModel;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpContract;
 import com.enterprises.wayne.iamfine.screen.sign_up.SignUpPresenter;
 import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenContract;
 import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenPresenter;
+import com.enterprises.wayne.iamfine.sign_in.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.sign_in.model.CurrentUserPreferencesStorage;
+import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
+import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
+import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
+import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
+import com.enterprises.wayne.iamfine.sign_in.view.SignInViewModel;
 
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Ahmed on 2/5/2017.
@@ -54,6 +63,14 @@ public class AppModule {
     @Provides
     Context context() {
         return mContext;
+    }
+
+    @Provides
+    Retrofit retrofit() {
+        return new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Configuration.API_URL)
+                .build();
     }
 
     @Provides
@@ -86,11 +103,6 @@ public class AppModule {
                 authenticatedUserRepo,
                 Schedulers.io(),
                 AndroidSchedulers.mainThread());
-    }
-
-    @Provides
-    SignInViewModel signInViewModel(AuthenticationInteractor interactor) {
-        return new SignInViewModel(interactor);
     }
 
     @Provides

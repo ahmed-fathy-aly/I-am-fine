@@ -4,19 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
@@ -26,7 +23,7 @@ import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.UserVie
 import com.enterprises.wayne.iamfine.screen.main_screen.adapter_delegate.WhoAskedAdapterDelegate;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.UserViewModel;
 import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
-import com.enterprises.wayne.iamfine.screen.sign_in.SignInActivity;
+import com.enterprises.wayne.iamfine.sign_in.view.SignInActivity;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;

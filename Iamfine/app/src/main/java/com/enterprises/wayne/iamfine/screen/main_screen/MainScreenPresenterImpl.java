@@ -1,7 +1,5 @@
 package com.enterprises.wayne.iamfine.screen.main_screen;
 
-import android.provider.SyncStateContract;
-
 import com.enterprises.wayne.iamfine.base.BaseNetworkCallback;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;

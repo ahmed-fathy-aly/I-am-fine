@@ -1,14 +1,11 @@
 package com.enterprises.wayne.iamfine.widget;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.util.Log;
 import android.widget.RemoteViewsService;
 
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
-import com.enterprises.wayne.iamfine.screen.main_screen.view_model.WhoAskedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

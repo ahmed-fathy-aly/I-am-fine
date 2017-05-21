@@ -2,11 +2,9 @@ package com.enterprises.wayne.iamfine.base;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.enterprises.wayne.iamfine.screen.sign_in.SignInContract;
 
 /**
  * Created by Ahmed on 2/5/2017.
