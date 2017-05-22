@@ -1,10 +1,10 @@
-package com.enterprises.wayne.iamfine.sign_in.model;
+package com.enterprises.wayne.iamfine.common.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 
-import com.enterprises.wayne.iamfine.repo.local.AuthenticatedUserRepoImpl;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserPreferencesStorage;
 
 import org.junit.After;
 import org.junit.Before;

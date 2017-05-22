@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.sign_in.model;
+package com.enterprises.wayne.iamfine.common.model;
 
 import android.content.SharedPreferences;
 

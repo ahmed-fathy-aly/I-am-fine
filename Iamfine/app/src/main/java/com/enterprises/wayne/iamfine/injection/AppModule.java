@@ -2,9 +2,10 @@ package com.enterprises.wayne.iamfine.injection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 
 import com.enterprises.wayne.iamfine.app.Configuration;
+import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserPreferencesStorage;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
 import com.enterprises.wayne.iamfine.interactor.AuthenticationInteractor;
@@ -28,17 +29,8 @@ import com.enterprises.wayne.iamfine.repo.remote.RemoteWhoAskedRepoImpl;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenContract;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenModelConverter;
 import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenPresenterImpl;
-import com.enterprises.wayne.iamfine.screen.sign_up.SignUpContract;
-import com.enterprises.wayne.iamfine.screen.sign_up.SignUpPresenter;
 import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenContract;
 import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenPresenter;
-import com.enterprises.wayne.iamfine.sign_in.model.CurrectUserStorage;
-import com.enterprises.wayne.iamfine.sign_in.model.CurrentUserPreferencesStorage;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
-import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
-import com.enterprises.wayne.iamfine.sign_in.view.SignInViewModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -84,6 +76,12 @@ public class AppModule {
     }
 
     @Provides
+    CurrectUserStorage currentUserStorage(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("i_am_fine_current_user", Context.MODE_PRIVATE);
+        return new CurrentUserPreferencesStorage(preferences);
+    }
+
+    @Provides
     AuthenticatedUserRepo authenticatedUserRepo(SharedPreferences prefs) {
         return new AuthenticatedUserRepoImpl(prefs);
     }
@@ -105,10 +103,6 @@ public class AppModule {
                 AndroidSchedulers.mainThread());
     }
 
-    @Provides
-    SignUpContract.Presenter signUpPresenter(AuthenticationInteractor interactor, TrackerInteractor tracker) {
-        return new SignUpPresenter(interactor, tracker);
-    }
 
     @Provides
     TimeFormatter timeFormatter() {

@@ -1,6 +1,6 @@
 package com.enterprises.wayne.iamfine.sign_in.repo;
 
-import com.enterprises.wayne.iamfine.sign_in.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
 

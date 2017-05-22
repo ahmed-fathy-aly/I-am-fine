@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.screen.sign_up;
+package com.enterprises.wayne.iamfine.sign_up.view;
 
 import android.content.Context;
 import android.content.Intent;

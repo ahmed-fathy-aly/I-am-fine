@@ -1,10 +1,6 @@
 package com.enterprises.wayne.iamfine.sign_in.injection;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.enterprises.wayne.iamfine.sign_in.model.CurrectUserStorage;
-import com.enterprises.wayne.iamfine.sign_in.model.CurrentUserPreferencesStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
@@ -35,12 +31,6 @@ public class SignInModule {
 	@Provides
 	SignInApiDataSource.API signInDataSourceAPi(Retrofit retrofit) {
 		return retrofit.create(SignInApiDataSource.API.class);
-	}
-
-	@Provides
-	CurrectUserStorage currentUserStorage(Context context) {
-		SharedPreferences preferences = context.getSharedPreferences("i_am_fine_current_user", Context.MODE_PRIVATE);
-		return new CurrentUserPreferencesStorage(preferences);
 	}
 
 	@Provides
