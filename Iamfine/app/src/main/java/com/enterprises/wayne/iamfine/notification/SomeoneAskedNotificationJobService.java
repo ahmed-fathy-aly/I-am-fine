@@ -8,24 +8,17 @@ import android.util.Log;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
-import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
-import com.enterprises.wayne.iamfine.interactor.WhoAskedDataInteractor;
-import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
+import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 /**
  * updates the local database when we get a "someone asked" notification
  */
 public class SomeoneAskedNotificationJobService extends JobService{
-
-	@Inject
-	WhoAskedDataInteractor mWhoAskedInteractor;
 
 	@Override
 	public boolean onStartJob(JobParameters job) {
@@ -44,13 +37,10 @@ public class SomeoneAskedNotificationJobService extends JobService{
 					data.put(key, job.getExtras().getString(key));
 
 		// update the database
-		WhoAskedDataModel dataModel = mWhoAskedInteractor.updateWhoAsked(data);
-
+		// TODO
  		Log.e("GCM", "done someone asked job");
 
 		// make a notification
-		if (dataModel != null && dataModel.getUser() != null && dataModel.getUser().getName() != null)
-		showNotification(dataModel.getUser().getName());
 
 		return false;
 	}

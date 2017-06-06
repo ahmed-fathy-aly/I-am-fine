@@ -8,8 +8,6 @@ import android.view.ViewGroup;
  */
 
 public interface GenericRecyclerViewDelegate<VH extends RecyclerView.ViewHolder> {
-    int getViewType();
-
     VH createViewHolder(ViewGroup parent);
 
     void onBindViewHolder(VH holder);

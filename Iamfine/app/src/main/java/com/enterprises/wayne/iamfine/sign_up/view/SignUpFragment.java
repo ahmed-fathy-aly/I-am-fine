@@ -16,7 +16,7 @@ import android.widget.ScrollView;
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseFragment;
-import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
+import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 
 import javax.inject.Inject;
 

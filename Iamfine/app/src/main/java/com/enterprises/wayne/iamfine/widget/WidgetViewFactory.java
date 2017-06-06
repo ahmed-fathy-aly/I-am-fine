@@ -6,7 +6,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
+import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 
 import java.util.List;
 

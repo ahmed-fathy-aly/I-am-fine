@@ -5,7 +5,6 @@ import android.widget.RemoteViewsService;
 
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
-import com.enterprises.wayne.iamfine.repo.local.LocalWhoAskedRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +13,13 @@ import javax.inject.Inject;
 
 public class WidgetService extends RemoteViewsService {
 
-	@Inject
-	LocalWhoAskedRepo whoAskedRepo;
 
 	@Override
 	public RemoteViewsFactory onGetViewFactory(Intent intent) {
 		// read data model from the database
 		MyApplication app = (MyApplication) getApplication();
 		app.getAppComponent().inject(this);
-		List<WhoAskedDataModel> dataModels = whoAskedRepo.getWhoAsked();
+		List<WhoAskedDataModel> dataModels = null; // TODO
 
 		// convert to a view model
 		List<WhoAskedWidgetViewModel> viewModels = new ArrayList<>();

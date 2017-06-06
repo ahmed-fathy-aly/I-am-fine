@@ -10,7 +10,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenActivity;
+import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 
 public class WidgetProvider extends AppWidgetProvider {
 

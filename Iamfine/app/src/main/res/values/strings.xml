@@ -22,7 +22,7 @@
     <string name="email_already_exits">A user with e-mail already exists</string>
 
     <!-- main screen -->
-    <string name="search_users">Search For friends</string>
+    <string name="search_users">Search</string>
     <string name="ask_if_fine">Ask \"How are you ?\"</string>
     <string name="was_fine_when">Was fine %1$s</string>
     <string name="could_not_ask">An error has occured, Couldn\'t ask about that user</string>
@@ -30,6 +30,9 @@
     <string name="your_friends_asked_about_you">Your friends asked about you!</string>
     <string name="i_am_fine">I am fine</string>
     <string name="sign_out">Sign Out</string>
+
+    <!-- search users -->
+    <string name="search_by_name">Search for friends by name</string>
 
     <!-- notifications -->
     <string name="x_asked_about_you">%1$s asked about you</string>

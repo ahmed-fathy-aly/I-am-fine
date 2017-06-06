@@ -13,22 +13,18 @@
         android:theme="@style/AppTheme"
         android:name=".app.MyApplication">
 
-        <activity android:name=".screen.splash_screen.SplashScreenActivity">
+
+        <activity android:name=".sign_in.view.SignInActivity"/>
+
+        <activity android:name=".sign_up.view.SignUpActivity"/>
+
+        <activity android:name=".main_screen.parent.MainScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".sign_in.view.SignInActivity"/>
-
-        <activity android:name=".sign_up.view.SignUpActivity"/>
-
-        <activity android:name=".screen.main_screen.MainScreenActivity"/>
-
-        <provider
-            android:name=".database.WhoAskedProvider"
-            android:authorities="com.enterprises.wayne.i_am_fine"/>
 
         <service
             android:name=".notification.FirebaseTokenService">

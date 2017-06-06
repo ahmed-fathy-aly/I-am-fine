@@ -1,8 +1,7 @@
 package com.enterprises.wayne.iamfine.injection;
 
+import com.enterprises.wayne.iamfine.main_screen.search_users.view.SearchUsersFragment;
 import com.enterprises.wayne.iamfine.notification.SomeoneAskedNotificationJobService;
-import com.enterprises.wayne.iamfine.screen.main_screen.MainScreenFragment;
-import com.enterprises.wayne.iamfine.screen.splash_screen.SplashScreenActivity;
 import com.enterprises.wayne.iamfine.sign_in.injection.SignInModule;
 import com.enterprises.wayne.iamfine.sign_in.view.SignInFragment;
 import com.enterprises.wayne.iamfine.sign_up.injection.SignUpModule;
@@ -22,11 +21,10 @@ public interface AppComponent {
 
     void inject(SignUpFragment signUpFragment);
 
-    void inject(MainScreenFragment mainScreenFragment);
+	void inject(SearchUsersFragment searchUsersFragment);
 
 	void inject(SomeoneAskedNotificationJobService someoneAskedNotificationJobService);
 
 	void inject(WidgetService widgetService);
 
-	void inject(SplashScreenActivity splashScreenActivity);
 }
