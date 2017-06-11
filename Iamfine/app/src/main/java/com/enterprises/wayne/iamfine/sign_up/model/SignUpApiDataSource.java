@@ -2,6 +2,8 @@ package com.enterprises.wayne.iamfine.sign_up.model;
 
 import android.support.annotation.NonNull;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -20,17 +22,17 @@ public class SignUpApiDataSource implements SignUpDataSource {
 
 	@NonNull
 	@Override
-	public SignUpDataSource.SignUpResponse getSignUpResponse(@NonNull String email, @NonNull String name, @NonNull String password) {
+	public CommonResponses.DataResponse getSignUpResponse(@NonNull String email, @NonNull String name, @NonNull String password) {
 		Response<SignUpResponse> response;
 		try {
 			response = api.signIn(new SignUpRequest(email, name, password)).execute();
 		} catch (IOException e) {
-			return new NetworkErrorResponse();
+			return new CommonResponses.NetworkErrorResponse();
 		}
 
 		if (response.body() != null) {
 			if (response.body().ok == 1 && response.body().id != null && response.body().token != null)
-				return new SuccessResponse(response.body().id, response.body().token);
+				return new SuccessSignUpResponse(response.body().id, response.body().token);
 
 			if (response.body().ok == 0 && response.body().errors != null) {
 				if (response.body().errors.contains("duplicate_mail"))
@@ -43,7 +45,7 @@ public class SignUpApiDataSource implements SignUpDataSource {
 			}
 		}
 
-		return new ServerErrorResponse();
+		return new CommonResponses.ServerErrorResponse();
 	}
 
 	public interface API {

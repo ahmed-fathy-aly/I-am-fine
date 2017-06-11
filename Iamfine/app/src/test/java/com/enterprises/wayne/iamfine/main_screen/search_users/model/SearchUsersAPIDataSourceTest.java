@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.main_screen.search_users.model;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 
@@ -55,10 +56,10 @@ public class SearchUsersAPIDataSourceTest {
 				"        }" +
 				"]" +
 				"}"));
-		SearchUsersDataSource.SearchUsersResponse response = dataSource.searchUsers("", "");
+		CommonResponses.DataResponse response = dataSource.searchUsers("", "");
 
-		assertTrue(response instanceof  SearchUsersDataSource.SuccessResponse);
-		List<UserDataModel> users = ((SearchUsersDataSource.SuccessResponse) response).users;
+		assertTrue(response instanceof SearchUsersDataSource.SuccessSearchUsersResponse);
+		List<UserDataModel> users = ((SearchUsersDataSource.SuccessSearchUsersResponse) response).users;
 		assertEquals(1, users.size());
 		assertEquals("593d20bc57667c0e91280891", users.get(0).getId());
 		assertEquals("test1", users.get(0).getName());
@@ -73,7 +74,7 @@ public class SearchUsersAPIDataSourceTest {
 				"    \"error\": \"invalid_user_name\"\n" +
 				"}"));
 
-		SearchUsersDataSource.SearchUsersResponse response = dataSource.searchUsers("", "");
+		CommonResponses.DataResponse response = dataSource.searchUsers("", "");
 		assertTrue(response instanceof SearchUsersDataSource.InvalidNameResponse);
 	}
 
@@ -85,7 +86,7 @@ public class SearchUsersAPIDataSourceTest {
 				"    \"error\": \"unauthorized\"\n" +
 				"}"));
 
-		SearchUsersDataSource.SearchUsersResponse response = dataSource.searchUsers("", "");
+		CommonResponses.DataResponse response = dataSource.searchUsers("", "");
 		assertTrue(response instanceof SearchUsersDataSource.AuthenticationError);
 	}
 

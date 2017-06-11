@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.R;
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 import com.enterprises.wayne.iamfine.sign_up.repo.SignUpRepo;
 
@@ -120,10 +121,10 @@ public class SignUpViewModel extends ViewModel {
 				.subscribe(response -> {
 							loadingProgress.setValue(false);
 
-							if (response instanceof SignUpDataSource.SuccessResponse) {
+							if (response instanceof SignUpDataSource.SuccessSignUpResponse) {
 								openMainScreen.setValue(true);
 								close.setValue(true);
-							} else if (response instanceof SignUpDataSource.FailResponse) {
+							} else if (response instanceof CommonResponses.FailResponse) {
 								signUpEnabled.setValue(true);
 
 								if (response instanceof SignUpDataSource.DuplicateEmailResponse) {
@@ -136,7 +137,7 @@ public class SignUpViewModel extends ViewModel {
 										nameError.setValue(R.string.invalid_user_name);
 									if (((SignUpDataSource.InvalidArgumentResponse) response).invalidPassword)
 										passwordError.setValue(R.string.invalid_password);
-								} else if (response instanceof SignUpDataSource.NetworkErrorResponse) {
+								} else if (response instanceof CommonResponses.NetworkErrorResponse) {
 									message.setValue(R.string.network_error);
 								} else {
 									message.setValue(R.string.something_went_wrong);

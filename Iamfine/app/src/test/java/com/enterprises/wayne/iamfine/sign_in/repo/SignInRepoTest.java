@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.sign_in.repo;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
@@ -38,7 +39,7 @@ public class SignInRepoTest {
 		when(validator.isValidEmail(eq("a"))).thenReturn(false);
 		when(validator.isValidPassword(eq("b"))).thenReturn(false);
 
-		SignInDataSource.SignInResponse result = repo.signIn("a", "b");
+		CommonResponses.DataResponse result = repo.signIn("a", "b");
 		assertTrue(result instanceof SignInDataSource.InvalidArgumentResponse);
 		assertTrue(((SignInDataSource.InvalidArgumentResponse) result).invalidMail);
 		assertTrue(((SignInDataSource.InvalidArgumentResponse) result).invalidPassword);
@@ -51,7 +52,8 @@ public class SignInRepoTest {
 	public void testFailRemote() {
 		when(validator.isValidEmail(eq("a"))).thenReturn(true);
 		when(validator.isValidPassword(eq("b"))).thenReturn(true);
-		SignInDataSource.FailResponse failedResponse = new SignInDataSource.FailResponse() {
+		CommonResponses.FailResponse failedResponse = new CommonResponses.FailResponse() {
+
 		};
 		when(dataSource.getSignInResponse(eq("a"), eq("b")))
 				.thenReturn(failedResponse);
@@ -65,7 +67,7 @@ public class SignInRepoTest {
 	public void testSuccess() throws Exception {
 		when(validator.isValidEmail(eq("a"))).thenReturn(true);
 		when(validator.isValidPassword(eq("b"))).thenReturn(true);
-		SignInDataSource.SuccessResponse successResponse = new SignInDataSource.SuccessResponse("123", "tok");
+		SignInDataSource.SuccessSignInResponse successResponse = new SignInDataSource.SuccessSignInResponse("123", "tok");
 		when(dataSource.getSignInResponse(eq("a"), eq("b")))
 				.thenReturn(successResponse);
 

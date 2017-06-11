@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.main_screen.search_users.repo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 
@@ -17,7 +18,7 @@ public class SearchUsersRepo {
 	}
 
 	@NonNull
-	public SearchUsersDataSource.SearchUsersResponse searchUsers(@NonNull String searchString) {
+	public CommonResponses.DataResponse searchUsers(@NonNull String searchString) {
 		// check authenticated user
 		String token = userStorage.getToken();
 		if (!userStorage.hasUserSaved() || token == null) {

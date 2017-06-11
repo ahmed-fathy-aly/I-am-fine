@@ -4,6 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
 
 import com.enterprises.wayne.iamfine.R;
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
@@ -28,10 +29,8 @@ import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.timeout;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @Ignore // takes time to run bec. of the delays in the test
@@ -81,7 +80,7 @@ public class SearchUsersViewModelTest {
 		List<UserDataModel> USERS = Arrays.asList(
 				new UserDataModel("1", "name1", "mail1", "image", 42)
 		);
-		when(repo.searchUsers(eq("abc"))).thenReturn(new SearchUsersDataSource.SuccessResponse(USERS));
+		when(repo.searchUsers(eq("abc"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(USERS));
 
 		viewModel.onSearchTextChanged("abc");
 
@@ -102,7 +101,7 @@ public class SearchUsersViewModelTest {
 
 	@Test
 	public void testSearchNetworkError() {
-		when(repo.searchUsers(eq("abc"))).thenReturn(new SearchUsersDataSource.NetworkErrorResponse());
+		when(repo.searchUsers(eq("abc"))).thenReturn(new CommonResponses.NetworkErrorResponse());
 
 		viewModel.onSearchTextChanged("abc");
 
@@ -115,7 +114,7 @@ public class SearchUsersViewModelTest {
 
 	@Test
 	public void testSearchServerError() {
-		when(repo.searchUsers(eq("abc"))).thenReturn(new SearchUsersDataSource.ServerErrorResponse());
+		when(repo.searchUsers(eq("abc"))).thenReturn(new CommonResponses.ServerErrorResponse());
 
 		viewModel.onSearchTextChanged("abc");
 

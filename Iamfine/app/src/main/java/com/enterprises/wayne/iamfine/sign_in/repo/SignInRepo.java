@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.sign_in.repo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
@@ -30,7 +31,7 @@ public class SignInRepo {
 	}
 
 	@NonNull
-	public SignInDataSource.SignInResponse signIn(@Nullable String mail, @Nullable String password) {
+	public CommonResponses.DataResponse signIn(@Nullable String mail, @Nullable String password) {
 		// prev validations
 		boolean validMail = validator.isValidEmail(mail);
 		boolean validPassword = validator.isValidPassword(password);
@@ -38,9 +39,9 @@ public class SignInRepo {
 			return new SignInDataSource.InvalidArgumentResponse(!validMail, !validPassword);
 
 		// if it's a success response then save to the storage
-		SignInDataSource.SignInResponse response = dataSource.getSignInResponse(mail, password);
-		if (response instanceof SignInDataSource.SuccessResponse) {
-			SignInDataSource.SuccessResponse successResponse = (SignInDataSource.SuccessResponse) response;
+		CommonResponses.DataResponse response = dataSource.getSignInResponse(mail, password);
+		if (response instanceof SignInDataSource.SuccessSignInResponse) {
+			SignInDataSource.SuccessSignInResponse successResponse = (SignInDataSource.SuccessSignInResponse) response;
 			currectUserStorage.saveUser(successResponse.id, successResponse.token);
 		}
 

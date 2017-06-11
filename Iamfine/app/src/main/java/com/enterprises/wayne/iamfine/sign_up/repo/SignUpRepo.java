@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.sign_up.repo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpValidator;
@@ -26,7 +27,7 @@ public class SignUpRepo {
 	}
 
 	@NonNull
-	public SignUpDataSource.SignUpResponse signUp(@Nullable String email, @Nullable String name, @Nullable String password) {
+	public CommonResponses.DataResponse signUp(@Nullable String email, @Nullable String name, @Nullable String password) {
 		// pre validations
 		boolean validMail = validator.isValidEmail(email);
 		boolean validName = validator.isValidName(name);
@@ -35,9 +36,9 @@ public class SignUpRepo {
 			return new SignUpDataSource.InvalidArgumentResponse(!validMail, !validName, !validPassword);
 
 		// if it's a success response then save to the storage
-		SignUpDataSource.SignUpResponse response = dataSource.getSignUpResponse(email, name, password);
-		if (response instanceof SignUpDataSource.SuccessResponse) {
-			SignUpDataSource.SuccessResponse successResponse = (SignUpDataSource.SuccessResponse) response;
+		CommonResponses.DataResponse response = dataSource.getSignUpResponse(email, name, password);
+		if (response instanceof SignUpDataSource.SuccessSignUpResponse) {
+			SignUpDataSource.SuccessSignUpResponse successResponse = (SignUpDataSource.SuccessSignUpResponse) response;
 			userStorage.saveUser(successResponse.id, successResponse.token);
 		}
 

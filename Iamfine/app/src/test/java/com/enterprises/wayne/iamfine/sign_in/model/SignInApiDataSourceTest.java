@@ -1,5 +1,7 @@
 package com.enterprises.wayne.iamfine.sign_in.model;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,10 +39,10 @@ public class SignInApiDataSourceTest {
 				"  \"id\": \"123\"\n" +
 				"}"));
 
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
-		assertTrue(result instanceof SignInDataSource.SuccessResponse);
-		assertEquals("tok", ((SignInDataSource.SuccessResponse)result).token);
-		assertEquals("123", ((SignInDataSource.SuccessResponse)result).id);
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		assertTrue(result instanceof SignInDataSource.SuccessSignInResponse);
+		assertEquals("tok", ((SignInDataSource.SuccessSignInResponse)result).token);
+		assertEquals("123", ((SignInDataSource.SuccessSignInResponse)result).id);
 	}
 
 	@Test
@@ -51,7 +53,7 @@ public class SignInApiDataSourceTest {
 				"    \"email_not_found\"\n" +
 				"  ]\n" +
 				"}"));
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
 		assertTrue(result instanceof SignInDataSource.EmailNotFoundResponse);
 	}
 
@@ -63,7 +65,7 @@ public class SignInApiDataSourceTest {
 						"    \"wrong_password\"\n" +
 						"  ]\n" +
 						"}"));
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
 		assertTrue(result instanceof SignInDataSource.WrongPasswordResponse);
 	}
 
@@ -77,7 +79,7 @@ public class SignInApiDataSourceTest {
 				"    \"invalid_password\"\n" +
 				"  ]\n" +
 				"}"));
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse  result = dataSource.getSignInResponse("mail", "pass");
 		assertTrue(result instanceof SignInDataSource.InvalidArgumentResponse);
 		assertTrue(((SignInDataSource.InvalidArgumentResponse)result).invalidMail);
 		assertTrue(((SignInDataSource.InvalidArgumentResponse)result).invalidPassword);
@@ -86,8 +88,8 @@ public class SignInApiDataSourceTest {
 	@Test
 	@Ignore // as if got no response
 	public void testNetworkError() throws Exception {
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
-		assertTrue(result instanceof SignInDataSource.NetworkErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		assertTrue(result instanceof CommonResponses.NetworkErrorResponse);
 	}
 
 	@Test
@@ -95,8 +97,8 @@ public class SignInApiDataSourceTest {
 		server.enqueue(new MockResponse().setBody("{\n" +
 				"  \"hamada\": 1\n" +
 				"}"));
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
-		assertTrue(result instanceof SignInDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse  result = dataSource.getSignInResponse("mail", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
 	@Test
@@ -104,8 +106,8 @@ public class SignInApiDataSourceTest {
 		server.enqueue(new MockResponse().setBody("{\n" +
 				"  \"ok\": 0\n" +
 				"}"));
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
-		assertTrue(result instanceof SignInDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
 	@Test
@@ -116,15 +118,15 @@ public class SignInApiDataSourceTest {
 				"    \"not_implemented\"\n" +
 				"  ]\n" +
 				"}"));
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
-		assertTrue(result instanceof SignInDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
 	@Test
 	public void testServerError4() throws Exception {
 		server.enqueue(new MockResponse().setResponseCode(400));
 
-		SignInDataSource.SignInResponse result = dataSource.getSignInResponse("mail", "pass");
-		assertTrue(result instanceof SignInDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 }

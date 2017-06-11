@@ -6,9 +6,9 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.enterprises.wayne.iamfine.R;
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
@@ -100,15 +100,13 @@ public class SearchUsersViewModel extends ViewModel {
 				.subscribe(response -> {
 					loadingProgress.setValue(false);
 
-					if (response instanceof SearchUsersDataSource.SuccessResponse) {
-						List<UserCardData> cardData = mapToCardData(((SearchUsersDataSource.SuccessResponse) response).users);
+					if (response instanceof SearchUsersDataSource.SuccessSearchUsersResponse) {
+						List<UserCardData> cardData = mapToCardData(((SearchUsersDataSource.SuccessSearchUsersResponse) response).users);
 						users.setValue(cardData);
-					} else if (response instanceof SearchUsersDataSource.FailResponse) {
-						if (response instanceof SearchUsersDataSource.NetworkErrorResponse) {
+					} else if (response instanceof CommonResponses.FailResponse) {
+						if (response instanceof CommonResponses.NetworkErrorResponse) {
 							message.setValue(R.string.network_error);
-						} else if (response instanceof SearchUsersDataSource.ServerErrorResponse
-								|| response instanceof SearchUsersDataSource.AuthenticationError    // TODO - log out that user or something
-								|| response instanceof SearchUsersDataSource.InvalidNameResponse) {
+						} else {
 							message.setValue(R.string.something_went_wrong);
 						}
 					}

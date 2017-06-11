@@ -4,6 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
 
 import com.enterprises.wayne.iamfine.R;
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 import com.enterprises.wayne.iamfine.sign_up.repo.SignUpRepo;
 
@@ -81,7 +82,7 @@ public class SignUpViewModelTest {
 	@Test
 	public void testSignInSuccess() throws Exception {
 		when(repo.signUp(eq("mail"), eq("name"), eq("pass"))).
-				thenReturn(new SignUpDataSource.SuccessResponse("", ""));
+				thenReturn(new SignUpDataSource.SuccessSignUpResponse("", ""));
 
 		viewModel.onSignUpClicked("mail", "name", "pass");
 
@@ -109,13 +110,13 @@ public class SignUpViewModelTest {
 		inOrder.verify(signUpEnabled).onChanged(false);
 
 		inOrder.verify(loadingProgress, timeout(TIMEOUT)).onChanged(eq(false));
-		inOrder.verify(signUpEnabled).onChanged(true);
+		inOrder.verify(signUpEnabled, timeout(TIMEOUT)).onChanged(true);
 
-		inOrder.verify(emailError).onChanged(R.string.invalid_mail);
+		inOrder.verify(emailError, timeout(TIMEOUT)).onChanged(R.string.invalid_mail);
 		inOrder.verify(passwordError).onChanged(R.string.invalid_password);
 
 		when(repo.signUp(eq("mail"), eq("name"), eq("pass")))
-				.thenReturn(new SignUpDataSource.SuccessResponse("", ""));
+				.thenReturn(new SignUpDataSource.SuccessSignUpResponse("", ""));
 
 		viewModel.onSignUpClicked("mail", "name", "pass");
 
@@ -138,7 +139,7 @@ public class SignUpViewModelTest {
 	@Test
 	public void testNetworkError() throws Exception {
 		when(repo.signUp(eq("mail"), eq("name"), eq("pass")))
-				.thenReturn(new SignUpDataSource.NetworkErrorResponse());
+				.thenReturn(new CommonResponses.NetworkErrorResponse());
 
 		viewModel.onSignUpClicked("mail", "name", "pass");
 

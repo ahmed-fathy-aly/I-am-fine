@@ -1,11 +1,10 @@
 package com.enterprises.wayne.iamfine.main_screen.search_users.model;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public class SearchUsersAPIDataSource implements SearchUsersDataSource {
@@ -30,12 +28,12 @@ public class SearchUsersAPIDataSource implements SearchUsersDataSource {
 
 	@NonNull
 	@Override
-	public SearchUsersResponse searchUsers(@NonNull String authenticationToken, @NonNull String userName) {
+	public CommonResponses.DataResponse searchUsers(@NonNull String authenticationToken, @NonNull String userName) {
 		retrofit2.Response<Response> response;
 		try {
 			response = api.searchUsers(authenticationToken, userName).execute();
 		} catch (IOException e) {
-			return new NetworkErrorResponse();
+			return new CommonResponses.NetworkErrorResponse();
 		}
 
 		if (response.body() != null) {
@@ -51,7 +49,7 @@ public class SearchUsersAPIDataSource implements SearchUsersDataSource {
 							timeParser.parseServerTime(user.lastFineTime)
 					));
 				}
-				return new SuccessResponse(userDataModels);
+				return new SuccessSearchUsersResponse(userDataModels);
 			}
 
 			if (body.ok == 0 && "invalid_user_name".equals(body.error)) {
@@ -63,12 +61,12 @@ public class SearchUsersAPIDataSource implements SearchUsersDataSource {
 			}
 		}
 
-		return new ServerErrorResponse();
+		return new CommonResponses.ServerErrorResponse();
 	}
 
 	public interface API {
 		@GET("search_user")
-		Call<Response> searchUsers(@Query("token") String token, @Query("userName")String userName);
+		Call<Response> searchUsers(@Query("token") String token, @Query("userName") String userName);
 	}
 
 	class Response {

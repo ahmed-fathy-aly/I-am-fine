@@ -1,7 +1,6 @@
 package com.enterprises.wayne.iamfine.sign_up.model;
 
-import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -39,10 +38,10 @@ public class SignUpApiDataSourceTest {
 				"  \"id\": \"123\"\n" +
 				"}"));
 
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
-		assertTrue(result instanceof SignUpDataSource.SuccessResponse);
-		assertEquals("tok", ((SignUpDataSource.SuccessResponse)result).token);
-		assertEquals("123", ((SignUpDataSource.SuccessResponse)result).id);
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		assertTrue(result instanceof SignUpDataSource.SuccessSignUpResponse);
+		assertEquals("tok", ((SignUpDataSource.SuccessSignUpResponse)result).token);
+		assertEquals("123", ((SignUpDataSource.SuccessSignUpResponse)result).id);
 	}
 
 	@Test
@@ -53,7 +52,7 @@ public class SignUpApiDataSourceTest {
 				"    \"duplicate_mail\"\n" +
 				"  ]\n" +
 				"}"));
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
 		assertTrue(result instanceof SignUpDataSource.DuplicateEmailResponse);
 	}
 
@@ -67,7 +66,7 @@ public class SignUpApiDataSourceTest {
 				"    \"invalid_password\"\n" +
 				"  ]\n" +
 				"}"));
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
 		assertTrue(result instanceof SignUpDataSource.InvalidArgumentResponse);
 		assertTrue(((SignUpDataSource.InvalidArgumentResponse)result).invalidMail);
 		assertTrue(((SignUpDataSource.InvalidArgumentResponse)result).invalidName);
@@ -77,8 +76,8 @@ public class SignUpApiDataSourceTest {
 	@Test
 	@Ignore // as if got no response
 	public void testNetworkError() throws Exception {
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
-		assertTrue(result instanceof SignUpDataSource.NetworkErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		assertTrue(result instanceof CommonResponses.NetworkErrorResponse);
 	}
 
 	@Test
@@ -86,8 +85,8 @@ public class SignUpApiDataSourceTest {
 		server.enqueue(new MockResponse().setBody("{\n" +
 				"  \"hamada\": 1\n" +
 				"}"));
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
-		assertTrue(result instanceof SignUpDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
 	@Test
@@ -95,8 +94,8 @@ public class SignUpApiDataSourceTest {
 		server.enqueue(new MockResponse().setBody("{\n" +
 				"  \"ok\": 0\n" +
 				"}"));
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
-		assertTrue(result instanceof SignUpDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
 	@Test
@@ -107,15 +106,15 @@ public class SignUpApiDataSourceTest {
 				"    \"not_implemented\"\n" +
 				"  ]\n" +
 				"}"));
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
-		assertTrue(result instanceof SignUpDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
 	@Test
 	public void testServerError4() throws Exception {
 		server.enqueue(new MockResponse().setResponseCode(400));
 
-		SignUpDataSource.SignUpResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
-		assertTrue(result instanceof SignUpDataSource.ServerErrorResponse);
+		CommonResponses.DataResponse result = dataSource.getSignUpResponse("mail", "name", "pass");
+		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 }

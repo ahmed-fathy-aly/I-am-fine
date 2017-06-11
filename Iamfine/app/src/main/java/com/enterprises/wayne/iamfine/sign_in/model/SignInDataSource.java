@@ -2,43 +2,33 @@ package com.enterprises.wayne.iamfine.sign_in.model;
 
 import android.support.annotation.NonNull;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+
 public interface SignInDataSource {
 
 	@NonNull
-	SignInResponse getSignInResponse(String email, String password);
+	CommonResponses.DataResponse getSignInResponse(String email, String password);
 
-	abstract class SignInResponse {
-	}
-
-	final class SuccessResponse extends SignInResponse {
+	final class SuccessSignInResponse extends CommonResponses.SuccessResponse {
 		@NonNull
 		public final String id;
 
 		@NonNull
 		public final String token;
 
-		public SuccessResponse(@NonNull String id, @NonNull String token) {
+		public SuccessSignInResponse(@NonNull String id, @NonNull String token) {
 			this.id = id;
 			this.token = token;
 		}
 	}
 
-	abstract class FailResponse extends SignInResponse {
+	final class WrongPasswordResponse extends CommonResponses.FailResponse {
 	}
 
-	final class NetworkErrorResponse extends FailResponse {
+	final class EmailNotFoundResponse extends CommonResponses.FailResponse {
 	}
 
-	final class ServerErrorResponse extends FailResponse {
-	}
-
-	final class WrongPasswordResponse extends FailResponse {
-	}
-
-	final class EmailNotFoundResponse extends FailResponse {
-	}
-
-	final class InvalidArgumentResponse extends FailResponse {
+	final class InvalidArgumentResponse extends CommonResponses.FailResponse {
 		public final boolean invalidMail;
 		public final boolean invalidPassword;
 

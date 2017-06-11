@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.main_screen.search_users.repo;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 
@@ -32,7 +33,7 @@ public class SearchUsersRepoTest {
 		when(userStorage.hasUserSaved()).thenReturn(false);
 		when(userStorage.getToken()).thenReturn(null);
 
-		SearchUsersDataSource.SearchUsersResponse response = repo.searchUsers("abc");
+		CommonResponses.DataResponse response = repo.searchUsers("abc");
 		assertTrue(response instanceof SearchUsersDataSource.AuthenticationError);
 	}
 
@@ -41,7 +42,7 @@ public class SearchUsersRepoTest {
 		when(userStorage.hasUserSaved()).thenReturn(true);
 		when(userStorage.getToken()).thenReturn("tok");
 
-		SearchUsersDataSource.NetworkErrorResponse RESPONSE = new SearchUsersDataSource.NetworkErrorResponse();
+		CommonResponses.DataResponse RESPONSE = new CommonResponses.NetworkErrorResponse();
 		when(dataSource.searchUsers(eq("tok"), eq("abc"))).thenReturn(RESPONSE);
 
 		assertEquals(RESPONSE, repo.searchUsers("abc"));

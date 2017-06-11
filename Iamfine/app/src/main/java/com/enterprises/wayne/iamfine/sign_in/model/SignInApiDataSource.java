@@ -2,6 +2,8 @@ package com.enterprises.wayne.iamfine.sign_in.model;
 
 import android.support.annotation.NonNull;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -19,17 +21,17 @@ public class SignInApiDataSource implements SignInDataSource {
 	}
 
 	@Override
-	public SignInResponse getSignInResponse(String email, String password) {
+	public CommonResponses.DataResponse getSignInResponse(String email, String password) {
 		Response<SignInReponse> response;
 		try {
 			response = api.signIn(new SignInRequest(email, password)).execute();
 		} catch (IOException e) {
-			return new NetworkErrorResponse();
+			return new CommonResponses.NetworkErrorResponse();
 		}
 
 		if (response.body() != null) {
 			if (response.body().ok == 1 && response.body().id != null && response.body().token != null)
-				return new SuccessResponse(response.body().id, response.body().token);
+				return new SuccessSignInResponse(response.body().id, response.body().token);
 
 			if (response.body().ok == 0 && response.body().errors != null) {
 				if (response.body().errors.contains("wrong_password"))
@@ -43,7 +45,7 @@ public class SignInApiDataSource implements SignInDataSource {
 			}
 		}
 
-		return new ServerErrorResponse();
+		return new CommonResponses.ServerErrorResponse();
 	}
 
 	public interface API {

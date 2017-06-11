@@ -4,6 +4,7 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
 
 import com.enterprises.wayne.iamfine.R;
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
 
@@ -81,7 +82,7 @@ public class SignInViewModelTest {
 	@Test
 	public void testSignInSuccess() throws Exception {
 		when(repo.signIn(eq("mail"), eq("pass"))).
-				thenReturn(new SignInDataSource.SuccessResponse("", ""));
+				thenReturn(new SignInDataSource.SuccessSignInResponse("", ""));
 
 		viewModel.onSignInClicked("mail", "pass");
 
@@ -109,13 +110,13 @@ public class SignInViewModelTest {
 		inOrder.verify(signInEnabled).onChanged(false);
 
 		inOrder.verify(loadingProgress, timeout(TIMEOUT)).onChanged(eq(false));
-		inOrder.verify(signInEnabled).onChanged(true);
+		inOrder.verify(signInEnabled, timeout(TIMEOUT)).onChanged(true);
 
 		inOrder.verify(emailError).onChanged(R.string.invalid_mail);
 		inOrder.verify(passwordError).onChanged(R.string.invalid_password);
 
 		when(repo.signIn(eq("mail"), eq("pass")))
-			.thenReturn(new SignInDataSource.SuccessResponse("", ""));
+			.thenReturn(new SignInDataSource.SuccessSignInResponse("", ""));
 
 		viewModel.onSignInClicked("mail", "pass");
 
@@ -138,7 +139,7 @@ public class SignInViewModelTest {
 	@Test
 	public void testNetworkError() throws Exception {
 		when(repo.signIn(eq("mail"), eq("pass")))
-			.thenReturn(new SignInDataSource.NetworkErrorResponse());
+			.thenReturn(new CommonResponses.NetworkErrorResponse());
 
 		viewModel.onSignInClicked("mail", "pass");
 

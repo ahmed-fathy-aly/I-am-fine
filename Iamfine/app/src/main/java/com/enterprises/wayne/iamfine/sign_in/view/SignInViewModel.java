@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.R;
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
 
@@ -128,10 +129,10 @@ public class SignInViewModel extends ViewModel {
 				.subscribe(response -> {
 							loadingProgress.setValue(false);
 
-							if (response instanceof SignInDataSource.SuccessResponse) {
+							if (response instanceof SignInDataSource.SuccessSignInResponse) {
 								openMainScreen.setValue(true);
 								close.setValue(true);
-							} else if (response instanceof SignInDataSource.FailResponse) {
+							} else if (response instanceof CommonResponses.FailResponse) {
 								signInEnabled.setValue(true);
 
 								if (response instanceof SignInDataSource.WrongPasswordResponse) {
@@ -145,9 +146,8 @@ public class SignInViewModel extends ViewModel {
 										emailError.setValue(R.string.invalid_mail);
 									if (((SignInDataSource.InvalidArgumentResponse) response).invalidPassword)
 										passwordError.setValue(R.string.invalid_password);
-								} else if (response instanceof SignInDataSource.NetworkErrorResponse) {
+								} else if (response instanceof CommonResponses.NetworkErrorResponse) {
 									message.setValue(R.string.network_error);
-
 								} else {
 									message.setValue(R.string.something_went_wrong);
 								}

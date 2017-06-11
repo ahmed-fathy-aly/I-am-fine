@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.sign_up.repo;
 
+import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpValidator;
@@ -38,7 +39,7 @@ public class SignUpRepoTest {
 		when(validator.isValidName(eq("b"))).thenReturn(false);
 		when(validator.isValidPassword(eq("c"))).thenReturn(false);
 
-		SignUpDataSource.SignUpResponse result = repo.signUp("a", "b", "c");
+		CommonResponses.DataResponse result = repo.signUp("a", "b", "c");
 		assertTrue(result instanceof SignUpDataSource.InvalidArgumentResponse);
 		assertTrue(((SignUpDataSource.InvalidArgumentResponse) result).invalidMail);
 		assertTrue(((SignUpDataSource.InvalidArgumentResponse) result).invalidPassword);
@@ -51,7 +52,7 @@ public class SignUpRepoTest {
 		when(validator.isValidEmail(eq("a"))).thenReturn(true);
 		when(validator.isValidName(eq("b"))).thenReturn(true);
 		when(validator.isValidPassword(eq("c"))).thenReturn(true);
-		SignUpDataSource.FailResponse failedResponse = new SignUpDataSource.FailResponse() {
+		CommonResponses.FailResponse failedResponse = new CommonResponses.FailResponse() {
 		};
 		when(dataSource.getSignUpResponse(eq("a"), eq("b"), eq("c")))
 				.thenReturn(failedResponse);
@@ -66,7 +67,7 @@ public class SignUpRepoTest {
 		when(validator.isValidEmail(eq("a"))).thenReturn(true);
 		when(validator.isValidName(eq("b"))).thenReturn(true);
 		when(validator.isValidPassword(eq("c"))).thenReturn(true);
-		SignUpDataSource.SuccessResponse successResponse = new SignUpDataSource.SuccessResponse("123", "tok");
+		SignUpDataSource.SuccessSignUpResponse successResponse = new SignUpDataSource.SuccessSignUpResponse("123", "tok");
 		when(dataSource.getSignUpResponse(eq("a"), eq("b"), eq("c")))
 				.thenReturn(successResponse);
 
