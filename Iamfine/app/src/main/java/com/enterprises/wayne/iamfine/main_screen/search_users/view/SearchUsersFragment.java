@@ -4,10 +4,12 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +19,20 @@ import android.widget.ProgressBar;
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseFragment;
-import com.enterprises.wayne.iamfine.sign_in.view.SignInViewModel;
 import com.enterprises.wayne.iamfine.ui_util.GenericHeaderRecyclerViewAdapter;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewDelegate;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class SearchUsersFragment extends BaseFragment {
 
@@ -41,6 +46,8 @@ public class SearchUsersFragment extends BaseFragment {
 	EditText editTextSearch;
 	@BindView(R.id.progress_bar)
 	ProgressBar progressBar;
+	@BindView(R.id.content)
+	ViewGroup content;
 
 	@NonNull
 	public static SearchUsersFragment newInstance() {
@@ -70,10 +77,6 @@ public class SearchUsersFragment extends BaseFragment {
 		// setup UI
 		Map<Class, GenericRecyclerViewDelegate> delegateMap = new HashMap<>();
 		delegateMap.put(UserCardData.class, new UserViewAdapterDelegate(new UserViewAdapterDelegate.Listener() {
-			@Override
-			public void onUserClicked(String userId) {
-
-			}
 
 			@Override
 			public void onAskIfFine(String userId) {
@@ -85,25 +88,22 @@ public class SearchUsersFragment extends BaseFragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 		// updates to view model
-		editTextSearch.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				viewModel.onSearchTextChanged(s.toString());
-			}
-		});
+		RxTextView
+				.textChanges(editTextSearch)
+				.debounce(2, TimeUnit.SECONDS)
+				.map(event -> event.toString())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(s -> {
+					viewModel.onSearchTextChanged(s);
+				});
 
 		// updates from view model
-
+		viewModel.getUsers().observe(this, userCardData -> adapter.changeData(userCardData));
+		viewModel.getLoadingProgress().observe(this, loading -> progressBar.setVisibility(loading ? View.VISIBLE : View.GONE));
+		viewModel.getMessage().observe(this, message -> {
+			if (message > 0)
+				Snackbar.make(content, message, Snackbar.LENGTH_SHORT).show();
+		});
 	}
 
 }

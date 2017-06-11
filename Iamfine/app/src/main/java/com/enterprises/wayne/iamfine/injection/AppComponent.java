@@ -1,5 +1,6 @@
 package com.enterprises.wayne.iamfine.injection;
 
+import com.enterprises.wayne.iamfine.main_screen.search_users.injection.SearchUsersModule;
 import com.enterprises.wayne.iamfine.main_screen.search_users.view.SearchUsersFragment;
 import com.enterprises.wayne.iamfine.notification.SomeoneAskedNotificationJobService;
 import com.enterprises.wayne.iamfine.sign_in.injection.SignInModule;
@@ -14,7 +15,7 @@ import dagger.Component;
  * Created by Ahmed on 2/5/2017.
  */
 
-@Component(modules = {AppModule.class, SignInModule.class, SignUpModule.class})
+@Component(modules = {AppModule.class, SignInModule.class, SignUpModule.class, SearchUsersModule.class})
 public interface AppComponent {
 
     void inject(SignInFragment signInFragment);

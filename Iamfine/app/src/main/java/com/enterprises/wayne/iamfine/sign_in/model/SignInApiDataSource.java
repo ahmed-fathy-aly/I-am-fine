@@ -49,7 +49,6 @@ public class SignInApiDataSource implements SignInDataSource {
 	public interface API {
 		@POST("sign_in")
 		Call<SignInReponse> signIn(@Body SignInRequest body);
-
 	}
 
 	private class SignInRequest {

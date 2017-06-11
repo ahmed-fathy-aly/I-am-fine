@@ -14,16 +14,16 @@
         android:name=".app.MyApplication">
 
 
-        <activity android:name=".sign_in.view.SignInActivity"/>
-
-        <activity android:name=".sign_up.view.SignUpActivity"/>
-
-        <activity android:name=".main_screen.parent.MainScreenActivity">
+        <activity android:name=".sign_in.view.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".sign_up.view.SignUpActivity"/>
+
+        <activity android:name=".main_screen.parent.MainScreenActivity"/>
 
 
         <service

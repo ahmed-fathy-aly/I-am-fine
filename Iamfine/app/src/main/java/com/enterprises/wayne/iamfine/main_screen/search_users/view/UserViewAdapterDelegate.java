@@ -10,6 +10,7 @@ import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewDelegate;
 
 import agency.tango.android.avatarview.views.AvatarView;
+import agency.tango.android.avatarviewglide.GlideLoader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -17,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by Ahmed on 2/20/2017.
  */
 
-public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<UserViewAdapterDelegate.ViewHolder> {
+public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<UserViewAdapterDelegate.ViewHolder, UserCardData> {
 
     private final Listener mListener;
 
@@ -34,10 +35,16 @@ public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<User
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder) {
-        //holder.textViewTitle.setText(mViewModel.getDisplayName());
-        //holder.textViewTime.setText(mViewModel.getLastFineTimeStr());
-        //new GlideLoader().loadImage(holder.imageViewPp, mViewModel.getImageUrl(), mViewModel.getDisplayName());
+    public void onBindViewHolder(ViewHolder holder, UserCardData data) {
+        holder.textViewTitle.setText(data.getDisplayName());
+        holder.textViewTime.setText(data.getTimeStr());
+        new GlideLoader().loadImage(holder.imageViewPp, data.getImageUrl(), data.getDisplayName());
+
+        holder.buttonAskIfFine.setOnClickListener(v -> {
+			if (mListener != null) {
+				mListener.onAskIfFine(data.getId());
+			}
+		});
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,25 +61,10 @@ public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<User
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(
-                    (v) -> {
-                        //if (mListener != null)
-          //                  mListener.onUserClicked(mViewModel.getId());
-                    }
-            );
-            buttonAskIfFine.setOnClickListener(
-                    (v) -> {
-                       // if (mListener != null)
-            //                mListener.onAskIfFine(mViewModel.getId());
-                    }
-            );
-
         }
     }
 
     public interface Listener {
-        void onUserClicked(String userId);
-
         void onAskIfFine(String userId);
     }
 }

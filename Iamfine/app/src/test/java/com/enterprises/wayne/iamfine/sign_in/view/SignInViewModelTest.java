@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SignInViewModelTest {
-	private final static int TIMEOUT = 100;
+	private final static int TIMEOUT = 200;
 
 	@Rule
 	public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();

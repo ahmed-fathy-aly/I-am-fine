@@ -3,14 +3,16 @@ package com.enterprises.wayne.iamfine.main_screen.search_users.view;
 public class UserCardData {
 	private String id;
 	private String displayName;
-	private String lastFineTimeStr;
+	private String timeStr;
 	private String imageUrl;
+	private AskAboutButtonState askAboutButtonState;
 
-	public UserCardData(String id, String displayName, String lastFineTimeStr, String imageUrl) {
+	public UserCardData(String id, String displayName, String lastFineTimeStr, String imageUrl, AskAboutButtonState askAboutButtonState) {
 		this.id = id;
 		this.displayName = displayName;
-		this.lastFineTimeStr = lastFineTimeStr;
+		this.timeStr = lastFineTimeStr;
 		this.imageUrl = imageUrl;
+		this.askAboutButtonState = askAboutButtonState;
 	}
 
 	public UserCardData(){
@@ -24,11 +26,22 @@ public class UserCardData {
 		return displayName;
 	}
 
-	public String getLastFineTimeStr() {
-		return lastFineTimeStr;
+	public String getTimeStr() {
+		return timeStr;
 	}
 
 	public String getImageUrl() {
 		return imageUrl;
+	}
+
+	public AskAboutButtonState getAskAboutButtonState() {
+		return askAboutButtonState;
+	}
+
+	enum AskAboutButtonState {
+		ENABLED,
+		LOADING,
+		ASKED,
+		HIDDEN
 	}
 }

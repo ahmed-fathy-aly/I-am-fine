@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.ui_util;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class GenericHeaderRecyclerViewAdapter extends RecyclerView.Adapter {
 		mData = new ArrayList<>();
 	}
 
-	public void changeData(List<Object> newData) {
+	public <T extends Object> void changeData(List<T> newData) {
 		mData.clear();
 		mData.addAll(newData);
 		notifyDataSetChanged();
@@ -43,13 +44,13 @@ public class GenericHeaderRecyclerViewAdapter extends RecyclerView.Adapter {
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(
 			ViewGroup parent, int viewType) {
-		return mDelegates.get(mData.get(viewType)).createViewHolder(parent);
+		return mDelegates.get(mDataTypes.get(viewType)).createViewHolder(parent);
 	}
 
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-		mDelegates.get(mData.get(position).getClass()).onBindViewHolder(holder);
-
+		Object item = mData.get(position);
+		mDelegates.get(item.getClass()).onBindViewHolder(holder, item);
 	}
 
 	@Override
