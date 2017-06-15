@@ -6,17 +6,21 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
+import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.repo.SearchUsersRepo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -45,15 +49,18 @@ public class SearchUsersViewModel extends ViewModel {
 	private final MutableLiveData<List<UserCardData>> users;
 
 	@NonNull
-	private Disposable disposable;
+	private Disposable searchDisposable;
 
+	@NonNull
+	private Set<Disposable> askAboutDisposables;
 
 	public SearchUsersViewModel(
 			@NonNull SearchUsersRepo repo,
 			@NonNull TimeFormatter timeFormatter) {
 		this.repo = repo;
 		this.timeFormatter = timeFormatter;
-		disposable = Disposables.disposed();
+		searchDisposable = Disposables.disposed();
+		askAboutDisposables = new HashSet<>();
 
 		loadingProgress = new MutableLiveData<>();
 		users = new MutableLiveData<>();
@@ -81,8 +88,8 @@ public class SearchUsersViewModel extends ViewModel {
 
 	public void onSearchTextChanged(@Nullable String searchStr) {
 		// stop previous requests
-		if (!disposable.isDisposed()) {
-			disposable.dispose();
+		if (!searchDisposable.isDisposed()) {
+			searchDisposable.dispose();
 		}
 
 		// ignore short searches
@@ -94,7 +101,7 @@ public class SearchUsersViewModel extends ViewModel {
 
 		// make a new search request
 		loadingProgress.setValue(true);
-		disposable = Observable.defer(() -> Observable.just(repo.searchUsers(searchStr)))
+		searchDisposable = Observable.defer(() -> Observable.just(repo.searchUsers(searchStr)))
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(response -> {
@@ -113,6 +120,50 @@ public class SearchUsersViewModel extends ViewModel {
 				});
 	}
 
+
+	public void askAboutUser(@NonNull String userId) {
+		// update status of that user
+		if (!update(userId, UserCardData.AskAboutButtonState.LOADING)) {
+			return;
+		}
+
+		Disposable disposable = Observable.defer(() -> Observable.just(repo.askAboutUser(userId)))
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(response -> {
+					if (response instanceof AskAboutUserDataSource.SuccessAskAboutUser) {
+						update(userId, UserCardData.AskAboutButtonState.ASKED);
+					} else if (response instanceof CommonResponses.FailResponse) {
+						update(userId, UserCardData.AskAboutButtonState.ENABLED);
+						if (response instanceof CommonResponses.NetworkErrorResponse) {
+							message.setValue(R.string.network_error);
+						} else {
+							message.setValue(R.string.something_went_wrong);
+						}
+					}
+				});
+		askAboutDisposables.add(disposable);
+
+	}
+
+	private boolean update(String userId, UserCardData.AskAboutButtonState newState) {
+		int idx = -1;
+		List<UserCardData> updatedUsers = users.getValue();
+		for (int i = 0; i < updatedUsers.size(); i++) {
+			if (updatedUsers.get(i).getId().equals(userId)) {
+				idx = i;
+				break;
+			}
+		}
+		if (idx == -1) {
+			return false;
+		}
+
+		updatedUsers.get(idx).setAskAboutButtonState(newState);
+		users.setValue(updatedUsers);
+		return true;
+	}
+
 	@NonNull
 	private List<UserCardData> mapToCardData(@NonNull List<UserDataModel> models) {
 		List<UserCardData> cardData = new ArrayList<>();
@@ -127,6 +178,12 @@ public class SearchUsersViewModel extends ViewModel {
 		}
 		return cardData;
 	}
+
+	@VisibleForTesting
+	public void setUsersForTesting(List<UserCardData> userCardData) {
+		users.setValue(userCardData);
+	}
+
 
 	public static class Factory extends ViewModelProvider.NewInstanceFactory {
 

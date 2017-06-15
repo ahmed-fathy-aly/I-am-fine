@@ -38,6 +38,10 @@ public class UserCardData {
 		return askAboutButtonState;
 	}
 
+	public void setAskAboutButtonState(AskAboutButtonState askAboutButtonState) {
+		this.askAboutButtonState = askAboutButtonState;
+	}
+
 	enum AskAboutButtonState {
 		ENABLED,
 		LOADING,

@@ -6,6 +6,8 @@ import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
+import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserAPIDataSource;
+import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersAPIDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.repo.SearchUsersRepo;
@@ -23,8 +25,8 @@ public class SearchUsersModule {
 	}
 
 	@Provides
-	SearchUsersRepo searchUsersRepo(SearchUsersDataSource dataSource, CurrectUserStorage userStorage)  {
-		return new SearchUsersRepo(dataSource, userStorage);
+	SearchUsersRepo searchUsersRepo(SearchUsersDataSource dataSource, CurrectUserStorage userStorage, AskAboutUserDataSource askAboutUserDataSource)  {
+		return new SearchUsersRepo(dataSource, userStorage, askAboutUserDataSource);
 	}
 
 	@Provides
@@ -37,5 +39,9 @@ public class SearchUsersModule {
 		return new SearchUsersAPIDataSource(retrofit.create(SearchUsersAPIDataSource.API.class), timeParser);
 	}
 
+	@Provides
+	AskAboutUserDataSource askAboutUserDataSource(Retrofit retrofit) {
+		return new AskAboutUserAPIDataSource(retrofit.create(AskAboutUserAPIDataSource.API.class));
+	}
 
 }

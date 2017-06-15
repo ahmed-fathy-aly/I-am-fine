@@ -15,8 +15,10 @@ public class CommonResponses {
 
 	}
 
-
 	public final static class NetworkErrorResponse extends FailResponse {
+	}
+
+	public final static class AuthenticationErrorResponse extends FailResponse {
 	}
 
 	public final static class ServerErrorResponse extends FailResponse {

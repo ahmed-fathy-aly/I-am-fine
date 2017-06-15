@@ -76,21 +76,17 @@ public class SearchUsersFragment extends BaseFragment {
 
 		// setup UI
 		Map<Class, GenericRecyclerViewDelegate> delegateMap = new HashMap<>();
-		delegateMap.put(UserCardData.class, new UserViewAdapterDelegate(new UserViewAdapterDelegate.Listener() {
-
-			@Override
-			public void onAskIfFine(String userId) {
-
-			}
-		}));
+		delegateMap.put(UserCardData.class, new UserViewAdapterDelegate(userId -> viewModel.askAboutUser(userId)));
 		GenericHeaderRecyclerViewAdapter adapter = new GenericHeaderRecyclerViewAdapter(delegateMap);
 		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 		// updates to view model
+		// TODO find a way to skip the first one
 		RxTextView
 				.textChanges(editTextSearch)
-				.debounce(2, TimeUnit.SECONDS)
+				.skipInitialValue()
+				.debounce(1, TimeUnit.SECONDS)
 				.map(event -> event.toString())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(s -> {

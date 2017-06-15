@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.enterprises.wayne.iamfine.R;
@@ -39,6 +40,9 @@ public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<User
         holder.textViewTitle.setText(data.getDisplayName());
         holder.textViewTime.setText(data.getTimeStr());
         new GlideLoader().loadImage(holder.imageViewPp, data.getImageUrl(), data.getDisplayName());
+        holder.buttonAskIfFine.setVisibility(data.getAskAboutButtonState() == UserCardData.AskAboutButtonState.ENABLED? View.VISIBLE : View.GONE);
+        holder.loading.setVisibility(data.getAskAboutButtonState() == UserCardData.AskAboutButtonState.LOADING? View.VISIBLE : View.GONE);
+        holder.viewAsked.setVisibility(data.getAskAboutButtonState() == UserCardData.AskAboutButtonState.ASKED? View.VISIBLE : View.GONE);
 
         holder.buttonAskIfFine.setOnClickListener(v -> {
 			if (mListener != null) {
@@ -57,6 +61,10 @@ public class UserViewAdapterDelegate implements GenericRecyclerViewDelegate<User
         TextView textViewTime;
         @BindView(R.id.button_ask_if_fine)
         View buttonAskIfFine;
+        @BindView(R.id.image_view_asked)
+        View viewAsked;
+        @BindView(R.id.progress_bar)
+        ProgressBar loading;
 
         public ViewHolder(View itemView) {
             super(itemView);
