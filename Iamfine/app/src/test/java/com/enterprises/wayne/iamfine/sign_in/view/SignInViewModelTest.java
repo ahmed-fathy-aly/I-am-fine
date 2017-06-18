@@ -2,6 +2,7 @@ package com.enterprises.wayne.iamfine.sign_in.view;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
@@ -78,6 +79,7 @@ public class SignInViewModelTest {
 		inOrder.verify(signInEnabled).onChanged(true);
 		inOrder.verify(showKeyboard).onChanged(eq(false));
 	}
+
 
 	@Test
 	public void testSignInSuccess() throws Exception {
@@ -246,4 +248,16 @@ public class SignInViewModelTest {
 	}
 
 
+	@Test
+	public void testOpenAlreadySignedIn() {
+		when(repo.isAlreadySignedIn()).thenReturn(true);
+
+		SignInViewModel viewModel = new SignInViewModel(repo);
+
+		viewModel.getOpenMainScreen().observeForever(openMainScreen);
+		viewModel.getClose().observeForever(close);
+
+		verify(openMainScreen).onChanged(true);
+		verify(close).onChanged(true);
+	}
 }

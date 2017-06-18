@@ -11,6 +11,8 @@ import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
 
+import org.junit.runners.Parameterized;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -63,6 +65,11 @@ public class SignInViewModel extends ViewModel {
 		signInEnabled.setValue(true);
 		showKeyboard.setValue(false);
 
+		// check if already signed in
+		if (repo.isAlreadySignedIn()) {
+			openMainScreen.setValue(true);
+			close.setValue(true);
+		}
 
 	}
 

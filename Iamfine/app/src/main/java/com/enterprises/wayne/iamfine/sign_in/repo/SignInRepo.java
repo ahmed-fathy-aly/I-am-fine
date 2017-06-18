@@ -51,4 +51,7 @@ public class SignInRepo {
 	}
 
 
+	public boolean isAlreadySignedIn() {
+		return currectUserStorage.hasUserSaved();
+	}
 }
