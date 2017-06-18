@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.enterprises.wayne.iamfine.app.Configuration;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.CurrentUserPreferencesStorage;
+import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
@@ -56,6 +57,11 @@ public class AppModule {
     @Provides
     TimeParser timeParser() {
         return new TimeParser();
+    }
+
+    @Provides
+    StringHelper stringHelper(Context context) {
+        return new StringHelper(context);
     }
 
 }

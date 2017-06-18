@@ -10,6 +10,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
@@ -47,6 +48,8 @@ public class SearchUsersViewModel extends ViewModel {
 	private final MutableLiveData<Integer> message;
 	@NonNull
 	private final MutableLiveData<List<UserCardData>> users;
+	@NonNull
+	private final StringHelper stringHelper;
 
 	@NonNull
 	private Disposable searchDisposable;
@@ -56,9 +59,11 @@ public class SearchUsersViewModel extends ViewModel {
 
 	public SearchUsersViewModel(
 			@NonNull SearchUsersRepo repo,
-			@NonNull TimeFormatter timeFormatter) {
+			@NonNull TimeFormatter timeFormatter,
+			@NonNull StringHelper stringHelper) {
 		this.repo = repo;
 		this.timeFormatter = timeFormatter;
+		this.stringHelper = stringHelper;
 		searchDisposable = Disposables.disposed();
 		askAboutDisposables = new HashSet<>();
 
@@ -171,7 +176,7 @@ public class SearchUsersViewModel extends ViewModel {
 			cardData.add(new UserCardData(
 					model.getId(),
 					model.getName(),
-					timeFormatter.getDisplayTime(model.getLastFineData()),
+					stringHelper.getCombinedString(R.string.asked_x, timeFormatter.getDisplayTime(model.getLastFineData())),
 					model.getProfilePic(),
 					UserCardData.AskAboutButtonState.ENABLED
 			));
@@ -191,16 +196,19 @@ public class SearchUsersViewModel extends ViewModel {
 		private final SearchUsersRepo repo;
 		@NonNull
 		private final TimeFormatter timeFormatter;
+		@NonNull
+		private final StringHelper stringHelper;
 
 		@Inject
-		public Factory(@NonNull SearchUsersRepo repo, @NonNull TimeFormatter timeFormatter) {
+		public Factory(@NonNull SearchUsersRepo repo, @NonNull TimeFormatter timeFormatter, @NonNull StringHelper stringHelper) {
 			this.repo = repo;
 			this.timeFormatter = timeFormatter;
+			this.stringHelper = stringHelper;
 		}
 
 		@Override
 		public <T extends ViewModel> T create(Class<T> modelClass) {
-			return (T) new SearchUsersViewModel(repo, timeFormatter);
+			return (T) new SearchUsersViewModel(repo, timeFormatter, stringHelper);
 		}
 	}
 

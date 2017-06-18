@@ -30,12 +30,6 @@ public class AskAboutUserAPIDataSource implements AskAboutUserDataSource {
 			return new CommonResponses.NetworkErrorResponse();
 		}
 
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
 		if (response.body() != null) {
 			if (response.body().ok == 1) {
 				return new SuccessAskAboutUser();

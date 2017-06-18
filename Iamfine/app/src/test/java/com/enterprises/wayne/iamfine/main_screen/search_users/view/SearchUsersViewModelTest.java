@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
@@ -54,6 +55,8 @@ public class SearchUsersViewModelTest {
 	SearchUsersRepo repo;
 	@Mock
 	TimeFormatter timeFormatter;
+	@Mock
+	StringHelper stringHelper;
 
 	@Captor
 	ArgumentCaptor<List<UserCardData>> usersCaptor;
@@ -65,7 +68,7 @@ public class SearchUsersViewModelTest {
 		RxAndroidPlugins.setInitMainThreadSchedulerHandler(s -> Schedulers.trampoline());
 
 		MockitoAnnotations.initMocks(this);
-		viewModel = new SearchUsersViewModel(repo, timeFormatter);
+		viewModel = new SearchUsersViewModel(repo, timeFormatter, stringHelper);
 
 		viewModel.getLoadingProgress().observeForever(loading);
 		viewModel.getUsers().observeForever(users);
@@ -82,6 +85,8 @@ public class SearchUsersViewModelTest {
 	@Test
 	public void testSearchSuccess() {
 		when(timeFormatter.getDisplayTime(42)).thenReturn("now");
+		when(stringHelper.getCombinedString(R.string.asked_x, "now")).thenReturn("asked now");
+
 		List<UserDataModel> USERS = Arrays.asList(
 				new UserDataModel("1", "name1", "mail1", "image", 42)
 		);
@@ -91,14 +96,14 @@ public class SearchUsersViewModelTest {
 
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(users).onChanged(usersCaptor.capture());
+		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
 
 		List<UserCardData> users = usersCaptor.getValue();
 		assertEquals(1, users.size());
 		assertEquals("1", users.get(0).getId());
 		assertEquals("name1", users.get(0).getDisplayName());
 		assertEquals("image", users.get(0).getImageUrl());
-		assertEquals("now", users.get(0).getTimeStr());
+		assertEquals("asked now", users.get(0).getTimeStr());
 		assertEquals(UserCardData.AskAboutButtonState.ENABLED, users.get(0).getAskAboutButtonState());
 
 		inOrder.verifyNoMoreInteractions();

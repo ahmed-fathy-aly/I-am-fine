@@ -33,6 +33,7 @@
 
     <!-- search users -->
     <string name="search_by_name">Search for friends by name</string>
+    <string name="asked_x">asked %1$s</string>
 
     <!-- notifications -->
     <string name="x_asked_about_you">%1$s asked about you</string>

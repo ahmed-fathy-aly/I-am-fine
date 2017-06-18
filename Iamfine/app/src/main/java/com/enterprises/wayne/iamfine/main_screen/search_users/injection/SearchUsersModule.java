@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.main_screen.search_users.injection;
 import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.helper.TimeFormatter;
 import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
@@ -20,8 +21,8 @@ import retrofit2.Retrofit;
 @Module
 public class SearchUsersModule {
 	@Provides
-	SearchUsersViewModel.Factory searchUsersFactory(SearchUsersRepo repo, TimeFormatter timeFormatter) {
-		return new SearchUsersViewModel.Factory(repo, timeFormatter);
+	SearchUsersViewModel.Factory searchUsersFactory(SearchUsersRepo repo, TimeFormatter timeFormatter, StringHelper stringHelper) {
+		return new SearchUsersViewModel.Factory(repo, timeFormatter, stringHelper);
 	}
 
 	@Provides
