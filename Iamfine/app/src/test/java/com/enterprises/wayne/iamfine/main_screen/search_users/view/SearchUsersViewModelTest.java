@@ -226,7 +226,7 @@ public class SearchUsersViewModelTest {
 	public void testAskAboutUserSuccess() throws Exception {
 		when(repo.getUser("1")).thenReturn(new UserDataModel("1", "Hamada", "", "", -1));
 		when(repo.askAboutUser(eq("1"))).thenReturn(new AskAboutUserDataSource.SuccessAskAboutUser());
-		when(stringHelper.getCombinedString(R.string.asked_about_x, "hamada")).thenReturn("asked about Hamada");
+		when(stringHelper.getCombinedString(R.string.asked_about_x, "Hamada")).thenReturn("asked about Hamada");
 		viewModel.setUsersForTesting(Arrays.asList(
 				new UserCardData("1", "", "", "", UserCardData.AskAboutButtonState.ENABLED)
 		));
@@ -237,7 +237,7 @@ public class SearchUsersViewModelTest {
 
 		assertEquals(UserCardData.AskAboutButtonState.ASKED, usersCaptor.getValue().get(0).getAskAboutButtonState());
 
-		inOrder.verify(message, timeout(TIMEOUT)).onChanged("asked about hamada");
+		inOrder.verify(message, timeout(TIMEOUT)).onChanged("asked about Hamada");
 	}
 
 	@Test
