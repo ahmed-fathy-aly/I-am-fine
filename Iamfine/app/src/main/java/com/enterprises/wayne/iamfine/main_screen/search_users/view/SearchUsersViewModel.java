@@ -35,8 +35,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SearchUsersViewModel extends ViewModel {
 
-	public static final int MIN_LENGTH_SEARCH_STRING = 3;
-	public static final int DEBOUNCE_TIME_MILLIES = 1200;
+	private static final int MIN_LENGTH_SEARCH_STRING = 3;
+	@VisibleForTesting
+	public static int DEBOUNCE_TIME_MILLIES = 1200;
 
 	@NonNull
 	private final SearchUsersRepo repo;

@@ -30,7 +30,6 @@ public class SearchUsersAPIDataSource implements SearchUsersDataSource {
 	@NonNull
 	@Override
 	public CommonResponses.DataResponse searchUsers(@NonNull String authenticationToken, @NonNull String userName) {
-		Log.e("Game", "searching " + userName);
 		retrofit2.Response<Response> response;
 		try {
 			response = api.searchUsers(authenticationToken, userName).execute();

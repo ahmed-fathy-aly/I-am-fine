@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
 
 @Ignore // takes time to run bec. of the delays in the test
 public class SearchUsersViewModelTest {
-	private final static int TIMEOUT = 2000;
+	private final static int TIMEOUT = 400;
 
 	@Rule
 	public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
@@ -85,6 +85,7 @@ public class SearchUsersViewModelTest {
 		when(stringHelper.getString(R.string.network_error)).thenReturn("ne");
 		when(stringHelper.getString(R.string.something_went_wrong)).thenReturn("ue");
 
+		viewModel.DEBOUNCE_TIME_MILLIES = 0;
 	}
 
 	@Test
@@ -116,6 +117,8 @@ public class SearchUsersViewModelTest {
 
 	@Test
 	public void testSearchDebounce() throws Exception {
+		viewModel.DEBOUNCE_TIME_MILLIES = 200;
+
 		when(repo.searchUsers(eq("abcd"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(Collections.emptyList()));
 		when(repo.searchUsers(eq("xyz"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(Collections.emptyList()));
 
@@ -126,18 +129,18 @@ public class SearchUsersViewModelTest {
 		viewModel.onSearchTextChanged("abc");
 		viewModel.onSearchTextChanged("abcd");
 
-		inOrder.verify(loading, timeout(2000)).onChanged(true);
+		inOrder.verify(loading, timeout(300)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
 		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
 		assertTrue(usersCaptor.getValue().isEmpty());
 
 
-		Thread.sleep(2000);
+		Thread.sleep(300);
 		viewModel.onSearchTextChanged("x");
 		viewModel.onSearchTextChanged("xy");
 		viewModel.onSearchTextChanged("xyz");
 
-		inOrder.verify(loading, timeout(2000)).onChanged(true);
+		inOrder.verify(loading, timeout(300)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
 		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
 		assertTrue(usersCaptor.getValue().isEmpty());
