@@ -25,6 +25,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.android.plugins.RxAndroidPlugins;
@@ -41,7 +42,7 @@ import static org.mockito.Mockito.when;
 
 @Ignore // takes time to run bec. of the delays in the test
 public class SearchUsersViewModelTest {
-	private final static int TIMEOUT = 100;
+	private final static int TIMEOUT = 2000;
 
 	@Rule
 	public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
@@ -114,6 +115,37 @@ public class SearchUsersViewModelTest {
 	}
 
 	@Test
+	public void testSearchDebounce() throws Exception {
+		when(repo.searchUsers(eq("abcd"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(Collections.emptyList()));
+		when(repo.searchUsers(eq("xyz"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(Collections.emptyList()));
+
+
+		viewModel.onSearchTextChanged("");
+		viewModel.onSearchTextChanged("a");
+		viewModel.onSearchTextChanged("ab");
+		viewModel.onSearchTextChanged("abc");
+		viewModel.onSearchTextChanged("abcd");
+
+		inOrder.verify(loading, timeout(2000)).onChanged(true);
+		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
+		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
+		assertTrue(usersCaptor.getValue().isEmpty());
+
+
+		Thread.sleep(2000);
+		viewModel.onSearchTextChanged("x");
+		viewModel.onSearchTextChanged("xy");
+		viewModel.onSearchTextChanged("xyz");
+
+		inOrder.verify(loading, timeout(2000)).onChanged(true);
+		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
+		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
+		assertTrue(usersCaptor.getValue().isEmpty());
+
+		inOrder.verifyNoMoreInteractions();
+	}
+
+	@Test
 	public void testSearchNetworkError() {
 		when(repo.searchUsers(eq("abc"))).thenReturn(new CommonResponses.NetworkErrorResponse());
 
@@ -170,10 +202,9 @@ public class SearchUsersViewModelTest {
 
 		viewModel.onSearchTextChanged("a");
 
-		inOrder.verify(users).onChanged(usersCaptor.capture());
+		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
 		assertEquals(0, usersCaptor.getValue().size());
 
-		inOrder.verify(loading).onChanged(false);
 		inOrder.verifyNoMoreInteractions();
 	}
 
@@ -182,10 +213,9 @@ public class SearchUsersViewModelTest {
 
 		viewModel.onSearchTextChanged(" a  ");
 
-		inOrder.verify(users).onChanged(usersCaptor.capture());
+		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
 		assertEquals(0, usersCaptor.getValue().size());
 
-		inOrder.verify(loading).onChanged(false);
 		inOrder.verifyNoMoreInteractions();
 	}
 
@@ -204,7 +234,7 @@ public class SearchUsersViewModelTest {
 
 		assertEquals(UserCardData.AskAboutButtonState.ASKED, usersCaptor.getValue().get(0).getAskAboutButtonState());
 
-		inOrder.verify(message).onChanged("asked about hamada");
+		inOrder.verify(message, timeout(TIMEOUT)).onChanged("asked about hamada");
 	}
 
 	@Test

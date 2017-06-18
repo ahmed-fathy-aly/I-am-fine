@@ -22,22 +22,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.icu.util.ULocale.getName;
-
 public class SearchUsersViewModel extends ViewModel {
 
 	public static final int MIN_LENGTH_SEARCH_STRING = 3;
-	private static final int SECONDS_SEARCH_DEBOUNCE = 2;
-	private static final int SECONDS_SEARCH_DELAY = 1;
+	public static final int DEBOUNCE_TIME_MILLIES = 1200;
 
 	@NonNull
 	private final SearchUsersRepo repo;
@@ -52,6 +51,9 @@ public class SearchUsersViewModel extends ViewModel {
 	private final MutableLiveData<List<UserCardData>> users;
 	@NonNull
 	private final StringHelper stringHelper;
+
+	@NonNull
+	TextObservable textObservable;
 
 	@NonNull
 	private Disposable searchDisposable;
@@ -76,6 +78,14 @@ public class SearchUsersViewModel extends ViewModel {
 		loadingProgress.setValue(false);
 		users.setValue(Collections.emptyList());
 
+		textObservable = new TextObservable();
+		textObservable
+				.debounce(DEBOUNCE_TIME_MILLIES, TimeUnit.MILLISECONDS)
+				.subscribeOn(Schedulers.computation())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(s -> {
+					doSearch(s);
+				});
 	}
 
 	@NonNull
@@ -93,16 +103,25 @@ public class SearchUsersViewModel extends ViewModel {
 		return message;
 	}
 
+
 	public void onSearchTextChanged(@Nullable String searchStr) {
+		if (searchStr != null) {
+			textObservable.newText(searchStr);
+		}
+	}
+
+	private void doSearch(@NonNull String searchStr) {
 		// stop previous requests
 		if (!searchDisposable.isDisposed()) {
 			searchDisposable.dispose();
 		}
 
 		// ignore short searches
-		if (searchStr == null || searchStr.trim().length() < MIN_LENGTH_SEARCH_STRING) {
+		if (searchStr.trim().length() < MIN_LENGTH_SEARCH_STRING) {
 			users.setValue(Collections.emptyList());
-			loadingProgress.setValue(false);
+			if (loadingProgress.getValue()) {
+				loadingProgress.setValue(false);
+			}
 			return;
 		}
 
@@ -196,6 +215,22 @@ public class SearchUsersViewModel extends ViewModel {
 		users.setValue(userCardData);
 	}
 
+
+	class TextObservable extends Observable<String> {
+
+		private Observer observer;
+
+		@Override
+		protected void subscribeActual(Observer observer) {
+			this.observer = observer;
+		}
+
+		void newText(@NonNull String str) {
+			if (observer != null) {
+				observer.onNext(str);
+			}
+		}
+	}
 
 	public static class Factory extends ViewModelProvider.NewInstanceFactory {
 

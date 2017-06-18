@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.main_screen.search_users.model;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
@@ -29,6 +30,7 @@ public class SearchUsersAPIDataSource implements SearchUsersDataSource {
 	@NonNull
 	@Override
 	public CommonResponses.DataResponse searchUsers(@NonNull String authenticationToken, @NonNull String userName) {
+		Log.e("Game", "searching " + userName);
 		retrofit2.Response<Response> response;
 		try {
 			response = api.searchUsers(authenticationToken, userName).execute();

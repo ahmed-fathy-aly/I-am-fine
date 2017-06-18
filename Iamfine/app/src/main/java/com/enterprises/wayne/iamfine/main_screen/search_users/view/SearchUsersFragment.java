@@ -21,7 +21,6 @@ import com.enterprises.wayne.iamfine.app.MyApplication;
 import com.enterprises.wayne.iamfine.base.BaseFragment;
 import com.enterprises.wayne.iamfine.ui_util.GenericHeaderRecyclerViewAdapter;
 import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewDelegate;
-import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,16 +81,22 @@ public class SearchUsersFragment extends BaseFragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 		// updates to view model
-		// TODO find a way to skip the first one
-		RxTextView
-				.textChanges(editTextSearch)
-				.skipInitialValue()
-				.debounce(1, TimeUnit.SECONDS)
-				.map(event -> event.toString())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(s -> {
-					viewModel.onSearchTextChanged(s);
-				});
+		editTextSearch.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				viewModel.onSearchTextChanged(s.toString());
+			}
+		});
 
 		// updates from view model
 		viewModel.getUsers().observe(this, userCardData -> adapter.changeData(userCardData));
