@@ -80,6 +80,10 @@ public class SearchUsersViewModelTest {
 		inOrder.verify(users).onChanged(usersCaptor.capture());
 		List<UserCardData> initialUsers = (List<UserCardData>) usersCaptor.getValue();
 		assertTrue(initialUsers.isEmpty());
+
+		when(stringHelper.getString(R.string.network_error)).thenReturn("ne");
+		when(stringHelper.getString(R.string.something_went_wrong)).thenReturn("ue");
+
 	}
 
 	@Test
@@ -117,7 +121,7 @@ public class SearchUsersViewModelTest {
 
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(message).onChanged(R.string.network_error);
+		inOrder.verify(message).onChanged("ne");
 
 		inOrder.verifyNoMoreInteractions();
 	}
@@ -130,7 +134,7 @@ public class SearchUsersViewModelTest {
 
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(message).onChanged(R.string.something_went_wrong);
+		inOrder.verify(message).onChanged("ue");
 
 		inOrder.verifyNoMoreInteractions();
 	}
@@ -143,7 +147,7 @@ public class SearchUsersViewModelTest {
 
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(message).onChanged(R.string.something_went_wrong);
+		inOrder.verify(message).onChanged("ue");
 
 		inOrder.verifyNoMoreInteractions();
 	}
@@ -156,7 +160,7 @@ public class SearchUsersViewModelTest {
 
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(message).onChanged(R.string.something_went_wrong);
+		inOrder.verify(message).onChanged("ue");
 
 		inOrder.verifyNoMoreInteractions();
 	}
@@ -187,8 +191,9 @@ public class SearchUsersViewModelTest {
 
 	@Test
 	public void testAskAboutUserSuccess() throws Exception {
+		when(repo.getUser("1")).thenReturn(new UserDataModel("1", "Hamada", "", "", -1));
 		when(repo.askAboutUser(eq("1"))).thenReturn(new AskAboutUserDataSource.SuccessAskAboutUser());
-
+		when(stringHelper.getCombinedString(R.string.asked_about_x, "hamada")).thenReturn("asked about Hamada");
 		viewModel.setUsersForTesting(Arrays.asList(
 				new UserCardData("1", "", "", "", UserCardData.AskAboutButtonState.ENABLED)
 		));
@@ -198,10 +203,13 @@ public class SearchUsersViewModelTest {
 		inOrder.verify(users, times(3)).onChanged(usersCaptor.capture());
 
 		assertEquals(UserCardData.AskAboutButtonState.ASKED, usersCaptor.getValue().get(0).getAskAboutButtonState());
+
+		inOrder.verify(message).onChanged("asked about hamada");
 	}
 
 	@Test
 	public void testAskAboutInvalidId() throws Exception {
+		when(repo.getUser("1")).thenReturn(new UserDataModel("1", "hamada", "", "", -1));
 		when(repo.askAboutUser(eq("1"))).thenReturn(new AskAboutUserDataSource.InvalidUserId());
 
 		viewModel.setUsersForTesting(Arrays.asList(
@@ -214,12 +222,13 @@ public class SearchUsersViewModelTest {
 
 		assertEquals(UserCardData.AskAboutButtonState.ENABLED, usersCaptor.getValue().get(0).getAskAboutButtonState());
 
-		inOrder.verify(message).onChanged(R.string.something_went_wrong);
+		inOrder.verify(message).onChanged("ue");
 	}
 
 
 	@Test
 	public void testAskAboutNetworkError() throws Exception {
+		when(repo.getUser("1")).thenReturn(new UserDataModel("1", "hamada", "", "", -1));
 		when(repo.askAboutUser(eq("1"))).thenReturn(new CommonResponses.NetworkErrorResponse());
 
 		viewModel.setUsersForTesting(Arrays.asList(
@@ -232,9 +241,7 @@ public class SearchUsersViewModelTest {
 
 		assertEquals(UserCardData.AskAboutButtonState.ENABLED, usersCaptor.getValue().get(0).getAskAboutButtonState());
 
-		inOrder.verify(message).onChanged(R.string.network_error);
+		inOrder.verify(message).onChanged("ne");
 	}
-
-
 
 }

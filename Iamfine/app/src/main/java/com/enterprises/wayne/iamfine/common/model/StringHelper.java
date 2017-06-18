@@ -13,6 +13,11 @@ public class StringHelper {
 	}
 
 	@NonNull
+	public String getString(int resId) {
+		return context.getString(resId);
+	}
+
+	@NonNull
 	public String getCombinedString(int stringsId, String...strs){
 		return context.getString(stringsId, strs);
 	}

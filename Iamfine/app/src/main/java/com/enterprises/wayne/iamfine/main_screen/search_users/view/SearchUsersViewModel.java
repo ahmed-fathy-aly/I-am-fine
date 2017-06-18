@@ -31,6 +31,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.icu.util.ULocale.getName;
+
 public class SearchUsersViewModel extends ViewModel {
 
 	public static final int MIN_LENGTH_SEARCH_STRING = 3;
@@ -45,7 +47,7 @@ public class SearchUsersViewModel extends ViewModel {
 	@NonNull
 	private final MutableLiveData<Boolean> loadingProgress;
 	@NonNull
-	private final MutableLiveData<Integer> message;
+	private final MutableLiveData<String> message;
 	@NonNull
 	private final MutableLiveData<List<UserCardData>> users;
 	@NonNull
@@ -87,7 +89,7 @@ public class SearchUsersViewModel extends ViewModel {
 	}
 
 	@NonNull
-	LiveData<Integer> getMessage() {
+	LiveData<String> getMessage() {
 		return message;
 	}
 
@@ -117,9 +119,9 @@ public class SearchUsersViewModel extends ViewModel {
 						users.setValue(cardData);
 					} else if (response instanceof CommonResponses.FailResponse) {
 						if (response instanceof CommonResponses.NetworkErrorResponse) {
-							message.setValue(R.string.network_error);
+							message.setValue(stringHelper.getString(R.string.network_error));
 						} else {
-							message.setValue(R.string.something_went_wrong);
+							message.setValue(stringHelper.getString(R.string.something_went_wrong));
 						}
 					}
 				});
@@ -127,10 +129,15 @@ public class SearchUsersViewModel extends ViewModel {
 
 
 	public void askAboutUser(@NonNull String userId) {
-		// update status of that user
-		if (!update(userId, UserCardData.AskAboutButtonState.LOADING)) {
+		// that user must have came from the last search
+		UserDataModel user = repo.getUser(userId);
+		if (user == null) {
+			message.setValue(stringHelper.getString(R.string.something_went_wrong));
 			return;
 		}
+
+		// update status of that user
+		update(userId, UserCardData.AskAboutButtonState.LOADING);
 
 		Disposable disposable = Observable.defer(() -> Observable.just(repo.askAboutUser(userId)))
 				.subscribeOn(Schedulers.io())
@@ -138,12 +145,13 @@ public class SearchUsersViewModel extends ViewModel {
 				.subscribe(response -> {
 					if (response instanceof AskAboutUserDataSource.SuccessAskAboutUser) {
 						update(userId, UserCardData.AskAboutButtonState.ASKED);
+						message.setValue(stringHelper.getCombinedString(R.string.asked_about_x, user.getName()));
 					} else if (response instanceof CommonResponses.FailResponse) {
 						update(userId, UserCardData.AskAboutButtonState.ENABLED);
 						if (response instanceof CommonResponses.NetworkErrorResponse) {
-							message.setValue(R.string.network_error);
+							message.setValue(stringHelper.getString(R.string.network_error));
 						} else {
-							message.setValue(R.string.something_went_wrong);
+							message.setValue(stringHelper.getString(R.string.something_went_wrong));
 						}
 					}
 				});
@@ -151,7 +159,7 @@ public class SearchUsersViewModel extends ViewModel {
 
 	}
 
-	private boolean update(String userId, UserCardData.AskAboutButtonState newState) {
+	private void update(String userId, UserCardData.AskAboutButtonState newState) {
 		int idx = -1;
 		List<UserCardData> updatedUsers = users.getValue();
 		for (int i = 0; i < updatedUsers.size(); i++) {
@@ -161,12 +169,11 @@ public class SearchUsersViewModel extends ViewModel {
 			}
 		}
 		if (idx == -1) {
-			return false;
+			return;
 		}
 
 		updatedUsers.get(idx).setAskAboutButtonState(newState);
 		users.setValue(updatedUsers);
-		return true;
 	}
 
 	@NonNull

@@ -97,7 +97,7 @@ public class SearchUsersFragment extends BaseFragment {
 		viewModel.getUsers().observe(this, userCardData -> adapter.changeData(userCardData));
 		viewModel.getLoadingProgress().observe(this, loading -> progressBar.setVisibility(loading ? View.VISIBLE : View.GONE));
 		viewModel.getMessage().observe(this, message -> {
-			if (message > 0)
+			if (message != null)
 				Snackbar.make(content, message, Snackbar.LENGTH_SHORT).show();
 		});
 	}

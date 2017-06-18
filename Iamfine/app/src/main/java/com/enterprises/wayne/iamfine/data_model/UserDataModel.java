@@ -25,7 +25,11 @@ public class UserDataModel implements Serializable{
 
     }
 
-    public String getId() {
+    public UserDataModel(String id) {
+        this.id = id;
+    }
+
+	public String getId() {
         return id;
     }
 

@@ -2,6 +2,7 @@ package com.enterprises.wayne.iamfine.main_screen.search_users.repo;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.data_model.UserDataModel;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 
@@ -10,7 +11,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -50,6 +57,22 @@ public class SearchUsersRepoTest {
 
 		assertEquals(RESPONSE, repo.searchUsers("abc"));
 
+	}
+
+	@Test
+	public void testSearchAndGetUser() {
+		when(userStorage.hasUserSaved()).thenReturn(true);
+		when(userStorage.getToken()).thenReturn("tok");
+		UserDataModel USER1 = new UserDataModel("1");
+		List<UserDataModel> USERS = Arrays.asList(USER1);
+		when(searchDataSource.searchUsers(anyString(), anyString()))
+				.thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(Arrays.asList(USER1)));
+
+
+		repo.searchUsers("");
+
+		assertEquals(USER1, repo.getUser("1"));
+		assertNull(repo.getUser("2"));
 	}
 
 	@Test
