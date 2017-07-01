@@ -116,7 +116,7 @@ public class SearchUsersViewModel extends UserListViewModel {
 					model.getName(),
 					stringHelper.getCombinedString(R.string.was_fine_when, timeFormatter.getDisplayTime(model.getLastFineData())),
 					model.getProfilePic(),
-					UserCardData.AskAboutButtonState.ENABLED
+					model.getId().equals(repo.getCurrentUserId()) ? UserCardData.AskAboutButtonState.HIDDEN : UserCardData.AskAboutButtonState.ENABLED
 			));
 		}
 		return cardData;

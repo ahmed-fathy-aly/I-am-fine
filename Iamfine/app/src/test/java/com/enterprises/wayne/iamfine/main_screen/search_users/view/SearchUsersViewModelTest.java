@@ -5,8 +5,8 @@ import android.arch.lifecycle.Observer;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
-import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.repo.SearchUsersRepo;
 
@@ -84,9 +84,11 @@ public class SearchUsersViewModelTest {
 	public void testSearchSuccess() {
 		when(timeFormatter.getDisplayTime(42)).thenReturn("now");
 		when(stringHelper.getCombinedString(R.string.was_fine_when, "now")).thenReturn("asked now");
+		when(repo.getCurrentUserId()).thenReturn("2");
 
 		List<UserDataModel> USERS = Arrays.asList(
-				new UserDataModel("1", "name1", "mail1", "image", 42)
+				new UserDataModel("1", "name1", "mail1", "image", 42),
+				new UserDataModel("2", "name2", "mail2", "image2", 42)
 		);
 		when(repo.searchUsers(eq("abc"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(USERS));
 
@@ -97,12 +99,13 @@ public class SearchUsersViewModelTest {
 		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
 
 		List<UserCardData> users = usersCaptor.getValue();
-		assertEquals(1, users.size());
+		assertEquals(2, users.size());
 		assertEquals("1", users.get(0).getId());
 		assertEquals("name1", users.get(0).getDisplayName());
 		assertEquals("image", users.get(0).getImageUrl());
 		assertEquals("asked now", users.get(0).getTimeStr());
 		assertEquals(UserCardData.AskAboutButtonState.ENABLED, users.get(0).getAskAboutButtonState());
+		assertEquals(UserCardData.AskAboutButtonState.HIDDEN, users.get(1).getAskAboutButtonState());
 
 		inOrder.verifyNoMoreInteractions();
 	}

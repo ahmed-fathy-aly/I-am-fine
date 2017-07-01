@@ -22,4 +22,9 @@ public class BaseDataResponseRepo {
 		}
 		return null;
 	}
+
+	@Nullable
+	public String getCurrentUserId() {
+		return userStorage.getUserId();
+	}
 }
