@@ -114,7 +114,7 @@ public class SearchUsersViewModel extends UserListViewModel {
 			cardData.add(new UserCardData(
 					model.getId(),
 					model.getName(),
-					stringHelper.getCombinedString(R.string.asked_x, timeFormatter.getDisplayTime(model.getLastFineData())),
+					stringHelper.getCombinedString(R.string.was_fine_when, timeFormatter.getDisplayTime(model.getLastFineData())),
 					model.getProfilePic(),
 					UserCardData.AskAboutButtonState.ENABLED
 			));

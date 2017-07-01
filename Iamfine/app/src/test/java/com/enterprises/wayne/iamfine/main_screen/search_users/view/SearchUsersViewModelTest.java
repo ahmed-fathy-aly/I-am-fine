@@ -83,7 +83,7 @@ public class SearchUsersViewModelTest {
 	@Test
 	public void testSearchSuccess() {
 		when(timeFormatter.getDisplayTime(42)).thenReturn("now");
-		when(stringHelper.getCombinedString(R.string.asked_x, "now")).thenReturn("asked now");
+		when(stringHelper.getCombinedString(R.string.was_fine_when, "now")).thenReturn("asked now");
 
 		List<UserDataModel> USERS = Arrays.asList(
 				new UserDataModel("1", "name1", "mail1", "image", 42)
