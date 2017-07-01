@@ -2,7 +2,7 @@ package com.enterprises.wayne.iamfine.main_screen.search_users.model;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
-import com.enterprises.wayne.iamfine.data_model.UserDataModel;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 
 import org.junit.Before;
 import org.junit.Test;

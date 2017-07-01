@@ -24,14 +24,14 @@ public class NotificationsService extends FirebaseMessagingService {
 
 		// check it's a valid notification
 		if (remoteMessage.getData() == null
-				|| remoteMessage.getData().get(NotificationsConstant.KEY_TYPE) == null){
+				|| remoteMessage.getData().get(NotificationsConstant.KEY_TYPE) == null) {
 			Log.e("GCM", "notification without a type");
 			return;
 		}
 
 		// handle each type
 		Log.e("GCM", "type " + remoteMessage.getData().get(NotificationsConstant.KEY_TYPE));
-		switch (remoteMessage.getData().get(NotificationsConstant.KEY_TYPE)){
+		switch (remoteMessage.getData().get(NotificationsConstant.KEY_TYPE)) {
 			case NotificationsConstant.TYPE_SOMEONE_ASKED:
 				// convert the data map to a bundle
 				Bundle extrasBundle = new Bundle();

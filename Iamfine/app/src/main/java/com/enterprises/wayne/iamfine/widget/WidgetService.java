@@ -3,13 +3,11 @@ package com.enterprises.wayne.iamfine.widget;
 import android.content.Intent;
 import android.widget.RemoteViewsService;
 
-import com.enterprises.wayne.iamfine.app.MyApplication;
-import com.enterprises.wayne.iamfine.data_model.WhoAskedDataModel;
+import com.enterprises.wayne.iamfine.common.app.MyApplication;
+import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class WidgetService extends RemoteViewsService {
 

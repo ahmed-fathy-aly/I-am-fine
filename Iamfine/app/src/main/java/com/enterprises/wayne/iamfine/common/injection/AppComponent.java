@@ -1,5 +1,7 @@
-package com.enterprises.wayne.iamfine.injection;
+package com.enterprises.wayne.iamfine.common.injection;
 
+import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.injection.UsersAskedAboutYouModule;
+import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.view.UsersAskedAboutYouFragment;
 import com.enterprises.wayne.iamfine.main_screen.search_users.injection.SearchUsersModule;
 import com.enterprises.wayne.iamfine.main_screen.search_users.view.SearchUsersFragment;
 import com.enterprises.wayne.iamfine.notification.SomeoneAskedNotificationJobService;
@@ -15,12 +17,12 @@ import dagger.Component;
  * Created by Ahmed on 2/5/2017.
  */
 
-@Component(modules = {AppModule.class, SignInModule.class, SignUpModule.class, SearchUsersModule.class})
+@Component(modules = {AppModule.class, SignInModule.class, SignUpModule.class, SearchUsersModule.class, UsersAskedAboutYouModule.class})
 public interface AppComponent {
 
-    void inject(SignInFragment signInFragment);
+	void inject(SignInFragment signInFragment);
 
-    void inject(SignUpFragment signUpFragment);
+	void inject(SignUpFragment signUpFragment);
 
 	void inject(SearchUsersFragment searchUsersFragment);
 
@@ -28,4 +30,5 @@ public interface AppComponent {
 
 	void inject(WidgetService widgetService);
 
+	void inject(UsersAskedAboutYouFragment usersAskedAboutYouFragment);
 }

@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.base;
+package com.enterprises.wayne.iamfine.common.view;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;

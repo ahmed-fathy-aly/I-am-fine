@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +16,18 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.app.MyApplication;
-import com.enterprises.wayne.iamfine.base.BaseFragment;
-import com.enterprises.wayne.iamfine.ui_util.GenericHeaderRecyclerViewAdapter;
-import com.enterprises.wayne.iamfine.ui_util.GenericRecyclerViewDelegate;
+import com.enterprises.wayne.iamfine.common.app.MyApplication;
+import com.enterprises.wayne.iamfine.common.view.BaseFragment;
+import com.enterprises.wayne.iamfine.common.view.GenericHeaderRecyclerViewAdapter;
+import com.enterprises.wayne.iamfine.common.view.GenericRecyclerViewDelegate;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class SearchUsersFragment extends BaseFragment {
 
@@ -48,12 +44,12 @@ public class SearchUsersFragment extends BaseFragment {
 	@BindView(R.id.content)
 	ViewGroup content;
 
+	public SearchUsersFragment() {
+	}
+
 	@NonNull
 	public static SearchUsersFragment newInstance() {
 		return new SearchUsersFragment();
-	}
-
-	public SearchUsersFragment() {
 	}
 
 	@Override

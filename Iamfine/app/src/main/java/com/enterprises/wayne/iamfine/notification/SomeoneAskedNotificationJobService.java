@@ -7,7 +7,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.app.MyApplication;
+import com.enterprises.wayne.iamfine.common.app.MyApplication;
 import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * updates the local database when we get a "someone asked" notification
  */
-public class SomeoneAskedNotificationJobService extends JobService{
+public class SomeoneAskedNotificationJobService extends JobService {
 
 	@Override
 	public boolean onStartJob(JobParameters job) {
@@ -38,7 +38,7 @@ public class SomeoneAskedNotificationJobService extends JobService{
 
 		// update the database
 		// TODO
- 		Log.e("GCM", "done someone asked job");
+		Log.e("GCM", "done someone asked job");
 
 		// make a notification
 

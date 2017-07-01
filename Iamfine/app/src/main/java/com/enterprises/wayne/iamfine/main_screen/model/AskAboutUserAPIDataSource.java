@@ -23,7 +23,7 @@ public class AskAboutUserAPIDataSource implements AskAboutUserDataSource {
 
 	@Override
 	public CommonResponses.DataResponse askAboutUser(@NonNull String authorizationToken, @NonNull String otherUserId) {
-		Response<AskAboutUserResponse> response ;
+		Response<AskAboutUserResponse> response;
 		try {
 			response = api.askAboutUser(authorizationToken, new AskAboutUserRequest(otherUserId)).execute();
 		} catch (IOException e) {
@@ -33,12 +33,10 @@ public class AskAboutUserAPIDataSource implements AskAboutUserDataSource {
 		if (response.body() != null) {
 			if (response.body().ok == 1) {
 				return new SuccessAskAboutUser();
-			}
-			else if (response.body().ok == 0 ) {
+			} else if (response.body().ok == 0) {
 				if ("unauthorized".equals(response.body().error)) {
 					return new CommonResponses.AuthenticationErrorResponse();
-				}
-				else if ("invalid_user_id".equals(response.body().error)) {
+				} else if ("invalid_user_id".equals(response.body().error)) {
 					return new AskAboutUserDataSource.InvalidUserId();
 				}
 			}

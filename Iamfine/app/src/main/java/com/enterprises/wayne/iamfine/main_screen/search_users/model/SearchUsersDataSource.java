@@ -3,8 +3,7 @@ package com.enterprises.wayne.iamfine.main_screen.search_users.model;
 import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.data_model.UserDataModel;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface SearchUsersDataSource {
 	public CommonResponses.DataResponse searchUsers(@NonNull String authenticationToken, @NonNull String userName);
 
 
-	final class SuccessSearchUsersResponse extends CommonResponses.SuccessResponse{
+	final class SuccessSearchUsersResponse extends CommonResponses.SuccessResponse {
 		@NonNull
 		public final List<UserDataModel> users;
 

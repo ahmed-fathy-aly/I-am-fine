@@ -114,7 +114,7 @@ public class SignInViewModelTest {
 		inOrder.verify(loadingProgress, timeout(TIMEOUT)).onChanged(eq(false));
 		inOrder.verify(signInEnabled, timeout(TIMEOUT)).onChanged(true);
 
-		inOrder.verify(emailError).onChanged(R.string.invalid_mail);
+		inOrder.verify(emailError, timeout(TIMEOUT)).onChanged(R.string.invalid_mail);
 		inOrder.verify(passwordError).onChanged(R.string.invalid_password);
 
 		when(repo.signIn(eq("mail"), eq("pass")))

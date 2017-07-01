@@ -103,7 +103,7 @@ public class SignUpViewModel extends ViewModel {
 	}
 
 
-	public void onSignUpClicked(@Nullable String email,@Nullable String name, @Nullable String password) {
+	public void onSignUpClicked(@Nullable String email, @Nullable String name, @Nullable String password) {
 		if (emailError.getValue() != null)
 			emailError.setValue(null);
 		if (nameError.getValue() != null)

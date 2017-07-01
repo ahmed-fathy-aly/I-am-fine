@@ -21,7 +21,7 @@ public class SignUpRepo {
 			@NonNull SignUpDataSource dataSource,
 			@NonNull CurrectUserStorage userStorage,
 			@NonNull SignUpValidator validator) {
-		this.dataSource =  dataSource;
+		this.dataSource = dataSource;
 		this.userStorage = userStorage;
 		this.validator = validator;
 	}

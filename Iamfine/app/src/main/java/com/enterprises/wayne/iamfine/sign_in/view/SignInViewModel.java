@@ -11,8 +11,6 @@ import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
 
-import org.junit.runners.Parameterized;
-
 import javax.inject.Inject;
 
 import io.reactivex.Observable;

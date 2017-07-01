@@ -1,5 +1,7 @@
 package com.enterprises.wayne.iamfine.helper;
 
+import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -8,13 +10,13 @@ import org.junit.Test;
 /**
  * Created by Ahmed on 2/18/2017.
  */
-public class TimeFormatterImplTest {
+public class TimeFormatterTest {
 
-    private TimeFormatterImpl timeFormmatter;
+    private TimeFormatter timeFormmatter;
 
     @Before
     public void setup() {
-        timeFormmatter = new TimeFormatterImpl();
+        timeFormmatter = new TimeFormatter();
     }
 
     @Test

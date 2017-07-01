@@ -3,7 +3,6 @@ package com.enterprises.wayne.iamfine.sign_up.model;
 import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 
 public interface SignUpDataSource {
 

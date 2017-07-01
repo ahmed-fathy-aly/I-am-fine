@@ -1,11 +1,10 @@
 package com.enterprises.wayne.iamfine.main_screen.search_users.model;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
-import com.enterprises.wayne.iamfine.data_model.UserDataModel;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 
 import java.io.IOException;
 import java.util.ArrayList;

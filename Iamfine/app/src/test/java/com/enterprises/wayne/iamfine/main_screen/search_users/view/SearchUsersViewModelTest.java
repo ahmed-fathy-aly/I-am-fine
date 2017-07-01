@@ -4,17 +4,13 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
-import com.enterprises.wayne.iamfine.data_model.UserDataModel;
-import com.enterprises.wayne.iamfine.helper.TimeFormatter;
-import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
+import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.repo.SearchUsersRepo;
-import com.google.firebase.database.ThrowOnExtraProperties;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -33,16 +29,12 @@ import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.timeout;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Ignore // takes time to run bec. of the delays in the test
 public class SearchUsersViewModelTest {
-	private final static int TIMEOUT = 400;
+	private final static int TIMEOUT = 200;
 
 	@Rule
 	public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
@@ -69,6 +61,7 @@ public class SearchUsersViewModelTest {
 		RxAndroidPlugins.setInitMainThreadSchedulerHandler(s -> Schedulers.trampoline());
 
 		MockitoAnnotations.initMocks(this);
+		SearchUsersViewModel.DEBOUNCE_TIME_MILLIES = 100;
 		viewModel = new SearchUsersViewModel(repo, timeFormatter, stringHelper);
 
 		viewModel.getLoadingProgress().observeForever(loading);
@@ -79,13 +72,12 @@ public class SearchUsersViewModelTest {
 
 		inOrder.verify(loading).onChanged(false);
 		inOrder.verify(users).onChanged(usersCaptor.capture());
-		List<UserCardData> initialUsers = (List<UserCardData>) usersCaptor.getValue();
+		List<UserCardData> initialUsers = usersCaptor.getValue();
 		assertTrue(initialUsers.isEmpty());
 
-		when(stringHelper.getString(R.string.network_error)).thenReturn("ne");
-		when(stringHelper.getString(R.string.something_went_wrong)).thenReturn("ue");
+		when(stringHelper.getNetworkErrorString()).thenReturn("ne");
+		when(stringHelper.getGenericErrorString()).thenReturn("ue");
 
-		viewModel.DEBOUNCE_TIME_MILLIES = 0;
 	}
 
 	@Test
@@ -117,7 +109,6 @@ public class SearchUsersViewModelTest {
 
 	@Test
 	public void testSearchDebounce() throws Exception {
-		viewModel.DEBOUNCE_TIME_MILLIES = 200;
 
 		when(repo.searchUsers(eq("abcd"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(Collections.emptyList()));
 		when(repo.searchUsers(eq("xyz"))).thenReturn(new SearchUsersDataSource.SuccessSearchUsersResponse(Collections.emptyList()));
@@ -129,7 +120,7 @@ public class SearchUsersViewModelTest {
 		viewModel.onSearchTextChanged("abc");
 		viewModel.onSearchTextChanged("abcd");
 
-		inOrder.verify(loading, timeout(300)).onChanged(true);
+		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
 		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
 		inOrder.verify(users, timeout(TIMEOUT)).onChanged(usersCaptor.capture());
 		assertTrue(usersCaptor.getValue().isEmpty());
@@ -148,47 +139,9 @@ public class SearchUsersViewModelTest {
 		inOrder.verifyNoMoreInteractions();
 	}
 
-	@Test
-	public void testSearchNetworkError() {
-		when(repo.searchUsers(eq("abc"))).thenReturn(new CommonResponses.NetworkErrorResponse());
-
-		viewModel.onSearchTextChanged("abc");
-
-		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
-		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(message).onChanged("ne");
-
-		inOrder.verifyNoMoreInteractions();
-	}
 
 	@Test
-	public void testSearchServerError() {
-		when(repo.searchUsers(eq("abc"))).thenReturn(new CommonResponses.ServerErrorResponse());
-
-		viewModel.onSearchTextChanged("abc");
-
-		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
-		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(message).onChanged("ue");
-
-		inOrder.verifyNoMoreInteractions();
-	}
-
-	@Test
-	public void testAuthenticationError() {
-		when(repo.searchUsers(eq("abc"))).thenReturn(new SearchUsersDataSource.AuthenticationError());
-
-		viewModel.onSearchTextChanged("abc");
-
-		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(true);
-		inOrder.verify(loading, timeout(TIMEOUT)).onChanged(false);
-		inOrder.verify(message).onChanged("ue");
-
-		inOrder.verifyNoMoreInteractions();
-	}
-
-	@Test
-	public void testInvalidNameError() {
+	public void testSearchError() {
 		when(repo.searchUsers(eq("abc"))).thenReturn(new SearchUsersDataSource.InvalidNameResponse());
 
 		viewModel.onSearchTextChanged("abc");
@@ -222,59 +175,5 @@ public class SearchUsersViewModelTest {
 		inOrder.verifyNoMoreInteractions();
 	}
 
-	@Test
-	public void testAskAboutUserSuccess() throws Exception {
-		when(repo.getUser("1")).thenReturn(new UserDataModel("1", "Hamada", "", "", -1));
-		when(repo.askAboutUser(eq("1"))).thenReturn(new AskAboutUserDataSource.SuccessAskAboutUser());
-		when(stringHelper.getCombinedString(R.string.asked_about_x, "Hamada")).thenReturn("asked about Hamada");
-		viewModel.setUsersForTesting(Arrays.asList(
-				new UserCardData("1", "", "", "", UserCardData.AskAboutButtonState.ENABLED)
-		));
-		viewModel.askAboutUser("1");
-
-		Thread.sleep(300);
-		inOrder.verify(users, times(3)).onChanged(usersCaptor.capture());
-
-		assertEquals(UserCardData.AskAboutButtonState.ASKED, usersCaptor.getValue().get(0).getAskAboutButtonState());
-
-		inOrder.verify(message, timeout(TIMEOUT)).onChanged("asked about Hamada");
-	}
-
-	@Test
-	public void testAskAboutInvalidId() throws Exception {
-		when(repo.getUser("1")).thenReturn(new UserDataModel("1", "hamada", "", "", -1));
-		when(repo.askAboutUser(eq("1"))).thenReturn(new AskAboutUserDataSource.InvalidUserId());
-
-		viewModel.setUsersForTesting(Arrays.asList(
-				new UserCardData("1", "", "", "", UserCardData.AskAboutButtonState.ENABLED)
-		));
-		viewModel.askAboutUser("1");
-
-		Thread.sleep(300);
-		verify(users, times(4)).onChanged(usersCaptor.capture());
-
-		assertEquals(UserCardData.AskAboutButtonState.ENABLED, usersCaptor.getValue().get(0).getAskAboutButtonState());
-
-		inOrder.verify(message).onChanged("ue");
-	}
-
-
-	@Test
-	public void testAskAboutNetworkError() throws Exception {
-		when(repo.getUser("1")).thenReturn(new UserDataModel("1", "hamada", "", "", -1));
-		when(repo.askAboutUser(eq("1"))).thenReturn(new CommonResponses.NetworkErrorResponse());
-
-		viewModel.setUsersForTesting(Arrays.asList(
-				new UserCardData("1", "", "", "", UserCardData.AskAboutButtonState.ENABLED)
-		));
-		viewModel.askAboutUser("1");
-
-		Thread.sleep(200);
-		verify(users, times(4)).onChanged(usersCaptor.capture());
-
-		assertEquals(UserCardData.AskAboutButtonState.ENABLED, usersCaptor.getValue().get(0).getAskAboutButtonState());
-
-		inOrder.verify(message).onChanged("ne");
-	}
 
 }

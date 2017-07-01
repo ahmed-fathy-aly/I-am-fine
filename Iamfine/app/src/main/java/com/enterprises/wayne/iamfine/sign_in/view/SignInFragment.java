@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.app.MyApplication;
-import com.enterprises.wayne.iamfine.base.BaseFragment;
+import com.enterprises.wayne.iamfine.common.app.MyApplication;
+import com.enterprises.wayne.iamfine.common.view.BaseFragment;
 import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 import com.enterprises.wayne.iamfine.sign_up.view.SignUpActivity;
 
@@ -46,12 +46,12 @@ public class SignInFragment extends BaseFragment {
 	@Inject
 	SignInViewModel.Factory viewModelFactory;
 
-	public static SignInFragment newInstance() {
-		return new SignInFragment();
-	}
-
 	public SignInFragment() {
 		// Required empty public constructor
+	}
+
+	public static SignInFragment newInstance() {
+		return new SignInFragment();
 	}
 
 	@Override

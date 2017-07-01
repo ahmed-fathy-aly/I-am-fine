@@ -1,7 +1,6 @@
-package com.enterprises.wayne.iamfine.ui_util;
+package com.enterprises.wayne.iamfine.common.view;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -12,12 +11,10 @@ import java.util.Map;
  * to use it, wrap view holders in {@link GenericRecyclerViewDelegate}
  */
 public class GenericHeaderRecyclerViewAdapter extends RecyclerView.Adapter {
+	private final List<Class> mDataTypes;
+	private final Map<Class, GenericRecyclerViewDelegate> mDelegates;
 	private List<Object> mData;
 	private Object mHeader;
-
-	private final List<Class> mDataTypes;
-
-	private final Map<Class, GenericRecyclerViewDelegate> mDelegates;
 
 	public GenericHeaderRecyclerViewAdapter(Map<Class, GenericRecyclerViewDelegate> delegates) {
 		mDelegates = delegates;

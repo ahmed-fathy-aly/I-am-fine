@@ -1,4 +1,4 @@
-package com.enterprises.wayne.iamfine.app;
+package com.enterprises.wayne.iamfine.common.config;
 
 public class Configuration {
 

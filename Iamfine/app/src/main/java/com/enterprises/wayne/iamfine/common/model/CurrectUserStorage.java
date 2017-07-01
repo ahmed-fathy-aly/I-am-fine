@@ -6,13 +6,13 @@ package com.enterprises.wayne.iamfine.common.model;
 
 public interface CurrectUserStorage {
 
-    boolean hasUserSaved();
+	boolean hasUserSaved();
 
-    String getUserId();
+	String getUserId();
 
-    String getToken();
+	String getToken();
 
-    void saveUser(String userId, String token);
+	void saveUser(String userId, String token);
 
-    void clear();
+	void clear();
 }

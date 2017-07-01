@@ -15,7 +15,7 @@ public class UserCardData {
 		this.askAboutButtonState = askAboutButtonState;
 	}
 
-	public UserCardData(){
+	public UserCardData() {
 	}
 
 	public String getId() {
@@ -42,7 +42,7 @@ public class UserCardData {
 		this.askAboutButtonState = askAboutButtonState;
 	}
 
-	enum AskAboutButtonState {
+	public enum AskAboutButtonState {
 		ENABLED,
 		LOADING,
 		ASKED,

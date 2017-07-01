@@ -1,12 +1,9 @@
 package com.enterprises.wayne.iamfine.main_screen.search_users.injection;
 
-import android.support.annotation.NonNull;
-
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
-import com.enterprises.wayne.iamfine.helper.TimeFormatter;
-import com.enterprises.wayne.iamfine.helper.TimeFormatterImpl;
+import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserAPIDataSource;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersAPIDataSource;
@@ -26,13 +23,13 @@ public class SearchUsersModule {
 	}
 
 	@Provides
-	SearchUsersRepo searchUsersRepo(SearchUsersDataSource dataSource, CurrectUserStorage userStorage, AskAboutUserDataSource askAboutUserDataSource)  {
+	SearchUsersRepo searchUsersRepo(SearchUsersDataSource dataSource, CurrectUserStorage userStorage, AskAboutUserDataSource askAboutUserDataSource) {
 		return new SearchUsersRepo(dataSource, userStorage, askAboutUserDataSource);
 	}
 
 	@Provides
 	TimeFormatter timeFormatter() {
-		return new TimeFormatterImpl();
+		return new TimeFormatter();
 	}
 
 	@Provides
