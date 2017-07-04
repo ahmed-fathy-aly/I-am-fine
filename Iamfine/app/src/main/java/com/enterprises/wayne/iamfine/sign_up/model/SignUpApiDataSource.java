@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.sign_up.model;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 
@@ -22,10 +23,10 @@ public class SignUpApiDataSource implements SignUpDataSource {
 
 	@NonNull
 	@Override
-	public CommonResponses.DataResponse getSignUpResponse(@NonNull String email, @NonNull String name, @NonNull String password) {
+	public CommonResponses.DataResponse getSignUpResponse(@NonNull String email, @NonNull String name, @NonNull String password, @Nullable String notificationsToken) {
 		Response<SignUpResponse> response;
 		try {
-			response = api.signIn(new SignUpRequest(email, name, password)).execute();
+			response = api.signIn(new SignUpRequest(email, name, password, notificationsToken)).execute();
 		} catch (IOException e) {
 			return new CommonResponses.NetworkErrorResponse();
 		}
@@ -61,11 +62,14 @@ public class SignUpApiDataSource implements SignUpDataSource {
 		String name;
 		@NonNull
 		String password;
+		@Nullable
+		String notificationToken;
 
-		public SignUpRequest(@NonNull String email, @NonNull String name, @NonNull String password) {
+		public SignUpRequest(@NonNull String email, @NonNull String name, @NonNull String password, @Nullable String notificationToken) {
 			this.email = email;
 			this.name = name;
 			this.password = password;
+			this.notificationToken = notificationToken;
 		}
 	}
 

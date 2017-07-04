@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.sign_in.model;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 
@@ -21,10 +22,10 @@ public class SignInApiDataSource implements SignInDataSource {
 	}
 
 	@Override
-	public CommonResponses.DataResponse getSignInResponse(String email, String password) {
+	public CommonResponses.DataResponse getSignInResponse(String email, String password, String notificationsToken) {
 		Response<SignInReponse> response;
 		try {
-			response = api.signIn(new SignInRequest(email, password)).execute();
+			response = api.signIn(new SignInRequest(email, password, notificationsToken)).execute();
 		} catch (IOException e) {
 			return new CommonResponses.NetworkErrorResponse();
 		}
@@ -58,10 +59,13 @@ public class SignInApiDataSource implements SignInDataSource {
 		String email;
 		@NonNull
 		String password;
+		@Nullable
+		String notificationToken;
 
-		public SignInRequest(@NonNull String email, @NonNull String password) {
+		public SignInRequest(@NonNull String email, @NonNull String password, @Nullable String notificationToken) {
 			this.email = email;
 			this.password = password;
+			this.notificationToken = notificationToken;
 		}
 	}
 

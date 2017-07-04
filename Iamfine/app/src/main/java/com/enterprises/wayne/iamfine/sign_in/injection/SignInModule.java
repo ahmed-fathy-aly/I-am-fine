@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.sign_in.injection;
 
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
@@ -19,8 +20,8 @@ public class SignInModule {
 	}
 
 	@Provides
-	SignInRepo signInRepo(SignInDataSource dataSource, CurrectUserStorage storage, SignInValidator validator) {
-		return new SignInRepo(dataSource, storage, validator);
+	SignInRepo signInRepo(SignInDataSource dataSource, CurrectUserStorage storage, NotificationsStorage notificationsStorage, SignInValidator validator) {
+		return new SignInRepo(dataSource, storage, notificationsStorage, validator);
 	}
 
 	@Provides

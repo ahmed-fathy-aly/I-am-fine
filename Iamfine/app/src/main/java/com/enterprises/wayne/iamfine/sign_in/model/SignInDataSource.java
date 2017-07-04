@@ -7,7 +7,7 @@ import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 public interface SignInDataSource {
 
 	@NonNull
-	CommonResponses.DataResponse getSignInResponse(String email, String password);
+	CommonResponses.DataResponse getSignInResponse(String email, String password, String notificationsToken);
 
 	final class SuccessSignInResponse extends CommonResponses.SuccessResponse {
 		@NonNull

@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.sign_up.model;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 
@@ -8,7 +9,7 @@ public interface SignUpDataSource {
 
 
 	@NonNull
-	CommonResponses.DataResponse getSignUpResponse(@NonNull String email, @NonNull String name, @NonNull String password);
+	CommonResponses.DataResponse getSignUpResponse(@NonNull String email, @NonNull String name, @NonNull String password, @Nullable String notificationsToken);
 
 
 	final class SuccessSignUpResponse extends CommonResponses.DataResponse {

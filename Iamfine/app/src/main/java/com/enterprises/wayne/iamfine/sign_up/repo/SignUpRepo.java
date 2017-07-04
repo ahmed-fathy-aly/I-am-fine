@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpValidator;
 
@@ -15,14 +16,18 @@ public class SignUpRepo {
 	@NonNull
 	private final CurrectUserStorage userStorage;
 	@NonNull
+	private final NotificationsStorage notificationsStorage;
+	@NonNull
 	private final SignUpValidator validator;
 
 	public SignUpRepo(
 			@NonNull SignUpDataSource dataSource,
 			@NonNull CurrectUserStorage userStorage,
+			@NonNull NotificationsStorage notificationsStorage,
 			@NonNull SignUpValidator validator) {
 		this.dataSource = dataSource;
 		this.userStorage = userStorage;
+		this.notificationsStorage = notificationsStorage;
 		this.validator = validator;
 	}
 
@@ -36,7 +41,7 @@ public class SignUpRepo {
 			return new SignUpDataSource.InvalidArgumentResponse(!validMail, !validName, !validPassword);
 
 		// if it's a success response then save to the storage
-		CommonResponses.DataResponse response = dataSource.getSignUpResponse(email, name, password);
+		CommonResponses.DataResponse response = dataSource.getSignUpResponse(email, name, password, notificationsStorage.getNotificationsToken());
 		if (response instanceof SignUpDataSource.SuccessSignUpResponse) {
 			SignUpDataSource.SuccessSignUpResponse successResponse = (SignUpDataSource.SuccessSignUpResponse) response;
 			userStorage.saveUser(successResponse.id, successResponse.token);

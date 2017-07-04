@@ -39,7 +39,7 @@ public class SignInApiDataSourceTest {
 				"  \"id\": \"123\"\n" +
 				"}"));
 
-		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof SignInDataSource.SuccessSignInResponse);
 		assertEquals("tok", ((SignInDataSource.SuccessSignInResponse)result).token);
 		assertEquals("123", ((SignInDataSource.SuccessSignInResponse)result).id);
@@ -53,7 +53,7 @@ public class SignInApiDataSourceTest {
 				"    \"email_not_found\"\n" +
 				"  ]\n" +
 				"}"));
-		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof SignInDataSource.EmailNotFoundResponse);
 	}
 
@@ -65,7 +65,7 @@ public class SignInApiDataSourceTest {
 						"    \"wrong_password\"\n" +
 						"  ]\n" +
 						"}"));
-		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof SignInDataSource.WrongPasswordResponse);
 	}
 
@@ -79,7 +79,7 @@ public class SignInApiDataSourceTest {
 				"    \"invalid_password\"\n" +
 				"  ]\n" +
 				"}"));
-		CommonResponses.DataResponse  result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse  result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof SignInDataSource.InvalidArgumentResponse);
 		assertTrue(((SignInDataSource.InvalidArgumentResponse)result).invalidMail);
 		assertTrue(((SignInDataSource.InvalidArgumentResponse)result).invalidPassword);
@@ -88,7 +88,7 @@ public class SignInApiDataSourceTest {
 	@Test
 	@Ignore // as if got no response
 	public void testNetworkError() throws Exception {
-		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof CommonResponses.NetworkErrorResponse);
 	}
 
@@ -97,7 +97,7 @@ public class SignInApiDataSourceTest {
 		server.enqueue(new MockResponse().setBody("{\n" +
 				"  \"hamada\": 1\n" +
 				"}"));
-		CommonResponses.DataResponse  result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse  result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
@@ -106,7 +106,7 @@ public class SignInApiDataSourceTest {
 		server.enqueue(new MockResponse().setBody("{\n" +
 				"  \"ok\": 0\n" +
 				"}"));
-		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
@@ -118,7 +118,7 @@ public class SignInApiDataSourceTest {
 				"    \"not_implemented\"\n" +
 				"  ]\n" +
 				"}"));
-		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 
@@ -126,7 +126,7 @@ public class SignInApiDataSourceTest {
 	public void testServerError4() throws Exception {
 		server.enqueue(new MockResponse().setResponseCode(400));
 
-		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass");
+		CommonResponses.DataResponse result = dataSource.getSignInResponse("mail", "pass", "tok");
 		assertTrue(result instanceof CommonResponses.ServerErrorResponse);
 	}
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.enterprises.wayne.iamfine.common.config.Configuration;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.CurrentUserPreferencesStorage;
+import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 
@@ -52,6 +53,10 @@ public class AppModule {
 		return new CurrentUserPreferencesStorage(preferences);
 	}
 
+	@Provides
+	NotificationsStorage notificationsStorage() {
+		return new NotificationsStorage();
+	}
 	@Provides
 	TimeParser timeParser() {
 		return new TimeParser();
