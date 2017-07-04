@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.app.MyApplication;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
+import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
@@ -33,15 +35,15 @@ public class SomeoneAskedNotificationJobService extends JobService {
 		Map<String, String> data = new HashMap<>();
 		if (job.getExtras() != null)
 			for (String key : job.getExtras().keySet())
-				if (job.getExtras().getString(key) != null)
+				if (job.getExtras().containsKey(key))
 					data.put(key, job.getExtras().getString(key));
 
-		// update the database
-		// TODO
-		Log.e("GCM", "done someone asked job");
+		// TODO update database
 
 		// make a notification
-
+		if (data.containsKey(NotificationsConstant.KEY_USER_HANDLE)){
+			showNotification(data.get(NotificationsConstant.KEY_USER_HANDLE));
+		}
 		return false;
 	}
 
@@ -51,7 +53,7 @@ public class SomeoneAskedNotificationJobService extends JobService {
 		NotificationCompat.Builder notificationBuilder =
 				new NotificationCompat.Builder(this)
 						.setSmallIcon(R.mipmap.ic_launcher)
-						.setContentTitle(title)
+						.setContentTitle(getString(R.string.someone_asked_about_you))
 						.setContentText(title);
 
 		// clicking on the notificaiton opens the main screen
