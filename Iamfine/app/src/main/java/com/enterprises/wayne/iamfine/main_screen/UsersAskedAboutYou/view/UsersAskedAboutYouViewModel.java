@@ -31,12 +31,10 @@ public class UsersAskedAboutYouViewModel extends UserListViewModel {
 	private final UsersAskedAboutYouRepo repo;
 	@NonNull
 	private final TimeFormatter timeFormatter;
-
-	@NonNull
-	private Disposable getWhoAskedDisposable, sayIamFineDisposable;
-
 	@NonNull
 	private final MutableLiveData<Boolean> sayIamFineProgressVisibile, sayIAmFineButtonVisible;
+	@NonNull
+	private Disposable getWhoAskedDisposable, sayIamFineDisposable;
 
 	public UsersAskedAboutYouViewModel(
 			@NonNull UsersAskedAboutYouRepo repo,

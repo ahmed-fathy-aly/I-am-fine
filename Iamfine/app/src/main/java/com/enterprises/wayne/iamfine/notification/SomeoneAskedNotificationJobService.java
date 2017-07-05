@@ -8,8 +8,6 @@ import android.util.Log;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.app.MyApplication;
-import com.enterprises.wayne.iamfine.common.model.UserDataModel;
-import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
@@ -41,7 +39,7 @@ public class SomeoneAskedNotificationJobService extends JobService {
 		// TODO update database
 
 		// make a notification
-		if (data.containsKey(NotificationsConstant.KEY_USER_HANDLE)){
+		if (data.containsKey(NotificationsConstant.KEY_USER_HANDLE)) {
 			showNotification(data.get(NotificationsConstant.KEY_USER_HANDLE));
 		}
 		return false;

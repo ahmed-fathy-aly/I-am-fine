@@ -2,9 +2,9 @@ package com.enterprises.wayne.iamfine.main_screen;
 
 import android.support.annotation.NonNull;
 
-import com.enterprises.wayne.iamfine.common.repo.BaseDataResponseRepo;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.repo.BaseDataResponseRepo;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 
 public class AskAboutUserRepo extends BaseDataResponseRepo {

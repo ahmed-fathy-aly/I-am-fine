@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 
-import javax.inject.Inject;
 public class MainScreenRepo {
 
 	@NonNull

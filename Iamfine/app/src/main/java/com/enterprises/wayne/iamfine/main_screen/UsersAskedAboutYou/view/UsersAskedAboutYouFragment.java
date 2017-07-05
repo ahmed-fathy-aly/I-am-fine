@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.enterprises.wayne.iamfine.R;
@@ -19,7 +18,6 @@ import com.enterprises.wayne.iamfine.common.app.MyApplication;
 import com.enterprises.wayne.iamfine.common.view.BaseFragment;
 import com.enterprises.wayne.iamfine.common.view.GenericHeaderRecyclerViewAdapter;
 import com.enterprises.wayne.iamfine.common.view.GenericRecyclerViewDelegate;
-import com.enterprises.wayne.iamfine.main_screen.search_users.view.SearchUsersViewModel;
 import com.enterprises.wayne.iamfine.main_screen.search_users.view.UserCardData;
 import com.enterprises.wayne.iamfine.main_screen.search_users.view.UserViewAdapterDelegate;
 
@@ -87,7 +85,7 @@ public class UsersAskedAboutYouFragment extends BaseFragment {
 			if (message != null)
 				Snackbar.make(content, message, Snackbar.LENGTH_SHORT).show();
 		});
-		viewModel.getSayIAmFineProgress().observe(this, visible -> progressBarSayIamFine.setVisibility(visible ? View.VISIBLE: View.GONE));
+		viewModel.getSayIAmFineProgress().observe(this, visible -> progressBarSayIamFine.setVisibility(visible ? View.VISIBLE : View.GONE));
 		viewModel.getSayIamFineVisible().observe(this, visible -> buttonSayIamFine.setVisibility(visible ? View.VISIBLE : View.INVISIBLE));
 	}
 }

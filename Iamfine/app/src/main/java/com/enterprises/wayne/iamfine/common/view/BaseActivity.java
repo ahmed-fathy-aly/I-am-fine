@@ -1,6 +1,5 @@
 package com.enterprises.wayne.iamfine.common.view;
 
-import android.arch.lifecycle.LifecycleActivity;
 import android.support.v7.app.AppCompatActivity;
 
 /**

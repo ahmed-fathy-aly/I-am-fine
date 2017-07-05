@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.common.view.BaseViewModel;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
+import com.enterprises.wayne.iamfine.common.view.BaseViewModel;
 import com.enterprises.wayne.iamfine.main_screen.AskAboutUserRepo;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.view.UserCardData;

@@ -2,8 +2,8 @@ package com.enterprises.wayne.iamfine.main_screen.search_users.injection;
 
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
-import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
+import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserAPIDataSource;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersAPIDataSource;

@@ -8,8 +8,8 @@ import android.support.annotation.VisibleForTesting;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
-import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
 import com.enterprises.wayne.iamfine.main_screen.search_users.repo.SearchUsersRepo;
 import com.enterprises.wayne.iamfine.main_screen.view.UserListViewModel;

@@ -57,6 +57,7 @@ public class AppModule {
 	NotificationsStorage notificationsStorage() {
 		return new NotificationsStorage();
 	}
+
 	@Provides
 	TimeParser timeParser() {
 		return new TimeParser();

@@ -47,6 +47,7 @@ public class BaseViewModel extends ViewModel {
 			liveData.setValue(b);
 		}
 	}
+
 	protected void handleCommonResponse(@NonNull CommonResponses.DataResponse response) {
 		if (response instanceof CommonResponses.FailResponse) {
 			if (response instanceof CommonResponses.NetworkErrorResponse) {

@@ -1,7 +1,5 @@
 package com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.injection;
 
-import android.support.annotation.NonNull;
-
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
@@ -11,7 +9,6 @@ import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.model.GetWho
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.model.SayIAmFineAPIDataSource;
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.repo.UsersAskedAboutYouRepo;
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.view.UsersAskedAboutYouViewModel;
-import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserAPIDataSource;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
 
 import dagger.Module;

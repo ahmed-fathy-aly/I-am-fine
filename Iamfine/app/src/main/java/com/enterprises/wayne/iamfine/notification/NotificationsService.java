@@ -33,7 +33,7 @@ public class NotificationsService extends FirebaseMessagingService {
 
 		// don't show if the notification is intended for someone other than the logged in user
 		String recieverId = remoteMessage.getData().get(NotificationsConstant.KEY_RECIEVER_ID);
-		if (recieverId == null || !userStorage.hasUserSaved() || !recieverId.equals(userStorage.getUserId())){
+		if (recieverId == null || !userStorage.hasUserSaved() || !recieverId.equals(userStorage.getUserId())) {
 			return;
 		}
 

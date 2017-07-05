@@ -8,7 +8,6 @@ import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import javax.inject.Inject;
 
@@ -45,7 +44,7 @@ public class SignInRepo {
 			return new SignInDataSource.InvalidArgumentResponse(!validMail, !validPassword);
 
 		// if it's a success response then save to the storage
-		CommonResponses.DataResponse response = dataSource.getSignInResponse(mail, password,  notificationsStorage.getNotificationsToken());
+		CommonResponses.DataResponse response = dataSource.getSignInResponse(mail, password, notificationsStorage.getNotificationsToken());
 		if (response instanceof SignInDataSource.SuccessSignInResponse) {
 			SignInDataSource.SuccessSignInResponse successResponse = (SignInDataSource.SuccessSignInResponse) response;
 			currectUserStorage.saveUser(successResponse.id, successResponse.token);

@@ -51,7 +51,7 @@ public class GetWhoAskedAboutmeAPIDataSource implements GetWhoAskedAboutMeDataSo
 				return new SuccessWhoAskedAboutMeResponse(whoAsked);
 			}
 
-			if (body.ok == 0 && "unauthorized".equals(body.error)){
+			if (body.ok == 0 && "unauthorized".equals(body.error)) {
 				return new CommonResponses.AuthenticationErrorResponse();
 			}
 		}

@@ -38,7 +38,7 @@ public class MainScreenFragment extends BaseFragment {
 	@Inject
 	MainScreenViewModel.Factory viewModelFactory;
 
-	public static MainScreenFragment newInstance(){
+	public static MainScreenFragment newInstance() {
 		return new MainScreenFragment();
 	}
 
@@ -56,7 +56,7 @@ public class MainScreenFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		// create view model
-		((MyApplication)getActivity().getApplication()).getAppComponent().inject(this);
+		((MyApplication) getActivity().getApplication()).getAppComponent().inject(this);
 		MainScreenViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainScreenViewModel.class);
 
 		// setup toolbar and its menu
@@ -97,8 +97,10 @@ public class MainScreenFragment extends BaseFragment {
 		@Override
 		public Fragment getItem(int pos) {
 			switch (pos) {
-				case 0:	return SearchUsersFragment.newInstance();
-				case 1: return UsersAskedAboutYouFragment.newInstance();
+				case 0:
+					return SearchUsersFragment.newInstance();
+				case 1:
+					return UsersAskedAboutYouFragment.newInstance();
 			}
 			return null;
 		}
