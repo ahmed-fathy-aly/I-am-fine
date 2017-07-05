@@ -4,6 +4,7 @@ import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.injection.Us
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.view.UsersAskedAboutYouFragment;
 import com.enterprises.wayne.iamfine.main_screen.search_users.injection.SearchUsersModule;
 import com.enterprises.wayne.iamfine.main_screen.search_users.view.SearchUsersFragment;
+import com.enterprises.wayne.iamfine.notification.NotificationsService;
 import com.enterprises.wayne.iamfine.notification.SomeoneAskedNotificationJobService;
 import com.enterprises.wayne.iamfine.sign_in.injection.SignInModule;
 import com.enterprises.wayne.iamfine.sign_in.view.SignInFragment;
@@ -31,4 +32,6 @@ public interface AppComponent {
 	void inject(WidgetService widgetService);
 
 	void inject(UsersAskedAboutYouFragment usersAskedAboutYouFragment);
+
+	void inject(NotificationsService notificationsService);
 }
