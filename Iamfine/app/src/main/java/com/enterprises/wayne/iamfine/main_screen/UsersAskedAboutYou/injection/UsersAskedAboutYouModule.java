@@ -2,8 +2,10 @@ package com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.injection;
 
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
+import com.enterprises.wayne.iamfine.common.model.SyncStatus;
 import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
+import com.enterprises.wayne.iamfine.common.model.WhoAskedLocalDataSource;
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.model.GetWhoAskedAboutMeDataSource;
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.model.GetWhoAskedAboutmeAPIDataSource;
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.model.SayIAmFineAPIDataSource;
@@ -30,8 +32,10 @@ public class UsersAskedAboutYouModule {
 			CurrectUserStorage userStorage,
 			AskAboutUserDataSource askAboutUserDataSource,
 			GetWhoAskedAboutMeDataSource getWhoAskedAboutMeDataSource,
+			SyncStatus syncStatus,
+			WhoAskedLocalDataSource whoAskedLocalDataSource,
 			SayIAmFineAPIDataSource sayIAmFineAPIDataSource) {
-		return new UsersAskedAboutYouRepo(userStorage, askAboutUserDataSource, getWhoAskedAboutMeDataSource, sayIAmFineAPIDataSource);
+		return new UsersAskedAboutYouRepo(userStorage, askAboutUserDataSource, getWhoAskedAboutMeDataSource,syncStatus, whoAskedLocalDataSource, sayIAmFineAPIDataSource);
 	}
 
 	@Provides

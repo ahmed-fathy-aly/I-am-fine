@@ -33,6 +33,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.when;
 
@@ -73,7 +74,7 @@ public class UsersAskedAboutYouViewModelTest {
 		when(stringHelper.getCombinedString(R.string.asked_x, "two days ago")).thenReturn("asked two days ago");
 		when(timeFormatter.getDisplayTime(42)).thenReturn("two days ago");
 
-		when(repo.getWhoAskedAboutMe()).thenAnswer(i -> {
+		when(repo.getWhoAskedAboutMe(false)).thenAnswer(i -> {
 			Thread.sleep(200);
 			List<WhoAskedDataModel> WHO_ASKED = Arrays.asList(
 					new WhoAskedDataModel(new UserDataModel("1", "ahmed", "", "", -1), 42));
@@ -81,7 +82,7 @@ public class UsersAskedAboutYouViewModelTest {
 		});
 
 
-		  viewModel = new UsersAskedAboutYouViewModel(repo, timeFormatter, stringHelper);
+		viewModel = new UsersAskedAboutYouViewModel(repo, timeFormatter, stringHelper);
 		viewModel.getLoadingProgress().observeForever(loading);
 		viewModel.getUsers().observeForever(users);
 		viewModel.getSayIamFineVisible().observeForever(sayIamFineButtonVisible);
@@ -103,6 +104,21 @@ public class UsersAskedAboutYouViewModelTest {
 		assertEquals(UserCardData.AskAboutButtonState.ENABLED, whoAsked.get(0).getAskAboutButtonState());
 
 		inOrder.verify(sayIamFineButtonVisible).onChanged(true);
+
+	}
+
+	@Test
+	public void testInitAndSwipeToRefresh() {
+		testInitSuccess();
+
+		when(repo.getWhoAskedAboutMe(eq(true))).thenReturn(new GetWhoAskedAboutMeDataSource.SuccessWhoAskedAboutMeResponse(Collections.emptyList()));
+		viewModel.onSwipeToRefresh();
+
+		inOrder.verify(loading).onChanged(true);
+
+		inOrder.verify(loading, timeout(400)).onChanged(false);
+		inOrder.verify(users).onChanged(usersCaptor.capture());
+		assertTrue(usersCaptor.getValue().isEmpty());
 
 	}
 
@@ -141,7 +157,7 @@ public class UsersAskedAboutYouViewModelTest {
 	public void testInitSuccessNoOneAsked() {
 		MockitoAnnotations.initMocks(this);
 
-		when(repo.getWhoAskedAboutMe()).thenAnswer(i -> {
+		when(repo.getWhoAskedAboutMe(false)).thenAnswer(i -> {
 			Thread.sleep(200);
 			return new GetWhoAskedAboutMeDataSource.SuccessWhoAskedAboutMeResponse(Collections.emptyList());
 		});

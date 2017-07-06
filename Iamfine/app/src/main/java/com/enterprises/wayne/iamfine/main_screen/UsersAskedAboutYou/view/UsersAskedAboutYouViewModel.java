@@ -53,7 +53,7 @@ public class UsersAskedAboutYouViewModel extends UserListViewModel {
 		sayIAmFineButtonVisible.setValue(false);
 		sayIamFineProgressVisibile.setValue(false);
 
-		loadWhoAsked();
+		loadWhoAsked(false);
 	}
 
 
@@ -65,13 +65,18 @@ public class UsersAskedAboutYouViewModel extends UserListViewModel {
 		return sayIamFineProgressVisibile;
 	}
 
-	private void loadWhoAsked() {
+
+	public void onSwipeToRefresh() {
+		loadWhoAsked(true);
+	}
+
+	private void loadWhoAsked(boolean forceUpdateFromBackend) {
 		if (!getWhoAskedDisposable.isDisposed()) {
 			getWhoAskedDisposable.dispose();
 		}
 		changeLoading(true);
 
-		getWhoAskedDisposable = Observable.defer(() -> Observable.just(repo.getWhoAskedAboutMe()))
+		getWhoAskedDisposable = Observable.defer(() -> Observable.just(repo.getWhoAskedAboutMe(forceUpdateFromBackend)))
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(response -> {

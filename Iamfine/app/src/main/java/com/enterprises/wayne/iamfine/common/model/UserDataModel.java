@@ -1,5 +1,7 @@
 package com.enterprises.wayne.iamfine.common.model;
 
+import android.arch.persistence.room.Ignore;
+
 import java.io.Serializable;
 
 /**
@@ -21,6 +23,7 @@ public class UserDataModel implements Serializable {
 		this.lastFineData = lastFineData;
 	}
 
+	@Ignore
 	public UserDataModel(String id, String name, String email) {
 		this.id = id;
 		this.name = name;
@@ -29,12 +32,13 @@ public class UserDataModel implements Serializable {
 		this.lastFineData = -1;
 	}
 
-	public UserDataModel() {
-
-	}
-
+	@Ignore
 	public UserDataModel(String id) {
 		this.id = id;
+	}
+
+	@Ignore
+	public UserDataModel() {
 	}
 
 	public String getId() {

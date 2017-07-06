@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,8 +38,8 @@ public class UsersAskedAboutYouFragment extends BaseFragment {
 
 	@BindView(R.id.recycler_view)
 	RecyclerView recyclerView;
-	@BindView(R.id.progress_bar)
-	ProgressBar progressBar;
+	@BindView(R.id.swipe_refresh)
+	SwipeRefreshLayout swipeRefreshLayout;
 	@BindView(R.id.content)
 	ViewGroup content;
 	@BindView(R.id.button_say_i_am_fine)
@@ -74,13 +75,15 @@ public class UsersAskedAboutYouFragment extends BaseFragment {
 		GenericHeaderRecyclerViewAdapter adapter = new GenericHeaderRecyclerViewAdapter(delegateMap);
 		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+		swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.accent));
 
 		// update to view model
 		buttonSayIamFine.setOnClickListener(v -> viewModel.onSayIamFine());
+		swipeRefreshLayout.setOnRefreshListener(() -> viewModel.onSwipeToRefresh());
 
-		// updades from view model
+		// updates from view model
 		viewModel.getUsers().observe(this, userCardData -> adapter.changeData(userCardData));
-		viewModel.getLoadingProgress().observe(this, loading -> progressBar.setVisibility(loading ? View.VISIBLE : View.GONE));
+		viewModel.getLoadingProgress().observe(this, loading -> swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(loading)));
 		viewModel.getMessage().observe(this, message -> {
 			if (message != null)
 				Snackbar.make(content, message, Snackbar.LENGTH_SHORT).show();
