@@ -1,6 +1,7 @@
 package com.enterprises.wayne.iamfine.notification;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.enterprises.wayne.iamfine.common.app.MyApplication;
@@ -26,14 +27,14 @@ public class NotificationsService extends FirebaseMessagingService {
 
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
-		Log.d("GCM", "Message received");
+		Log.d("GCM", "Message received " + remoteMessage.toString());
 
 
 		((MyApplication) getApplication()).getAppComponent().inject(this);
 
 		// don't show if the notification is intended for someone other than the logged in user
 		String recieverId = remoteMessage.getData().get(NotificationsConstant.KEY_RECIEVER_ID);
-		if (recieverId == null || !userStorage.hasUserSaved() || !recieverId.equals(userStorage.getUserId())) {
+		if (!userStorage.hasUserSaved() || (recieverId != null && !recieverId.equals(userStorage.getUserId()))) {
 			return;
 		}
 
@@ -41,25 +42,33 @@ public class NotificationsService extends FirebaseMessagingService {
 		String type = remoteMessage.getData().get(NotificationsConstant.KEY_TYPE);
 		switch (type) {
 			case NotificationsConstant.TYPE_SOMEONE_ASKED:
-				// convert the data map to a bundle
-				Bundle extrasBundle = new Bundle();
-				for (Map.Entry<String, String> entry : remoteMessage.getData().entrySet())
-					extrasBundle.putString(entry.getKey(), entry.getValue());
-
-				// launch the update service
-				FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
-				Job myJob = dispatcher.newJobBuilder()
-						.setService(SomeoneAskedNotificationJobService.class)
-						.setTag(NotificationsConstant.TYPE_SOMEONE_ASKED)
-						.setRecurring(false)
-						.setReplaceCurrent(false)
-						.setExtras(extrasBundle)
-						.setTrigger(Trigger.NOW)
-						.build();
-				dispatcher.mustSchedule(myJob);
-
+				startServiceNow(SomeoneAskedNotificationJobService.class, getBundle(remoteMessage), type);
+				break;
+			case NotificationsConstant.TYPE_SOMEONE_SAID_I_AM_FINE:
+				startServiceNow(SomeoneIsFineNotificationJobService.class, getBundle(remoteMessage), type);
 				return;
 		}
+	}
+
+	private void startServiceNow(@NonNull Class serviceClass, @NonNull Bundle bundle, @NonNull String tag) {
+		FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
+		Job job = dispatcher.newJobBuilder()
+				.setService(serviceClass)
+				.setTag(tag)
+				.setRecurring(false)
+				.setReplaceCurrent(false)
+				.setExtras(bundle)
+				.setTrigger(Trigger.NOW)
+				.build();
+		dispatcher.mustSchedule(job);
+	}
+
+	@NonNull
+	private Bundle getBundle(@NonNull RemoteMessage remoteMessage) {
+		Bundle extrasBundle = new Bundle();
+		for (Map.Entry<String, String> entry : remoteMessage.getData().entrySet())
+			extrasBundle.putString(entry.getKey(), entry.getValue());
+		return extrasBundle;
 	}
 
 }
