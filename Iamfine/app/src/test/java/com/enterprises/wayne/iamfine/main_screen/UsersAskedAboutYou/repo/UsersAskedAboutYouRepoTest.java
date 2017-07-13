@@ -3,6 +3,7 @@ package com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.repo;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.SyncStatus;
+import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedLocalDataSource;
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.model.GetWhoAskedAboutMeDataSource;
@@ -100,5 +101,14 @@ public class UsersAskedAboutYouRepoTest {
 	public void sayIamFineUnAuth() {
 		when(userStorage.hasUserSaved()).thenReturn(false);
 		assertTrue(repo.sayIamFine() instanceof CommonResponses.AuthenticationErrorResponse);
+	}
+
+	@Test
+	public void testInsertWhoAskedAboutMe() {
+		WhoAskedDataModel whoAskedDataModel = new WhoAskedDataModel(new UserDataModel("1"), 2l);
+		repo.insertSomeoneAskedEntry(whoAskedDataModel);
+
+		verify(whoAskedLocalDataSource).insert(whoAskedDataModel);
+		verify(syncStatus).onWhoAskedUpdated();
 	}
 }

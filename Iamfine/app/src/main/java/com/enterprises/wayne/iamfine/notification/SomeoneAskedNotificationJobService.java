@@ -16,14 +16,21 @@ import com.firebase.jobdispatcher.JobService;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 /**
  * updates the local database when we get a "someone asked" notification
  */
 public class SomeoneAskedNotificationJobService extends BaseNotificationJobService {
 
+	@Inject
+	SomeoneAskedNotificationHandler handler;
+
 	@Override
 	public void onStartJob(@NonNull Map<String, String> data) {
-		// TODO update database
+		//  handle data
+		((MyApplication)getApplication()).getAppComponent().inject(this);
+		handler.handleNotification(data);
 
 		// make a notification
 		if (data.containsKey(NotificationsConstant.KEY_USER_HANDLE)) {

@@ -9,6 +9,7 @@ import com.enterprises.wayne.iamfine.main_screen.search_users.view.SearchUsersFr
 import com.enterprises.wayne.iamfine.main_screen.view.MainScreenFragment;
 import com.enterprises.wayne.iamfine.notification.NotificationsService;
 import com.enterprises.wayne.iamfine.notification.SomeoneAskedNotificationJobService;
+import com.enterprises.wayne.iamfine.notification.injection.NotificationsModule;
 import com.enterprises.wayne.iamfine.sign_in.injection.SignInModule;
 import com.enterprises.wayne.iamfine.sign_in.view.SignInFragment;
 import com.enterprises.wayne.iamfine.sign_up.injection.SignUpModule;
@@ -21,7 +22,7 @@ import dagger.Component;
  * Created by Ahmed on 2/5/2017.
  */
 
-@Component(modules = {AppModule.class, SignInModule.class, SignUpModule.class, SearchUsersModule.class, UsersAskedAboutYouModule.class, MainScreenModule.class})
+@Component(modules = {AppModule.class, SignInModule.class, SignUpModule.class, SearchUsersModule.class, UsersAskedAboutYouModule.class, MainScreenModule.class, NotificationsModule.class})
 public interface AppComponent {
 
 	void inject(SignInFragment signInFragment);

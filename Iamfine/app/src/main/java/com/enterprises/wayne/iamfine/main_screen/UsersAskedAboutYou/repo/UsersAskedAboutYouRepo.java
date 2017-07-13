@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.SyncStatus;
+import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedLocalDataSource;
 import com.enterprises.wayne.iamfine.main_screen.AskAboutUserRepo;
 import com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.model.GetWhoAskedAboutMeDataSource;
@@ -68,5 +69,10 @@ public class UsersAskedAboutYouRepo extends AskAboutUserRepo {
 			}
 		}
 		return response;
+	}
+
+	public void insertSomeoneAskedEntry(@NonNull WhoAskedDataModel whoAsked) {
+		whoAskedLocalDataSource.insert(whoAsked);
+		syncStatus.onWhoAskedUpdated();
 	}
 }

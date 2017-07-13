@@ -12,7 +12,9 @@ public class NotificationsConstant {
 	public static final String KEY_USER_HANDLE = "userName";
 	public static final String KEY_USER_PP = "userProfilePicUrl";
 	public static final String KEY_USER_EMAIL = "userEmail";
-	public static final String KEY_WHEN_ASKED = "whenAsked";
+	public static final String KEY_USER_LAST_FINE_TIME= "userLastFineTime";
+	public static final String KEY_WHEN_ASKED = "askTime";
+
 
 	// someone is fine notification
 	public static final String TYPE_SOMEONE_SAID_I_AM_FINE = "someoneSaidIAmFine";
