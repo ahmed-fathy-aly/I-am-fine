@@ -8,7 +8,6 @@ import com.enterprises.wayne.iamfine.main_screen.search_users.injection.SearchUs
 import com.enterprises.wayne.iamfine.main_screen.search_users.view.SearchUsersFragment;
 import com.enterprises.wayne.iamfine.main_screen.view.MainScreenFragment;
 import com.enterprises.wayne.iamfine.notification.NotificationsService;
-import com.enterprises.wayne.iamfine.notification.SomeoneAskedNotificationJobService;
 import com.enterprises.wayne.iamfine.notification.injection.NotificationsModule;
 import com.enterprises.wayne.iamfine.sign_in.injection.SignInModule;
 import com.enterprises.wayne.iamfine.sign_in.view.SignInFragment;
@@ -30,8 +29,6 @@ public interface AppComponent {
 	void inject(SignUpFragment signUpFragment);
 
 	void inject(SearchUsersFragment searchUsersFragment);
-
-	void inject(SomeoneAskedNotificationJobService someoneAskedNotificationJobService);
 
 	void inject(WidgetService widgetService);
 
