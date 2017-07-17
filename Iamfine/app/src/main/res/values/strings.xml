@@ -50,5 +50,9 @@
     <!-- constants -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
+    <!-- ids -->
+    <string name="facebook_app_id">155526598309408</string>
+    <string name="fb_login_protocol_scheme">fb155526598309408</string>
+
 
 </resources>

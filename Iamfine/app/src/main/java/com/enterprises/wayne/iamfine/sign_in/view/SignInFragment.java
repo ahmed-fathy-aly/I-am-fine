@@ -2,10 +2,12 @@ package com.enterprises.wayne.iamfine.sign_in.view;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,11 @@ import com.enterprises.wayne.iamfine.common.app.MyApplication;
 import com.enterprises.wayne.iamfine.common.view.BaseFragment;
 import com.enterprises.wayne.iamfine.main_screen.parent.MainScreenActivity;
 import com.enterprises.wayne.iamfine.sign_up.view.SignUpActivity;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import javax.inject.Inject;
 
@@ -41,10 +48,13 @@ public class SignInFragment extends BaseFragment {
 	View buttonSignIn;
 	@BindView(R.id.button_sign_up)
 	View buttonSignUp;
+	@BindView(R.id.button_facebook)
+	LoginButton buttonFacebook;
 
 	/* fields */
 	@Inject
 	SignInViewModel.Factory viewModelFactory;
+	private CallbackManager callbackManager;
 
 	public SignInFragment() {
 		// Required empty public constructor
@@ -65,7 +75,6 @@ public class SignInFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 
 		// create the view model
 		MyApplication app = (MyApplication) getContext().getApplicationContext();
@@ -97,6 +106,29 @@ public class SignInFragment extends BaseFragment {
 				editTextPassword.setError(getString(resId));
 			}
 		});
+
+		callbackManager = CallbackManager.Factory.create();
+		buttonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+			@Override
+			public void onSuccess(LoginResult loginResult) {
+				viewModel.onFacebookAuthentication(loginResult.getAccessToken().getToken());
+			}
+
+			@Override
+			public void onCancel() {
+
+			}
+
+			@Override
+			public void onError(FacebookException error) {
+			}
+		});
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		callbackManager.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

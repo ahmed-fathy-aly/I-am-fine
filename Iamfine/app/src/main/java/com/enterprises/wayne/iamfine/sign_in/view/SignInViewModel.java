@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
 
@@ -166,6 +167,27 @@ public class SignInViewModel extends ViewModel {
 	protected void onCleared() {
 		super.onCleared();
 		disposable.dispose();
+	}
+
+	public void onFacebookAuthentication(@NonNull String facebookToken) {
+		loadingProgress.setValue(true);
+		signInEnabled.setValue(false);
+
+		disposable = Observable.defer(() -> Observable.just(repo.authenticateWithFacebook(facebookToken)))
+				.subscribeOn(Schedulers.computation())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(response -> {
+							loadingProgress.setValue(false);
+
+							if (response instanceof FacebookAuthenticationDataSource.SuccessFacebookAuthentication) {
+								openMainScreen.setValue(true);
+								close.setValue(true);
+							} else {
+								signInEnabled.setValue(true);
+								message.setValue(R.string.something_went_wrong);
+							}
+						}
+				);
 	}
 
 	public static class Factory extends ViewModelProvider.NewInstanceFactory {

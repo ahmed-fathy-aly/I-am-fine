@@ -21,4 +21,8 @@ public class SignInActivity extends BaseFragmentActivity {
 		return SignInFragment.newInstance();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		getCurrentFragment().onActivityResult(requestCode, resultCode, data);
+	}
 }

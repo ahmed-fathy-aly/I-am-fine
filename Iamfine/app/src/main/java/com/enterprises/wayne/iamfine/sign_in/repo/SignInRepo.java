@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
+import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
 
@@ -15,7 +16,9 @@ import javax.inject.Inject;
 public class SignInRepo {
 
 	@NonNull
-	private final SignInDataSource dataSource;
+	private final SignInDataSource signInDataSource;
+	@NonNull
+	private final FacebookAuthenticationDataSource facebookDataSource;
 	@NonNull
 	private final CurrectUserStorage currectUserStorage;
 	@NonNull
@@ -26,11 +29,13 @@ public class SignInRepo {
 	@Inject
 	public SignInRepo(
 			@NonNull SignInDataSource signInDataSource,
+			@NonNull FacebookAuthenticationDataSource facebookAuthenticationDataSource,
 			@NonNull CurrectUserStorage currectUserStorage,
 			@NonNull NotificationsStorage notificationsStorage,
 			@NonNull SignInValidator validator) {
 		this.currectUserStorage = currectUserStorage;
-		this.dataSource = signInDataSource;
+		this.signInDataSource = signInDataSource;
+		this.facebookDataSource = facebookAuthenticationDataSource;
 		this.notificationsStorage = notificationsStorage;
 		this.validator = validator;
 	}
@@ -44,7 +49,7 @@ public class SignInRepo {
 			return new SignInDataSource.InvalidArgumentResponse(!validMail, !validPassword);
 
 		// if it's a success response then save to the storage
-		CommonResponses.DataResponse response = dataSource.getSignInResponse(mail, password, notificationsStorage.getNotificationsToken());
+		CommonResponses.DataResponse response = signInDataSource.getSignInResponse(mail, password, notificationsStorage.getNotificationsToken());
 		if (response instanceof SignInDataSource.SuccessSignInResponse) {
 			SignInDataSource.SuccessSignInResponse successResponse = (SignInDataSource.SuccessSignInResponse) response;
 			currectUserStorage.saveUser(successResponse.id, successResponse.token);
@@ -58,5 +63,19 @@ public class SignInRepo {
 
 	public boolean isAlreadySignedIn() {
 		return currectUserStorage.hasUserSaved();
+	}
+
+	public CommonResponses.DataResponse authenticateWithFacebook(@NonNull String facebookToken) {
+
+		// if it's a success response then save to the storage
+		CommonResponses.DataResponse response =
+				facebookDataSource.authenticateWithFacebook(facebookToken, notificationsStorage.getNotificationsToken());
+		if (response instanceof FacebookAuthenticationDataSource.SuccessFacebookAuthentication) {
+			FacebookAuthenticationDataSource.SuccessFacebookAuthentication successResponse = (FacebookAuthenticationDataSource.SuccessFacebookAuthentication) response;
+			currectUserStorage.saveUser(successResponse.id, successResponse.token);
+		}
+
+		// return whatever response we got
+		return response;
 	}
 }

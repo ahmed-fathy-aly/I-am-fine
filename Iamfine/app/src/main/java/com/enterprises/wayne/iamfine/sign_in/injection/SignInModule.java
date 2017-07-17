@@ -2,6 +2,8 @@ package com.enterprises.wayne.iamfine.sign_in.injection;
 
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
+import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationAPIDataSource;
+import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
@@ -20,8 +22,13 @@ public class SignInModule {
 	}
 
 	@Provides
-	SignInRepo signInRepo(SignInDataSource dataSource, CurrectUserStorage storage, NotificationsStorage notificationsStorage, SignInValidator validator) {
-		return new SignInRepo(dataSource, storage, notificationsStorage, validator);
+	SignInRepo signInRepo(
+			SignInDataSource dataSource,
+			FacebookAuthenticationDataSource facebookDataSource,
+			CurrectUserStorage storage,
+			NotificationsStorage notificationsStorage,
+			SignInValidator validator) {
+		return new SignInRepo(dataSource, facebookDataSource, storage, notificationsStorage, validator);
 	}
 
 	@Provides
@@ -32,6 +39,16 @@ public class SignInModule {
 	@Provides
 	SignInApiDataSource.API signInDataSourceAPi(Retrofit retrofit) {
 		return retrofit.create(SignInApiDataSource.API.class);
+	}
+
+	@Provides
+	FacebookAuthenticationDataSource facebookAuthenticationDataSource(FacebookAuthenticationAPIDataSource.API api){
+		return new FacebookAuthenticationAPIDataSource(api);
+	}
+
+	@Provides
+	FacebookAuthenticationAPIDataSource.API facebookAuthenticationAPI(Retrofit retrofit) {
+		return retrofit.create(FacebookAuthenticationAPIDataSource.API.class);
 	}
 
 	@Provides

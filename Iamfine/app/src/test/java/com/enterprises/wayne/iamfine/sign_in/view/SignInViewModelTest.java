@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
 
@@ -259,5 +260,41 @@ public class SignInViewModelTest {
 
 		verify(openMainScreen).onChanged(true);
 		verify(close).onChanged(true);
+	}
+
+	@Test
+	public void testFacebookAuthenticationSuccess() {
+		when(repo.authenticateWithFacebook(eq("facebookToken")))
+				.thenReturn(new FacebookAuthenticationDataSource.SuccessFacebookAuthentication("id", "tok"));
+
+		viewModel.onFacebookAuthentication("facebookToken");
+
+		inOrder.verify(loadingProgress).onChanged(true);
+		inOrder.verify(signInEnabled).onChanged(false);
+
+		inOrder.verify(loadingProgress, timeout(TIMEOUT)).onChanged(false);
+
+		inOrder.verify(openMainScreen).onChanged(true);
+		inOrder.verify(close).onChanged(true);
+		inOrder.verifyNoMoreInteractions();
+	}
+
+	@Test
+	public void testFacebookAuthenticationFailed() {
+		when(repo.authenticateWithFacebook(eq("facebookToken")))
+				.thenReturn(new FacebookAuthenticationDataSource.InvalidTokenFacebookAuthnentication());
+
+		viewModel.onFacebookAuthentication("facebookToken");
+
+		inOrder.verify(loadingProgress).onChanged(true);
+		inOrder.verify(signInEnabled).onChanged(false);
+
+		inOrder.verify(loadingProgress, timeout(TIMEOUT)).onChanged(false);
+		inOrder.verify(signInEnabled).onChanged(true);
+
+		inOrder.verify(message).onChanged(R.string.something_went_wrong);
+
+		inOrder.verifyNoMoreInteractions();
+
 	}
 }

@@ -1,11 +1,13 @@
 package com.enterprises.wayne.iamfine.sign_in.repo;
 
+import android.support.annotation.NonNull;
+
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
+import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -25,7 +26,9 @@ public class SignInRepoTest {
 
 
 	@Mock
-	SignInDataSource dataSource;
+	SignInDataSource signInDataSource;
+	@Mock
+	FacebookAuthenticationDataSource facebookDataSource;
 	@Mock
 	CurrectUserStorage storage;
 	@Mock
@@ -37,11 +40,11 @@ public class SignInRepoTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		repo = new SignInRepo(dataSource, storage, notificationsStorage, validator);
+		repo = new SignInRepo(signInDataSource, facebookDataSource, storage, notificationsStorage, validator);
 	}
 
 	@Test
-	public void testInvalidArgumentsLocal() throws Exception {
+	public void testSignInInvalidArgumentsLocal() throws Exception {
 		when(validator.isValidEmail(eq("a"))).thenReturn(false);
 		when(validator.isValidPassword(eq("b"))).thenReturn(false);
 
@@ -55,13 +58,13 @@ public class SignInRepoTest {
 	}
 
 	@Test
-	public void testFailRemote() {
+	public void testSignInFailRemote() {
 		when(validator.isValidEmail(eq("a"))).thenReturn(true);
 		when(validator.isValidPassword(eq("b"))).thenReturn(true);
 		CommonResponses.FailResponse failedResponse = new CommonResponses.FailResponse() {
 
 		};
-		when(dataSource.getSignInResponse(eq("a"), eq("b"), any()))
+		when(signInDataSource.getSignInResponse(eq("a"), eq("b"), any()))
 				.thenReturn(failedResponse);
 
 		assertEquals(failedResponse, repo.signIn("a", "b"));
@@ -70,12 +73,12 @@ public class SignInRepoTest {
 	}
 
 	@Test
-	public void testSuccess() throws Exception {
+	public void testSignInSuccess() throws Exception {
 		when(notificationsStorage.getNotificationsToken()).thenReturn("tok");
 		when(validator.isValidEmail(eq("a"))).thenReturn(true);
 		when(validator.isValidPassword(eq("b"))).thenReturn(true);
 		SignInDataSource.SuccessSignInResponse successResponse = new SignInDataSource.SuccessSignInResponse("123", "tok");
-		when(dataSource.getSignInResponse(eq("a"), eq("b"), eq("tok")))
+		when(signInDataSource.getSignInResponse(eq("a"), eq("b"), eq("tok")))
 				.thenReturn(successResponse);
 
 		assertEquals(successResponse, repo.signIn("a", "b"));
@@ -83,5 +86,16 @@ public class SignInRepoTest {
 		verifyNoMoreInteractions(storage);
 	}
 
+	@Test
+	public void testFacebookAuthenticationSuccess() {
+		when(notificationsStorage.getNotificationsToken()).thenReturn("notificationToken");
+		FacebookAuthenticationDataSource.SuccessFacebookAuthentication expected
+				= new FacebookAuthenticationDataSource.SuccessFacebookAuthentication("id", "tok");
+		when(facebookDataSource.authenticateWithFacebook(eq("facebookToken"), eq("notificationToken")))
+				.thenReturn(expected);
 
+		assertEquals(expected, repo.authenticateWithFacebook("facebookToken"));
+
+		verify(storage).saveUser("id", "tok");
+	}
 }
