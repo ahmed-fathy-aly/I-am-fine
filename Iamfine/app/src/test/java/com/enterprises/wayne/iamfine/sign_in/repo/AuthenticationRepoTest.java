@@ -1,13 +1,13 @@
 package com.enterprises.wayne.iamfine.sign_in.repo;
 
-import android.support.annotation.NonNull;
-
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
+import com.enterprises.wayne.iamfine.sign_up.model.AuthenticationValidator;
+import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +22,13 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-public class SignInRepoTest {
+public class AuthenticationRepoTest {
 
 
 	@Mock
 	SignInDataSource signInDataSource;
+	@Mock
+	SignUpDataSource signUpDataSource;
 	@Mock
 	FacebookAuthenticationDataSource facebookDataSource;
 	@Mock
@@ -34,13 +36,13 @@ public class SignInRepoTest {
 	@Mock
 	NotificationsStorage notificationsStorage;
 	@Mock
-	SignInValidator validator;
-	SignInRepo repo;
+	AuthenticationValidator validator;
+	AuthenticationRepo repo;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		repo = new SignInRepo(signInDataSource, facebookDataSource, storage, notificationsStorage, validator);
+		repo = new AuthenticationRepo(signInDataSource, signUpDataSource, facebookDataSource, storage, notificationsStorage, validator);
 	}
 
 	@Test
@@ -98,4 +100,49 @@ public class SignInRepoTest {
 
 		verify(storage).saveUser("id", "tok");
 	}
+
+	@Test
+	public void testSignUpInvalidArgumentsLocal() throws Exception {
+		when(validator.isValidEmail(eq("a"))).thenReturn(false);
+		when(validator.isValidName(eq("b"))).thenReturn(false);
+		when(validator.isValidPassword(eq("c"))).thenReturn(false);
+
+		CommonResponses.DataResponse result = repo.signUp("a", "b", "c");
+		assertTrue(result instanceof SignUpDataSource.InvalidArgumentResponse);
+		assertTrue(((SignUpDataSource.InvalidArgumentResponse) result).invalidMail);
+		assertTrue(((SignUpDataSource.InvalidArgumentResponse) result).invalidPassword);
+
+		verifyZeroInteractions(storage);
+	}
+
+	@Test
+	public void testSignUpFailRemote() {
+		when(validator.isValidEmail(eq("a"))).thenReturn(true);
+		when(validator.isValidName(eq("b"))).thenReturn(true);
+		when(validator.isValidPassword(eq("c"))).thenReturn(true);
+		CommonResponses.FailResponse failedResponse = new CommonResponses.FailResponse() {
+		};
+		when(signUpDataSource.getSignUpResponse(eq("a"), eq("b"), eq("c"), any()))
+				.thenReturn(failedResponse);
+
+		assertEquals(failedResponse, repo.signUp("a", "b", "c"));
+
+		verifyZeroInteractions(storage);
+	}
+
+	@Test
+	public void testSignUpSuccess() throws Exception {
+		when(notificationsStorage.getNotificationsToken()).thenReturn("tok");
+		when(validator.isValidEmail(eq("a"))).thenReturn(true);
+		when(validator.isValidName(eq("b"))).thenReturn(true);
+		when(validator.isValidPassword(eq("c"))).thenReturn(true);
+		SignUpDataSource.SuccessSignUpResponse successResponse = new SignUpDataSource.SuccessSignUpResponse("123", "tok");
+		when(signUpDataSource.getSignUpResponse(eq("a"), eq("b"), eq("c"), eq("tok")))
+				.thenReturn(successResponse);
+
+		assertEquals(successResponse, repo.signUp("a", "b", "c"));
+		verify(storage).saveUser("123", "tok");
+		verifyNoMoreInteractions(storage);
+	}
+
 }

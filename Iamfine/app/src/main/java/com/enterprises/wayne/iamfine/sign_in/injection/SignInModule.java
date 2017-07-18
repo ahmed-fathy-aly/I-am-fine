@@ -7,8 +7,10 @@ import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSou
 import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
-import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
+import com.enterprises.wayne.iamfine.sign_in.repo.AuthenticationRepo;
 import com.enterprises.wayne.iamfine.sign_in.view.SignInViewModel;
+import com.enterprises.wayne.iamfine.sign_up.model.AuthenticationValidator;
+import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,18 +19,19 @@ import retrofit2.Retrofit;
 @Module
 public class SignInModule {
 	@Provides
-	SignInViewModel.Factory signInViewModelFactory(SignInRepo repo) {
+	SignInViewModel.Factory signInViewModelFactory(AuthenticationRepo repo) {
 		return new SignInViewModel.Factory(repo);
 	}
 
 	@Provides
-	SignInRepo signInRepo(
-			SignInDataSource dataSource,
+	AuthenticationRepo authenticationRepo(
+			SignInDataSource signInDataSource,
+			SignUpDataSource signUpDataSource,
 			FacebookAuthenticationDataSource facebookDataSource,
 			CurrectUserStorage storage,
 			NotificationsStorage notificationsStorage,
-			SignInValidator validator) {
-		return new SignInRepo(dataSource, facebookDataSource, storage, notificationsStorage, validator);
+			AuthenticationValidator validator) {
+		return new AuthenticationRepo(signInDataSource, signUpDataSource, facebookDataSource, storage, notificationsStorage, validator);
 	}
 
 	@Provides
@@ -52,8 +55,8 @@ public class SignInModule {
 	}
 
 	@Provides
-	SignInValidator signInValidator() {
-		return new SignInValidator();
+	AuthenticationValidator authenticationValidator() {
+		return new AuthenticationValidator();
 	}
 
 }

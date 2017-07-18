@@ -2,13 +2,12 @@ package com.enterprises.wayne.iamfine.sign_in.view;
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
-import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
+import com.enterprises.wayne.iamfine.sign_in.repo.AuthenticationRepo;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,7 +34,7 @@ public class SignInViewModelTest {
 	SignInViewModel viewModel;
 
 	@Mock
-	SignInRepo repo;
+	AuthenticationRepo repo;
 
 	@Mock
 	Observer loadingProgress;

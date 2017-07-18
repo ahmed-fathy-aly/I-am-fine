@@ -5,8 +5,8 @@ import android.arch.lifecycle.Observer;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+import com.enterprises.wayne.iamfine.sign_in.repo.AuthenticationRepo;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
-import com.enterprises.wayne.iamfine.sign_up.repo.SignUpRepo;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,7 +33,7 @@ public class SignUpViewModelTest {
 	SignUpViewModel viewModel;
 
 	@Mock
-	SignUpRepo repo;
+	AuthenticationRepo repo;
 
 	@Mock
 	Observer loadingProgress;

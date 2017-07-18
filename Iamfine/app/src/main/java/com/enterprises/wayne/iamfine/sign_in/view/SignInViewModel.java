@@ -10,7 +10,7 @@ import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
-import com.enterprises.wayne.iamfine.sign_in.repo.SignInRepo;
+import com.enterprises.wayne.iamfine.sign_in.repo.AuthenticationRepo;
 
 import javax.inject.Inject;
 
@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SignInViewModel extends ViewModel {
 	@NonNull
-	private final SignInRepo repo;
+	private final AuthenticationRepo repo;
 
 	@NonNull
 	private final MutableLiveData<Boolean> loadingProgress;
@@ -46,7 +46,7 @@ public class SignInViewModel extends ViewModel {
 	@NonNull
 	private Disposable disposable;
 
-	public SignInViewModel(SignInRepo repo) {
+	public SignInViewModel(AuthenticationRepo repo) {
 		this.repo = repo;
 		this.loadingProgress = new MutableLiveData<>();
 		this.signInEnabled = new MutableLiveData<>();
@@ -192,10 +192,10 @@ public class SignInViewModel extends ViewModel {
 
 	public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
-		private final SignInRepo repo;
+		private final AuthenticationRepo repo;
 
 		@Inject
-		public Factory(SignInRepo repo) {
+		public Factory(AuthenticationRepo repo) {
 			this.repo = repo;
 		}
 

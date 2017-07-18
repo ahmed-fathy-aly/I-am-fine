@@ -9,8 +9,8 @@ import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.R;
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
+import com.enterprises.wayne.iamfine.sign_in.repo.AuthenticationRepo;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
-import com.enterprises.wayne.iamfine.sign_up.repo.SignUpRepo;
 
 import javax.inject.Inject;
 
@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SignUpViewModel extends ViewModel {
 
 	@NonNull
-	private final SignUpRepo repo;
+	private final AuthenticationRepo repo;
 
 	@NonNull
 	private final MutableLiveData<Boolean> loadingProgress;
@@ -47,7 +47,7 @@ public class SignUpViewModel extends ViewModel {
 	@NonNull
 	private Disposable disposable;
 
-	public SignUpViewModel(SignUpRepo repo) {
+	public SignUpViewModel(AuthenticationRepo repo) {
 		this.repo = repo;
 		this.loadingProgress = new MutableLiveData<>();
 		this.signUpEnabled = new MutableLiveData<>();
@@ -156,16 +156,16 @@ public class SignUpViewModel extends ViewModel {
 
 	public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
-		private final SignUpRepo repo;
+		private final AuthenticationRepo repo;
 
 		@Inject
-		public Factory(SignUpRepo repo) {
+		public Factory(AuthenticationRepo repo) {
 			this.repo = repo;
 		}
 
 		@Override
 		public <T extends ViewModel> T create(Class<T> modelClass) {
-			return (T) new SignUpViewModel(repo); // TODO
+			return (T) new SignUpViewModel(repo);
 		}
 	}
 

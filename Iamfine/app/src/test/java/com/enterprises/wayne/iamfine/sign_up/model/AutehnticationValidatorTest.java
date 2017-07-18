@@ -1,19 +1,17 @@
 package com.enterprises.wayne.iamfine.sign_up.model;
 
-import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class SignUpValidatorTest {
+public class AutehnticationValidatorTest {
 
-	private SignUpValidator validator;
+	private AuthenticationValidator validator;
 
 	@Before
 	public void setup() {
-		validator = new SignUpValidator();
+		validator = new AuthenticationValidator();
 	}
 
 	@Test

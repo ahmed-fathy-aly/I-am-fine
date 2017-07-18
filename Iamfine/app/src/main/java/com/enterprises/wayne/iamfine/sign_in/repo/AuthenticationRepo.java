@@ -9,14 +9,18 @@ import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
+import com.enterprises.wayne.iamfine.sign_up.model.AuthenticationValidator;
+import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 
 import javax.inject.Inject;
 
 
-public class SignInRepo {
+public class AuthenticationRepo {
 
 	@NonNull
 	private final SignInDataSource signInDataSource;
+	@NonNull
+	private final SignUpDataSource signUpDataSource;
 	@NonNull
 	private final FacebookAuthenticationDataSource facebookDataSource;
 	@NonNull
@@ -24,17 +28,19 @@ public class SignInRepo {
 	@NonNull
 	private final NotificationsStorage notificationsStorage;
 	@NonNull
-	private final SignInValidator validator;
+	private final AuthenticationValidator validator;
 
 	@Inject
-	public SignInRepo(
+	public AuthenticationRepo(
 			@NonNull SignInDataSource signInDataSource,
+			@NonNull SignUpDataSource signUpDataSource,
 			@NonNull FacebookAuthenticationDataSource facebookAuthenticationDataSource,
 			@NonNull CurrectUserStorage currectUserStorage,
 			@NonNull NotificationsStorage notificationsStorage,
-			@NonNull SignInValidator validator) {
+			@NonNull AuthenticationValidator validator) {
 		this.currectUserStorage = currectUserStorage;
 		this.signInDataSource = signInDataSource;
+		this.signUpDataSource =  signUpDataSource;
 		this.facebookDataSource = facebookAuthenticationDataSource;
 		this.notificationsStorage = notificationsStorage;
 		this.validator = validator;
@@ -55,6 +61,27 @@ public class SignInRepo {
 			currectUserStorage.saveUser(successResponse.id, successResponse.token);
 		}
 
+
+		// return whatever response we got
+		return response;
+	}
+
+
+	@NonNull
+	public CommonResponses.DataResponse signUp(@Nullable String email, @Nullable String name, @Nullable String password) {
+		// pre validations
+		boolean validMail = validator.isValidEmail(email);
+		boolean validName = validator.isValidName(name);
+		boolean validPassword = validator.isValidPassword(password);
+		if (!validMail || !validPassword || !validName)
+			return new SignUpDataSource.InvalidArgumentResponse(!validMail, !validName, !validPassword);
+
+		// if it's a success response then save to the storage
+		CommonResponses.DataResponse response = signUpDataSource.getSignUpResponse(email, name, password, notificationsStorage.getNotificationsToken());
+		if (response instanceof SignUpDataSource.SuccessSignUpResponse) {
+			SignUpDataSource.SuccessSignUpResponse successResponse = (SignUpDataSource.SuccessSignUpResponse) response;
+			currectUserStorage.saveUser(successResponse.id, successResponse.token);
+		}
 
 		// return whatever response we got
 		return response;

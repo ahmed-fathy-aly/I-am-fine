@@ -2,7 +2,7 @@ package com.enterprises.wayne.iamfine.sign_up.model;
 
 import android.support.annotation.Nullable;
 
-public class SignUpValidator {
+public class AuthenticationValidator {
 	public boolean isValidEmail(@Nullable String email) {
 		return email != null && !email.trim().isEmpty();
 	}
