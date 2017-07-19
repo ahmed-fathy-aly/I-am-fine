@@ -1,12 +1,11 @@
 package com.enterprises.wayne.iamfine.sign_in.injection;
 
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationAPIDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInApiDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
 import com.enterprises.wayne.iamfine.sign_in.repo.AuthenticationRepo;
 import com.enterprises.wayne.iamfine.sign_in.view.SignInViewModel;
 import com.enterprises.wayne.iamfine.sign_up.model.AuthenticationValidator;
@@ -28,7 +27,7 @@ public class SignInModule {
 			SignInDataSource signInDataSource,
 			SignUpDataSource signUpDataSource,
 			FacebookAuthenticationDataSource facebookDataSource,
-			CurrectUserStorage storage,
+			CurrentUserStorage storage,
 			NotificationsStorage notificationsStorage,
 			AuthenticationValidator validator) {
 		return new AuthenticationRepo(signInDataSource, signUpDataSource, facebookDataSource, storage, notificationsStorage, validator);

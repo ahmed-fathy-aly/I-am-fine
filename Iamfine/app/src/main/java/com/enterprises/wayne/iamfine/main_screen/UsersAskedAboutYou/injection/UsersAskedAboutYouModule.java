@@ -1,6 +1,6 @@
 package com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.injection;
 
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.SyncStatus;
 import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
@@ -29,7 +29,7 @@ public class UsersAskedAboutYouModule {
 
 	@Provides
 	UsersAskedAboutYouRepo usersAskedAboutYouRepo(
-			CurrectUserStorage userStorage,
+			CurrentUserStorage userStorage,
 			AskAboutUserDataSource askAboutUserDataSource,
 			GetWhoAskedAboutMeDataSource getWhoAskedAboutMeDataSource,
 			SyncStatus syncStatus,

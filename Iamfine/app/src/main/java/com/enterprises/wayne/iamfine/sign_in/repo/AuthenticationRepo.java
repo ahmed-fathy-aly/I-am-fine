@@ -4,11 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
 import com.enterprises.wayne.iamfine.sign_up.model.AuthenticationValidator;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 
@@ -24,7 +23,7 @@ public class AuthenticationRepo {
 	@NonNull
 	private final FacebookAuthenticationDataSource facebookDataSource;
 	@NonNull
-	private final CurrectUserStorage currectUserStorage;
+	private final CurrentUserStorage currectUserStorage;
 	@NonNull
 	private final NotificationsStorage notificationsStorage;
 	@NonNull
@@ -35,7 +34,7 @@ public class AuthenticationRepo {
 			@NonNull SignInDataSource signInDataSource,
 			@NonNull SignUpDataSource signUpDataSource,
 			@NonNull FacebookAuthenticationDataSource facebookAuthenticationDataSource,
-			@NonNull CurrectUserStorage currectUserStorage,
+			@NonNull CurrentUserStorage currectUserStorage,
 			@NonNull NotificationsStorage notificationsStorage,
 			@NonNull AuthenticationValidator validator) {
 		this.currectUserStorage = currectUserStorage;

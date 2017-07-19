@@ -1,6 +1,6 @@
 package com.enterprises.wayne.iamfine.main_screen.injection;
 
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.main_screen.repo.MainScreenRepo;
 import com.enterprises.wayne.iamfine.main_screen.view.MainScreenViewModel;
@@ -17,7 +17,7 @@ public class MainScreenModule {
 	}
 
 	@Provides
-	MainScreenRepo mainScreenRepo(CurrectUserStorage currectUserStorage) {
+	MainScreenRepo mainScreenRepo(CurrentUserStorage currectUserStorage) {
 		return new MainScreenRepo(currectUserStorage);
 	}
 }

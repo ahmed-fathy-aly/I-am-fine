@@ -2,14 +2,14 @@ package com.enterprises.wayne.iamfine.main_screen.repo;
 
 import android.support.annotation.NonNull;
 
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 
 public class MainScreenRepo {
 
 	@NonNull
-	private final CurrectUserStorage userStorage;
+	private final CurrentUserStorage userStorage;
 
-	public MainScreenRepo(@NonNull CurrectUserStorage userStorage) {
+	public MainScreenRepo(@NonNull CurrentUserStorage userStorage) {
 		this.userStorage = userStorage;
 	}
 

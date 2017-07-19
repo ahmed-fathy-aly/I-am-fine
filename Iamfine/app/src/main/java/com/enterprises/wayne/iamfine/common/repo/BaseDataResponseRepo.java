@@ -4,14 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 
 public class BaseDataResponseRepo {
 
 	@NonNull
-	protected final CurrectUserStorage userStorage;
+	protected final CurrentUserStorage userStorage;
 
-	public BaseDataResponseRepo(CurrectUserStorage userStorage) {
+	public BaseDataResponseRepo(CurrentUserStorage userStorage) {
 		this.userStorage = userStorage;
 	}
 

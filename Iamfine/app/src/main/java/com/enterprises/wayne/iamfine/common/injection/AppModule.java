@@ -3,19 +3,16 @@ package com.enterprises.wayne.iamfine.common.injection;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.provider.SyncStateContract;
 
 import com.enterprises.wayne.iamfine.common.config.Configuration;
 import com.enterprises.wayne.iamfine.common.model.AppDatabase;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.CurrentUserPreferencesStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.SyncStatus;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedLocalDataSource;
-
-import java.util.prefs.Preferences;
 
 import dagger.Module;
 import dagger.Provides;
@@ -55,7 +52,7 @@ public class AppModule {
 
 
 	@Provides
-	CurrectUserStorage currentUserStorage(Context context) {
+	CurrentUserStorage currentUserStorage(Context context) {
 		SharedPreferences preferences = context.getSharedPreferences("i_am_fine_current_user", Context.MODE_PRIVATE);
 		return new CurrentUserPreferencesStorage(preferences);
 	}

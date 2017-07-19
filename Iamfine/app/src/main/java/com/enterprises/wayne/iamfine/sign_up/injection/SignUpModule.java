@@ -1,9 +1,6 @@
 package com.enterprises.wayne.iamfine.sign_up.injection;
 
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
-import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.repo.AuthenticationRepo;
-import com.enterprises.wayne.iamfine.sign_up.model.AuthenticationValidator;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpApiDataSource;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 import com.enterprises.wayne.iamfine.sign_up.view.SignUpViewModel;

@@ -1,6 +1,6 @@
 package com.enterprises.wayne.iamfine.main_screen.search_users.injection;
 
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeFormatter;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
@@ -23,7 +23,7 @@ public class SearchUsersModule {
 	}
 
 	@Provides
-	SearchUsersRepo searchUsersRepo(SearchUsersDataSource dataSource, CurrectUserStorage userStorage, AskAboutUserDataSource askAboutUserDataSource) {
+	SearchUsersRepo searchUsersRepo(SearchUsersDataSource dataSource, CurrentUserStorage userStorage, AskAboutUserDataSource askAboutUserDataSource) {
 		return new SearchUsersRepo(dataSource, userStorage, askAboutUserDataSource);
 	}
 

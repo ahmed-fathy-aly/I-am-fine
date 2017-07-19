@@ -1,7 +1,7 @@
 package com.enterprises.wayne.iamfine.notification;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
@@ -36,7 +36,7 @@ public class NotificationsHandlerTest {
 	@Mock
 	NotificationsHandler.NotificationShower notificationShower;
 	@Mock
-	CurrectUserStorage userStorage;
+	CurrentUserStorage userStorage;
 	@Captor
 	ArgumentCaptor captor;
 

@@ -3,7 +3,7 @@ package com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.repo;
 import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.SyncStatus;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedLocalDataSource;
@@ -23,7 +23,7 @@ public class UsersAskedAboutYouRepo extends AskAboutUserRepo {
 	@NonNull
 	private final WhoAskedLocalDataSource whoAskedLocalDataSource;
 
-	public UsersAskedAboutYouRepo(@NonNull CurrectUserStorage userStorage,
+	public UsersAskedAboutYouRepo(@NonNull CurrentUserStorage userStorage,
 								  @NonNull AskAboutUserDataSource askAboutUserDataSource,
 								  @NonNull GetWhoAskedAboutMeDataSource getWhoAskedAboutMeDataSource,
 								  @NonNull SyncStatus syncStatus,

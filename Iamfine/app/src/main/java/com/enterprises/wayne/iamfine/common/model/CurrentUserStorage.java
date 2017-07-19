@@ -4,7 +4,7 @@ package com.enterprises.wayne.iamfine.common.model;
  * Created by Ahmed on 2/4/2017.
  */
 
-public interface CurrectUserStorage {
+public interface CurrentUserStorage {
 
 	boolean hasUserSaved();
 

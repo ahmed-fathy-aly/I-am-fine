@@ -1,7 +1,7 @@
 package com.enterprises.wayne.iamfine.main_screen.UsersAskedAboutYou.repo;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.SyncStatus;
 import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 import com.enterprises.wayne.iamfine.common.model.WhoAskedDataModel;
@@ -22,13 +22,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class UsersAskedAboutYouRepoTest {
 
 	@Mock
-	CurrectUserStorage userStorage;
+	CurrentUserStorage userStorage;
 	@Mock
 	AskAboutUserDataSource askAboutUserDataSource;
 	@Mock

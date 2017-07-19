@@ -1,10 +1,8 @@
 package com.enterprises.wayne.iamfine.main_screen;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.main_screen.model.AskAboutUserDataSource;
-import com.enterprises.wayne.iamfine.main_screen.search_users.model.SearchUsersDataSource;
-import com.enterprises.wayne.iamfine.main_screen.search_users.repo.SearchUsersRepo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +18,7 @@ public class AskAboutUserRepoTest {
 	@Mock
 	AskAboutUserDataSource dataSource;
 	@Mock
-	CurrectUserStorage userStorage;
+	CurrentUserStorage userStorage;
 
 	AskAboutUserRepo repo;
 

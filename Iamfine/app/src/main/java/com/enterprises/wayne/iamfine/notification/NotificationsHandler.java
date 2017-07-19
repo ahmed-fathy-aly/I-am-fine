@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.enterprises.wayne.iamfine.R;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.StringHelper;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
 import com.enterprises.wayne.iamfine.common.model.UserDataModel;
@@ -45,13 +45,13 @@ public class NotificationsHandler {
 	@NonNull
 	private final StringHelper stringHelper;
 	@NonNull
-	private final CurrectUserStorage userStorage;
+	private final CurrentUserStorage userStorage;
 
 
 	public NotificationsHandler(@NonNull UsersAskedAboutYouRepo repo,
 			@NonNull TimeParser timeParser,
 			@NonNull StringHelper stringHelper,
-			@NonNull CurrectUserStorage userStorage) {
+			@NonNull CurrentUserStorage userStorage) {
 		this.notificationShower = notificationShower;
 		this.repo = repo;
 		this.timeParser = timeParser;

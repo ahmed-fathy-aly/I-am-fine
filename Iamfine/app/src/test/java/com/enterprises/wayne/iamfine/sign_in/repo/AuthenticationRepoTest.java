@@ -1,11 +1,10 @@
 package com.enterprises.wayne.iamfine.sign_in.repo;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
-import com.enterprises.wayne.iamfine.common.model.CurrectUserStorage;
+import com.enterprises.wayne.iamfine.common.model.CurrentUserStorage;
 import com.enterprises.wayne.iamfine.common.model.NotificationsStorage;
 import com.enterprises.wayne.iamfine.sign_in.model.FacebookAuthenticationDataSource;
 import com.enterprises.wayne.iamfine.sign_in.model.SignInDataSource;
-import com.enterprises.wayne.iamfine.sign_in.model.SignInValidator;
 import com.enterprises.wayne.iamfine.sign_up.model.AuthenticationValidator;
 import com.enterprises.wayne.iamfine.sign_up.model.SignUpDataSource;
 
@@ -32,7 +31,7 @@ public class AuthenticationRepoTest {
 	@Mock
 	FacebookAuthenticationDataSource facebookDataSource;
 	@Mock
-	CurrectUserStorage storage;
+	CurrentUserStorage storage;
 	@Mock
 	NotificationsStorage notificationsStorage;
 	@Mock
