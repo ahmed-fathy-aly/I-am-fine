@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,10 @@ import com.enterprises.wayne.iamfine.sign_up.view.SignUpActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -49,12 +50,12 @@ public class SignInFragment extends BaseFragment {
 	@BindView(R.id.button_sign_up)
 	View buttonSignUp;
 	@BindView(R.id.button_facebook)
-	LoginButton buttonFacebook;
+	View buttonFacebook;
 
 	/* fields */
 	@Inject
 	SignInViewModel.Factory viewModelFactory;
-	private CallbackManager callbackManager;
+	private CallbackManager facebookCallbackManager;
 
 	public SignInFragment() {
 		// Required empty public constructor
@@ -107,8 +108,12 @@ public class SignInFragment extends BaseFragment {
 			}
 		});
 
-		callbackManager = CallbackManager.Factory.create();
-		buttonFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+		facebookCallbackManager = CallbackManager.Factory.create();
+		LoginManager loginManager = LoginManager.getInstance();
+		buttonFacebook.setOnClickListener((v) -> {
+			loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+		});
+		loginManager.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
 			@Override
 			public void onSuccess(LoginResult loginResult) {
 				viewModel.onFacebookAuthentication(loginResult.getAccessToken().getToken());
@@ -121,6 +126,7 @@ public class SignInFragment extends BaseFragment {
 
 			@Override
 			public void onError(FacebookException error) {
+
 			}
 		});
 	}
@@ -128,7 +134,7 @@ public class SignInFragment extends BaseFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		callbackManager.onActivityResult(requestCode, resultCode, data);
+		facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
 	}
 
 }
