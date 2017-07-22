@@ -36,7 +36,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".sign_in.view.SignInActivity">
+        <activity android:name=".sign_in.view.SignInActivity"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
