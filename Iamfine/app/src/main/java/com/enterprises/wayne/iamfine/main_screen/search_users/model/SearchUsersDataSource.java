@@ -24,7 +24,4 @@ public interface SearchUsersDataSource {
 
 	final class InvalidNameResponse extends CommonResponses.FailResponse {
 	}
-
-	final class AuthenticationError extends CommonResponses.FailResponse {
-	}
 }

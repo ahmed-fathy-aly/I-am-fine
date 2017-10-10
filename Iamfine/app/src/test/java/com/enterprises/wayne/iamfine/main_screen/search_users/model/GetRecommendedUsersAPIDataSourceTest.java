@@ -17,29 +17,30 @@ import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class SearchUsersAPIDataSourceTest {
+public class GetRecommendedUsersAPIDataSourceTest {
 	private MockWebServer server;
 
 	@Mock
 	TimeParser timeParser;
 
-	SearchUsersAPIDataSource dataSource;
+	GetRecommendedUsersDataSource dataSource;
 
 	@Before
 	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-			server = new MockWebServer();
+		server = new MockWebServer();
 		server.start();
 		String url = server.url("").toString();
 		Retrofit retrofit = new Retrofit.Builder()
 				.baseUrl(url)
 				.addConverterFactory(GsonConverterFactory.create())
 				.build();
-		SearchUsersAPIDataSource.API api = retrofit.create(SearchUsersAPIDataSource.API.class);
-		dataSource = new SearchUsersAPIDataSource(api, timeParser);
+		GetRecommendedUsersAPIDataSource.API api = retrofit.create(GetRecommendedUsersAPIDataSource.API.class);
+		dataSource = new GetRecommendedUsersAPIDataSource(api, timeParser);
 	}
 
 	@Test
@@ -56,7 +57,7 @@ public class SearchUsersAPIDataSourceTest {
 				"        }" +
 				"]" +
 				"}"));
-		CommonResponses.DataResponse response = dataSource.searchUsers("", "");
+		CommonResponses.DataResponse response = dataSource.getRecommendedUsers("", "");
 
 		assertTrue(response instanceof SearchUsersDataSource.SuccessSearchUsersResponse);
 		List<UserDataModel> users = ((SearchUsersDataSource.SuccessSearchUsersResponse) response).users;
@@ -68,25 +69,13 @@ public class SearchUsersAPIDataSourceTest {
 	}
 
 	@Test
-	public void testInvalidName() {
-		server.enqueue(new MockResponse().setBody("{\n" +
-				"    \"ok\": 0,\n" +
-				"    \"error\": \"invalid_user_name\"\n" +
-				"}"));
-
-		CommonResponses.DataResponse response = dataSource.searchUsers("", "");
-		assertTrue(response instanceof SearchUsersDataSource.InvalidNameResponse);
-	}
-
-
-	@Test
 	public void testUnAuthorized() {
 		server.enqueue(new MockResponse().setBody("{\n" +
 				"    \"ok\": 0,\n" +
 				"    \"error\": \"unauthorized\"\n" +
 				"}"));
 
-		CommonResponses.DataResponse response = dataSource.searchUsers("", "");
+		CommonResponses.DataResponse response = dataSource.getRecommendedUsers("", "");
 		assertTrue(response instanceof CommonResponses.AuthenticationErrorResponse);
 	}
 

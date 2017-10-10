@@ -4,32 +4,30 @@ import android.support.annotation.NonNull;
 
 import com.enterprises.wayne.iamfine.common.model.CommonResponses;
 import com.enterprises.wayne.iamfine.common.model.TimeParser;
-import com.enterprises.wayne.iamfine.common.model.UserDataModel;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public class SearchUsersAPIDataSource extends UserListAPIDataSource implements SearchUsersDataSource {
+public class GetRecommendedUsersAPIDataSource extends UserListAPIDataSource implements GetRecommendedUsersDataSource {
 
 	@NonNull
-	private final API api;
+	final API api;
 
-	public SearchUsersAPIDataSource(@NonNull API api, @NonNull TimeParser timeParser) {
+
+	public GetRecommendedUsersAPIDataSource(@NonNull API api, @NonNull TimeParser timeParser) {
 		super(timeParser);
 		this.api = api;
 	}
 
 	@NonNull
 	@Override
-	public CommonResponses.DataResponse searchUsers(@NonNull String authenticationToken, @NonNull String userName) {
+	public CommonResponses.DataResponse getRecommendedUsers(@NonNull String authenticationToken, @NonNull String facebookToken) {
 		retrofit2.Response<Response> response;
 		try {
-			response = api.searchUsers(authenticationToken, userName).execute();
+			response = api.getRecommendedUsers(authenticationToken, facebookToken).execute();
 		} catch (IOException e) {
 			return new CommonResponses.NetworkErrorResponse();
 		}
@@ -38,8 +36,9 @@ public class SearchUsersAPIDataSource extends UserListAPIDataSource implements S
 	}
 
 	public interface API {
-		@GET("search_user")
-		Call<Response> searchUsers(@Query("token") String token, @Query("userName") String userName);
+		@GET("recommend_users")
+		Call<Response> getRecommendedUsers(@Query("token") String token
+				, @Query("facebookToken") String facebookToken);
 	}
 
 }
